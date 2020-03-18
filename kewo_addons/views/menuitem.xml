@@ -1,0 +1,75 @@
+<odoo>
+    <data>
+        <menuitem name="基础信息管理" id="baseinfo_menu_root" web_icon="kewo_addons,static/description/tv.png"/>
+        <menuitem name="用户和权限管理" id="resusers_menuitem" parent="baseinfo_menu_root" action="base.action_res_users"/>
+
+        <menuitem name="权限组" id="user_security_menuitem" parent="baseinfo_menu_root" action="base.action_res_groups"/>
+
+        <menuitem name="员工管理" id="hremployee_menuitem" parent="baseinfo_menu_root" action="hr.open_view_employee_list_my"/>
+
+        <menuitem name="组织架构" id="hedepartment_menuitem" parent="baseinfo_menu_root" action="hr.open_module_tree_department"/>
+
+        <menuitem name="供应商" id="suppler_menuitem" parent="baseinfo_menu_root" action="base.action_partner_supplier_form"/>
+
+        <menuitem name="客户" id="customer_menuitem" parent="baseinfo_menu_root" action="base.action_partner_form"/>
+
+        <menuitem name="审批流配置" id="wkf_menuitem" parent="baseinfo_menu_root" action="wkf_powerful.action_wkf_base_view"/>
+
+        <menuitem name="审批" id="kewo_shenpi_menu_root" web_icon="cowork_ms,static/description/icon.png"/>
+        <menuitem name="申请" id="kewo_shenqing_menu_root" parent="kewo_shenpi_menu_root"/>
+        <menuitem name="加班申请" id="kewo_jiaban_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_overtime_appoval"/>
+
+        <menuitem name="请假申请(事假、带薪年假)" id="kewu_fangjia_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_duty_approval"/>
+
+        <menuitem name="招聘申请" id="kewo_zhaopin_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_hire_approval"/>
+
+        <menuitem name="人员异动申请单" id="kewo_diaodong_menuitem" parent="kewo_shenqing_menu_root" action="apply_for_action_window"/>
+
+        <menuitem name="出差申请单" id="kewo_chuchai_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_business_travel_appoval"/>
+
+        <menuitem name="面试评价单" id="kewo_mianshi_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_hire_check"/>
+
+        <!-- <menuitem name="费用报销" id="hrexpense_menuitem" parent="kewo_shenpi_menu_root" action="hr_expense.hr_expense_actions_my_unsubmitted"/> -->
+        <menuitem name="报销申请" id="hrexpense_menuitem_remibursement" parent="kewo_shenpi_menu_root" action="cowork_ms.action_reimbursement_appoval"/>
+
+        <menuitem name="审批类型" id="approval_type_menuitem" parent="kewo_shenpi_menu_root"/>
+        <menuitem name="请假类型" id="kewo_qiangjia_type_menuitem" parent="approval_type_menuitem" action="cowork_ms.action_duty_type"/>
+        <menuitem name="加班类型" id="kewo_jiaban_type_menuitem" parent="approval_type_menuitem" action="cowork_ms.action_overtime_type"/>
+        <!-- <menuitem name="销售" id="kewosale_menu_root"/> -->
+        <!-- <menuitem name="销售合同审批" id="kewosale_contract_menuitem" parent="kewosale_menu_root" action="kewo_sale_action_window"/>
+
+        <menuitem name="销售计划-销售意向批准" id="kewosale_approval_menuitem" parent="kewosale_menu_root" action="kewo_sale_action_window"/> -->
+
+        <!-- <menuitem name="项目管理" id="kewoproject_menu_root"/> -->
+        <!-- <menuitem name="项目立项" id="make_project_menuitem" parent="kewoproject_menu_root" action="project.open_view_project_all"/> -->
+
+        <!-- <menuitem name="采购" id="kewopurchase_menu_root"/> -->
+        <!-- <menuitem name="采购合同审批" id="kewopurchase_contract_menuitem" parent="kewopurchase_menu_root" action="purchase.purchase_rfq"/>
+
+        <menuitem name="采购申请清单" id="kewopurchase_menuitem" parent="kewopurchase_menu_root" action="purchase.purchase_rfq"/> -->
+
+        <menuitem name="库存" id="kewostock_menu_root" web_icon="ps_stock,static/description/icon.png"/>
+        <menuitem name="备件型号维护" id="kewostock_beijian_menuitem" parent="kewostock_menu_root" action="stock.product_template_action_product"/>
+
+        <menuitem name="机器人型号维护" id="kewostock_robot_menuitem" parent="kewostock_menu_root" action="stock.product_template_action_product"/>
+
+        <menuitem name="控制柜型号维护" id="kewostock_control_menuitem" parent="kewostock_menu_root" action="stock.product_template_action_product"/>
+
+        <menuitem name="日常管理" id="daliy_menu_root" web_icon="kewo_addons,static/description/timg.png"/>
+        <menuitem name="车辆使用" id="kewocar_menuitem" parent="daliy_menu_root" action="fleet.fleet_vehicle_action"/>
+
+        <menuitem name="办公用品" id="kewoassets_menuitem" parent="daliy_menu_root" action="account_asset.action_account_asset_asset_form"/>
+
+        <!-- <menuitem name="报告" id="report_aozhuang_menuitem" parent="plan_menu_root"/>
+            <menuitem name="客户方案消费记录" id="custom_menuitem" parent="report_aozhuang_menuitem" action="customer_consumption_action" sequence="1"/>
+
+        <menuitem name="产品" id="product_aozhuang_menuitem" parent="plan_menu_root"/>
+            <menuitem name="产品" id="product_info_menuitem" parent="product_aozhuang_menuitem" action="product_template_action_aozhuang_1" sequence="1"/>
+                    <menuitem name="产品审核" id="product_check_menuitem" parent="product_aozhuang_menuitem" action="product_template_action_aozhuang" groups="aozhuang_addons.aozhuang_zongjian" sequence="2"/>
+
+        <menuitem name="联系人" id="contact_aozhuang_menuitem" parent="plan_menu_root"/>
+            <menuitem name="联系人" id="customer_info_menuitem" parent="contact_aozhuang_menuitem" action="action_contacts_aozhuang_1" sequence="1"/>
+            <menuitem name="联系人审核" id="customer_check_menuitem" parent="contact_aozhuang_menuitem" action="action_contacts_aozhuang" groups="aozhuang_addons.aozhuang_kefu" sequence="2"/>
+    <menuitem name="配置" id="aozhuang_setting_menuitem" parent="plan_menu_root" action="aozhuang_config_settings_action" sequence="99"/> -->
+    </data>
+</odoo>

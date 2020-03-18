@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_cowork_ms_root" name="日常管理" web_icon="cowork_ms,static/description/icon.png"/>
+    <menuitem id="menu_overtime_appoval" name="加班申请" parent="menu_cowork_ms_root" action="action_overtime_appoval"/>
+    <menuitem id="menu_duty_approval" name="请假申请" parent="menu_cowork_ms_root" action="action_duty_approval"  />
+    <menuitem id="menu_hire_approval" name="招聘申请" parent="menu_cowork_ms_root" action="action_hire_approval"/>
+    <menuitem id="menu_hire_check" name="面试评价单" parent="menu_cowork_ms_root" action="action_hire_check"/>
+    <menuitem id="menu_business_travel_appoval" name="出差申请" parent="menu_cowork_ms_root" action="action_business_travel_appoval"/>
+    <menuitem id="menu_reimbursement_appoval" name="报销申请" parent="menu_cowork_ms_root" action="action_reimbursement_appoval"/>
+    <menuitem id="menu_reimbursement_account" name="日常审批" parent="menu_cowork_ms_root" action="action_reimbursement_account"/>
+
+    <menuitem id="menu_appoval_type" name="配置" parent="menu_cowork_ms_root" />
+    <menuitem id="menu_overtime_type" name="加班类型" parent="menu_appoval_type" action="action_overtime_type"  groups="einfo_hsp_approval.access_einfo_hsp_approval_manager"/>
+    <menuitem id="menu_duty_type" name="请假类型" parent="menu_appoval_type" action="action_duty_type" groups="einfo_hsp_approval.access_einfo_hsp_approval_manager"/>
+
+ 
+</odoo>

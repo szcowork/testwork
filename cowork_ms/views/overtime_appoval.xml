@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_overtime_appoval">
+        <field name="name">加班申请</field>
+        <field name="model">overtime.appoval</field>
+        <field name="arch" type="xml">
+            <form string="加班申请">
+                <sheet>
+                   <div id="o_employee_container">
+                     <div id="o_employee_main">
+                      <group>
+                          <field name="approval_state" invisible="1"/>
+                          <field name="name" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="start_approval_employee_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="job_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="reason" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="start_time" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="end_time" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="time_last" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="overtime_type" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                      </group>
+                     </div>
+                     <div id="o_employee_right">
+                      <h4 class="o_org_chart_title mb16 mt0">审批流程</h4>
+                      <field name="tem_approval_field" widget="einfo_hr_org_chart"/>
+                     </div>
+                    </div>
+                    <!-- <group>
+                        <field name="approval_state"/>
+                        <field name="current_approval_employee_id"/>
+                        <field name="approval_msg_ids" editable="bottom">
+                            <tree>
+                                <field name="employee_id"/>
+                                <field name="state"/>
+                                <field name="time"/>
+                            </tree>
+                        </field>
+                    </group> -->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_overtime_appoval">
+        <field name="name">加班申请</field>
+        <field name="model">overtime.appoval</field>
+        <field name="arch" type="xml">
+            <tree string="加班申请">
+                <field name="name"/>
+                <field name="start_approval_employee_id"/>
+                <field name="job_id"/>
+                <field name="reason"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="time_last"/>
+                <field name="overtime_type"/>
+                <field name="approval_state"/>
+                <field name="current_approval_employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_overtime_appoval">
+        <field name="name">加班申请</field>
+        <field name="res_model">overtime.appoval</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

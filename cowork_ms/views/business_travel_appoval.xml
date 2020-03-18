@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_business_travel_appoval">
+        <field name="name">出差申请</field>
+        <field name="model">business.travel.appoval</field>
+        <field name="arch" type="xml">
+            <form string="出差申请">
+                <sheet>
+                    <!-- <group>
+                        <field name="name"/>
+                        <field name="eply"/>
+                        <field name="posi"/>
+                        <field name="reason"/>
+                        <field name="place"/>
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                    </group> -->
+                    <div id="o_employee_container">
+                     <div id="o_employee_main">
+                      <group>
+                          <field name="approval_state" invisible="1"/>
+                          <field name="name" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="start_approval_employee_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="job_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="reason" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="place" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="start_time" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="end_time" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                      </group>
+                     </div>
+                     <div id="o_employee_right">
+                      <h4 class="o_org_chart_title mb16 mt0">审批流程</h4>
+                      <field name="tem_approval_field" widget="einfo_hr_org_chart"/>
+                     </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_business_travel_appoval">
+        <field name="name">出差申请</field>
+        <field name="model">business.travel.appoval</field>
+        <field name="arch" type="xml">
+            <tree string="出差申请">
+                <field name="name"/>
+                <field name="start_approval_employee_id"/>
+                <field name="job_id"/>
+                <field name="reason"/>
+                <field name="place"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="approval_state"/>
+                <field name="current_approval_employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_business_travel_appoval">
+        <field name="name">出差申请</field>
+        <field name="res_model">business.travel.appoval</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

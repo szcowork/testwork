@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_sale_apply">
+        <field name="name">销售申请</field>
+        <field name="model">sale.apply</field>
+        <field name="arch" type="xml">
+            <form string="销售申请">
+                <header>
+                    <button type="object" class="oe_highlight" string="提交技术部" name="apply_tc" attrs="{'invisible':['|',('contract_state','in',['done','cancel']),('if_standard','=','standard')]}"/>
+                    <button type="object" class="oe_highlight" string="打回草稿" name="to_draft" attrs="{'invisible':[('contract_state','in',['draft','done','cancel'])]}"/>
+                    <button type="object" class="oe_highlight" string="提交商务审批" name="to_merchant_confirm" attrs="{'invisible':[('contract_state','!=','draft')]}"/>
+                    <button type="object" class="oe_highlight" string="提交法务审批" name="to_legal_confirm" attrs="{'invisible':[('contract_state','!=','merchant confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="提交最终审批" name="to_confirm" attrs="{'invisible':[('contract_state','!=','legal confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="终审确认" name="to_done" attrs="{'invisible':[('contract_state','!=','confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="终审不通过" name="to_cancel" attrs="{'invisible':[('contract_state','!=','confirm')]}"/>
+                    <hr/>
+                    <field name="contract_state" widget="statusbar"/>
+                </header>
+                <header>
+                    <button type="object" class="oe_stat_button" string="方案驳回草稿状态" name="sch2draft" groups="projecty_sales_flow.access_group_ceo_in_projecty_sales_flow" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
+                    <button type="object" class="oe_stat_button" string="方案提交" name="sch2confirm" groups="projecty_sales_flow.access_group_ceo_in_projecty_sales_flow" attrs="{'invisible':[('scheme_state','!=','draft')]}"/>
+                    <button type="object" class="oe_stat_button" string="方案通过" name="sch2done" groups="projecty_sales_flow.access_group_ceo_in_projecty_sales_flow" attrs="{'invisible':['|',('scheme_state','=','done'),('contract_state','!=','done')]}"/>
+                    <button type="object" class="oe_stat_button" string="方案不通过" name="sch2cancel" groups="projecty_sales_flow.access_group_ceo_in_projecty_sales_flow" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
+                    <field name="scheme_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-book" string="生成对应销售以及采购单据" attrs="{'invisible':[('scheme_state','!=','done')]}" groups="projecty_sales_flow.access_group_ceo_in_projecty_sales_flow" name="generate_sp_order"/>
+                        <!-- <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" string="技术确认单" name="tc_ids"/> -->
+                        <field name="if_standard" invisible="1"/>
+                        <button type="object" name="action_tc_button" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('if_standard', '=', 'standard')]}" >
+                            <field name="tc_count" widget="statinfo" string="技术确认单"/>
+                        </button>
+                    </div>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" readonly="True"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="sales"/>
+                            <field name="date_apply"/>
+                        </group>
+                        <group>
+                            <field name="if_standard" widget="radio" options="{'horizontal': true}"/>
+                            <label for="abs"/>
+                            <div class="o_row">
+                                <field name="abs"/>
+                                <button type="object" class="oe_highlight" string="方案直接通过" name="sch2done" groups="projecty_sales_flow.access_group_ceo_in_projecty_sales_flow" attrs="{'invisible':[('abs','!=',True)]}"/>
+                            </div>
+                            <field name="technical_order" readonly="True" attrs="{'invisible':[('if_standard','!=','nonstandard')]}"/>
+                            <!-- <field name="contract_state"/> -->
+                        </group>
+                    </group>
+                    <group>
+                        <field name="details"/>
+                        <field name="pre_sale_lines" attrs="{'readonly':[('if_standard','=','nonstandard')]}">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom"/>
+                            </tree>
+                        </field>
+                        <field name="pre_purchase_lines" attrs="{'readonly':[('if_standard','=','nonstandard')]}">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group> 
+                        <field name="sale_order_ids" readonly='1'>
+                            <tree>
+                                <field name="message_needaction" invisible="1"/>
+                                <field name="name" />
+                                <field name="date_order" />
+                                <field name="commitment_date" groups="sale.group_sale_order_dates"/>
+                                <field name="expected_date" groups="sale.group_sale_order_dates"/>
+                                <field name="partner_id"/>
+                                <field name="user_id"/>
+                                <field name="amount_total" sum="Total Tax Included" widget="monetary"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="state"/>
+                            </tree> 
+                        </field>
+                        <field name="ps_purchase_requisition_ids" readonly='1'>
+                            <tree>
+                                <field name="name"/>
+                                <field name="department_id"/>
+                                <field name="employee_id"/>
+                                <field name="requisition_date"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_sale_apply">
+        <field name="name">销售申请</field>
+        <field name="model">sale.apply</field>
+        <field name="arch" type="xml">
+            <tree string="销售申请" default_order="write_date desc" colors="blue:contract_state=='merchant confirm';green:contract_state=='legal confirm';orange:contract_state=='confirm';grey:contract_state=='cancel';darkblue:contract_state='confirm'">
+                <field name="name"/>
+                <field name="sales"/>
+                <field name="partner_id"/>
+                <field name="date_apply"/>
+                <field name="abs" groups="projecty_sales_flow.access_group_ceo_in_projecty_sales_flow" widget="checkbox"/>
+                <field name="technical_order"/>
+                <field name="contract_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_sale_apply">
+        <field name="name">销售申请</field>
+        <field name="model">sale.apply</field>
+        <field name="arch" type="xml">
+            <search string="销售申请">
+                <field name="name"/>
+                <field name="sales"/>
+                <field name="partner_id"/>
+                <field name="details"/>
+                <field name="technical_order"/>
+                <field name="contract_state"/>
+                <field name="if_standard"/>
+                <filter name="sales" string="销售员" context="{'group_by':'sales'}"/>
+                <filter name="partner_id" string="客户" context="{'group_by':'partner_id'}"/>
+                <filter name="date_apply" string="申请日期" context="{'group_by':'date_apply'}"/>
+                <filter name="abs" string="执行备货流程" context="{'group_by':'abs'}"/>
+                <filter name="contract_state" string="合同审批状态" context="{'group_by':'contract_state'}"/>
+                <filter name="if_standard" string="标品/非标品" context="{'group_by':'if_standard'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_sale_apply">
+        <field name="name">销售申请</field>
+        <field name="res_model">sale.apply</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="seq_sale_apply" model="ir.sequence">
+        <field name="name">销售申请</field>
+        <field name="code">sale.apply</field>
+        <field name="prefix">SA</field>
+        <field name="padding">5</field>
+    </record>
+
+
+</odoo>

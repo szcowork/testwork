@@ -1,0 +1,200 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="daily_financial_form">
+            <field name="name">每日财务记录 form</field>
+            <field name="model">daily.financial</field>
+            <field name="arch" type="xml">
+                <form string="每日财务记录">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_hold" type="object" class="oe_stat_button" icon="fa-book" attrs="{'invisible': [('hold_no', '=', 0)]}">
+                                <field name="hold_no" widget="statinfo" string="持票中"/>
+                            </button>
+                            <button name="action_view_rediscount" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('rediscount_no', '=', 0)]}">
+                                <!-- archive小箱子 -->
+                                <field name="rediscount_no" widget="statinfo" string="再贴现和到期兑付"/>
+                            </button>
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                            <field name="currency_id" invisible="1"/>
+                            
+                            <field name="date"/>
+                            </group>
+                            <!-- <button name="just_atest" string="测试" type="object" class="btn-primary"/> -->
+                        </group>
+                        <group string="银行账户">
+                            <group>
+                                <field name="yes_crash"/>
+                                <field name="to_crash"/>
+                                <field name="crash"/>
+                            </group>
+                            <group>
+                                <field name="yes_ticket"/>
+                                <field name="to_ticket"/>
+                                <field name="ticket"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="持票中收益信息">
+                                <field name="hold_cost"/>
+                                <field name="hold_mine"/>
+                                <field name="hold_profit"/>
+                            </group>
+                            <!-- </group>
+                        <group> -->
+                            <group string="再贴现和到期兑付收益信息">
+                                <field name="rediscount_get"/>
+                                <field name="rediscount_profit"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="profit"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="daily_financial_tree">
+            <field name="name">每日财务记录 tree</field>
+            <field name="model">daily.financial</field>
+            <field name="arch" type="xml">
+                <tree string="每日财务记录">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="hold_profit"/>
+                    <field name="rediscount_profit"/>
+                    <field name="profit"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="daily_financial_pivot">
+            <field name="name">每日财务记录 pivot</field>
+            <field name="model">daily.financial</field>
+            <field name="arch" type="xml">
+                <pivot string="每日财务记录" >
+                    <field name="date" type="row" interval="week"/>
+                    <field name="profit" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        <record id="daily_financial_graph" model="ir.ui.view">
+            <field name="name">每日财务记录 graph</field>
+            <field name="model">daily.financial</field>
+            <field name="arch" type="xml">
+                <graph string="每日财务记录" type="bar">
+                    <field name="date"/>
+                    <field name="profit" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="daily_financial_action">
+            <field name="name">每日财务记录</field>
+            <field name="res_model">daily.financial</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+
+        <record model="ir.ui.view" id="ticket_info_form">
+            <field name="name">每日票据信息 form</field>
+            <field name="model">ticket.info</field>
+            <field name="arch" type="xml">
+                <form string="每日票据信息">
+                    <sheet>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="ticket"/>
+                                <field name="income"/>
+                                <field name="cost"/>
+                                <field name="profit"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="ticket_info_tree">
+            <field name="name">每日票据信息 tree</field>
+            <field name="model">ticket.info</field>
+            <field name="arch" type="xml">
+                <tree string="每日票据信息">
+                    <field name="name"/>
+                    <field name="ticket"/>
+                    <field name="profit" sum="合计利润"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_ticket_wizard" model="ir.ui.view">
+            <field name="name">账户变化查询</field>
+            <field name="model">ticket.wizard</field>
+            <field name="arch" type="xml">
+                <form string="选择查询时间段">
+                    <group>
+                        <field name="start_month"/>
+                        <field name="end_month"/>
+                    </group>
+                    <footer>
+                        <button name="print_search" string="查询" type="object" class="btn-primary"/>
+                        <button string="取消" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_ticket_wizard" model="ir.actions.act_window">
+            <field name="name">账户变化查询</field>
+            <field name="res_model">ticket.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_ticket_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <record model="ir.ui.view" id="daily_financial_form_2">
+            <field name="name">结果 form</field>
+            <field name="model">profit.wizard</field>
+            <field name="arch" type="xml">
+                <form string="结果">
+                    <sheet>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="start_month" string="开始日期"/>
+                            </group>
+                            <group>
+                                <field name="end_month" string="截止日期"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="hold_cost" string="期间购票总成本"/>
+                                <field name="hold_profit" string="期间持票总利润"/>
+                            </group>
+                            <!-- </group>
+                        <group> -->
+                            <group>
+                                <field name="rediscount_profit" string="期间再贴现总利润"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="profit"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

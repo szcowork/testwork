@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_reimbursement_account">
+        <field name="name">报销科目</field>
+        <field name="model">reimbursement.account</field>
+        <field name="arch" type="xml">
+            <form string="报销科目">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        
+                        <field name="subject_up"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_reimbursement_account">
+        <field name="name">报销科目</field>
+        <field name="model">reimbursement.account</field>
+        <field name="arch" type="xml">
+            <tree string="报销科目">
+                <field name="name"/>
+               
+                <field name="subject_up"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_reimbursement_account">
+        <field name="name">报销科目</field>
+        <field name="res_model">reimbursement.account</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

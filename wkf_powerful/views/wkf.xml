@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_workflow_root" name="工作审批流引擎" groups="base.group_system" sequence="101"/>
+
+        <record model="ir.ui.view" id="wkf_base_tree_view">
+            <field name="name">工作审批流</field>
+            <field name="model">wkf.base</field>
+            <field name="arch" type="xml">
+                <tree string="自定义工作审批流">
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="default_state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="wkf_base_form_view">
+            <field name="name">工作审批流</field>
+            <field name="model">wkf.base</field>
+            <field name="arch" type="xml">
+                <form string="自定义工作审批流">
+                    <header>
+                        <button name="sync2ref_model" string="更新工作审批流" type="object" class="oe_highlight"/>
+                        <button name="action_no_active" string="取消工作审批流" type="object" class="oe_highlight"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="model"/>
+                            <field name="field_id" groups="base.group_system"/>
+                        </group>
+                        <group>
+                            <field name="model_view_id" domain="[('model','=',model),('type','=','form'),('mode','=','primary')]" required="1"/>
+                            <field name="view_id" domain="[('id','=',0)]"/>
+                            <field name="default_state" groups="base.group_system"/>
+                            <field name="show_states" groups="base.group_system"/>
+                            <field name="no_reset_states" groups="base.group_system"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="节点">
+                            <field name="node_ids" context="{'default_wkf_id': id}">
+                                <tree>
+                                    <field name="sequence" string="序号" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="split_mode" invisible="1"/>
+                                    <field name="join_mode"/>
+                                    <field name="action"/>
+                                    <field name="arg"/>
+                                    <field name="is_start" widget="checkbox"/>
+                                    <field name="is_stop" widget="checkbox"/>
+                                    <field name="show_state" widget="checkbox"/>
+                                    <field name="no_reset" widget="checkbox"/>
+                                    <field name="event_need" widget="checkbox"/>
+                                    <field name="event_users" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="流程">
+                            <field name="trans_ids">
+                                <tree editable="top">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="node_from" domain="[('wkf_id','=', parent.id)]"/>
+                                    <field name="node_to" domain="[('wkf_id','=', parent.id)]"/>
+                                    <field name="group_ids" widget="many2many_tags"/>
+                                    <field name="condition"/>
+                                    <field name="is_backward" widget="checkbox"/>
+                                    <field name="need_note" widget="checkbox"/>
+                                    <field name="auto" widget="checkbox"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="tree视图展示">
+                            <field name="model_tree_view_ids" domain="[('model','=',model),('type','=','tree'),('mode','=','primary')]" />
+                            <field name="tree_view_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_wkf_base_diagram" model="ir.ui.view">
+            <field name="name">工作审批流图</field>
+            <field name="model">wkf.base</field>
+            <field name="arch" type="xml">
+                <diagram string="自定义工作审批流">
+                    <node object="wkf.node" bgcolor="gray:is_start==True;grey:is_stop==True">
+                        <field name="name"/>
+                        <field name="action"/>
+                    </node>
+                    <arrow object="wkf.trans" source="node_from" destination="node_to" label="['name','condition']">
+                        <field name="node_from"/>
+                        <field name="node_to"/>
+                    </arrow>
+                    <label string="自定义工作审批流"/>
+                </diagram>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_wkf_base_view">
+            <field name="name">自定义工作审批流</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wkf.base</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,diagram</field>
+        </record>
+        <menuitem id="wkf_base_menu" name="自定义工作审批流" parent="wkf_powerful.menu_workflow_root" groups="base.group_system" action="action_wkf_base_view" sequence="101"/>
+
+
+        <record model="ir.ui.view" id="wkf_node_tree_view">
+            <field name="name">工作节点</field>
+            <field name="model">wkf.node</field>
+            <field name="arch" type="xml">
+                <tree string="工作节点">
+                    <field name="name"/>
+                    <field name="wkf_id"/>
+                    <field name="join_mode"/>
+                    <field name="action"/>
+                    <field name="arg"/>
+                    <field name="is_start"/>
+                    <field name="is_stop"/>
+                    <field name="show_state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="wkf_node_form_view">
+            <field name="name">工作节点</field>
+            <field name="model">wkf.node</field>
+            <field name="arch" type="xml">
+                <form string="工作节点">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="wkf_id"/>
+                            <field name="event_need"/>
+                            <field name="event_users" widget="many2many_tags"/>
+                            <field name="action"/>
+                            <field name="arg"/>
+                        </group>
+                        <group>
+                            <field name="join_mode"/>
+                            <field name="is_start"/>
+                            <field name="is_stop"/>
+                            <field name="show_state"/>
+                            <field name="no_reset"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_wkf_node_view">
+            <field name="name">自定义工作节点</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wkf.node</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="wkf_node_menu" name="工作节点" parent="wkf_powerful.menu_workflow_root" groups="base.group_system" action="action_wkf_node_view" sequence="102"/>
+
+        <record model="ir.ui.view" id="wkf_trans_tree_view">
+            <field name="name">流转过程</field>
+            <field name="model">wkf.trans</field>
+            <field name="arch" type="xml">
+                <tree string="自定义工作流流程">
+                    <field name="name"/>
+                    <field name="is_backward"/>
+                    <field name="code"/>
+                    <field name="group_ids"/>
+                    <field name="condition"/>
+                    <field name="node_from"/>
+                    <field name="node_to"/>
+                    <field name="need_note"/>
+                    <field name="wkf_id"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="wkf_trans_form_view">
+            <field name="name">流转过程</field>
+            <field name="model">wkf.trans</field>
+            <field name="arch" type="xml">
+                <form string="自定义工作流流程">
+                    <group>
+                        <field name="name"/>
+                        <field name="is_backward"/>
+                        <field name="code"/>
+                        <field name="group_ids" widget="many2many_tags"/>
+                        <field name="condition"/>
+                        <field name="node_from"/>
+                        <field name="node_to"/>
+                        <field name="wkf_id"/>
+                        <field name="xml_groups"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_wkf_trans_view">
+            <field name="name">流转过程</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wkf.trans</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="wkf_trans_menu" name="审批流程" parent="wkf_powerful.menu_workflow_root" groups="base.group_system" action="action_wkf_trans_view" sequence="103"/>
+
+
+        <record model="ir.ui.view" id="log_wkf_trans_tree_view">
+            <field name="name">审批日志</field>
+            <field name="model">log.wkf.trans</field>
+            <field name="arch" type="xml">
+                <tree string="审批日志" create="false" edit="false" delete="false">
+                    <field name="name"/>
+                    <field name="trans_id"/>
+                    <field name="note"/>
+                    <field name="active"/>
+                    <field name="create_uid" string="创建人"/>
+                    <field name="create_date" string="创建时间"/>
+                    <!-- <field name="create_date" string="创建日期"/> -->
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_log_wkf_trans_view">
+            <field name="name">审批日志</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">log.wkf.trans</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="log_wkf_trans_menu" name="审批日志" parent="wkf_powerful.menu_workflow_root" groups="base.group_system" action="action_log_wkf_trans_view" sequence="104"/>
+
+    </data>
+</odoo>

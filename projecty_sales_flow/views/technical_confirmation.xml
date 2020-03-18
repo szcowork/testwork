@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_technical_confirmation">
+        <field name="name">技术确认</field>
+        <field name="model">technical.confirmation</field>
+        <field name="arch" type="xml">
+            <form string="技术确认">
+                <header>
+                    <button type="object" class="oe_highlight" string="草稿" name="to_draft" attrs="{'invisible':[('state','in',['draft','done','cancel'])]}"/>
+                    <button type="object" class="oe_highlight" string="提交审批" name="to_confirm" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button type="object" class="oe_highlight" string="确认" name="to_done" attrs="{'invisible':[('state','!=','confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="不通过" name="to_cancel" attrs="{'invisible':[('state','!=','confirm')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" readonly="True"/>
+                    </h1>
+                    <group>
+                        <field name="sale_apply_id"/>
+                        <field name="date_handle"/>
+                        <field name="tech_user"/>
+                        <field name="pre_sale_line" >
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="bom_id"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom"/>
+                            </tree>
+                        </field>
+                        <field name="pre_purchase_line" >
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <notebook colspan="4" invisible="1">
+                        <page string="新建销售产品" >
+                            <field name="new_sale_product_ids" mode="kanban" context="{'technical_confirmation_id': active_id}">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="image_small"/>
+                                    <field name="lst_price"/>
+                                    <field name="product_variant_count"/>
+                                    <field name="product_variant_ids"/>
+                                    <field name="currency_id"/>
+                                    <field name="uom_id"/>
+                                    <field name="technical_confirmation_set_sale_count" />
+                                    <field name="bom_count"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_global_click">
+                                                <div class="o_kanban_image">
+                                                    <img t-att-src="kanban_image('product.template', 'image_small', record.id.raw_value)" alt="Product"/>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <strong class="o_kanban_record_title">
+                                                        <field name="name"/>
+                                                        <small t-if="record.default_code.value">[<field name="default_code"/>]</small>
+                                                    </strong>
+                                                    <div>
+                                                        <a  type="object" name="button_sale_count" class="oe_inline" context="{'active_id': id,'technical_confirmation_id':parent.id}">
+                                                            <field name="technical_confirmation_set_sale_count"/>
+                                                                <strong>
+                                                                        <field name="uom_id"/>
+                                                                </strong>
+                                                        </a>
+                                                    </div>
+                                                    <div t-if="record.product_variant_count.value &gt; 1" groups="product.group_product_variant">
+                                                        <strong>
+                                                            <t t-esc="record.product_variant_count.value"/> Variants
+                                                        </strong>
+                                                    </div>
+                                                    <div name="tags"/>
+                
+                                                    <button type="object" class="btn btn-primary btn-sm" name="button_bom_list" context="{'active_id': id,'technical_confirmation_id':parent.id}">BOM清单
+                                                        <field name="bom_count"/>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        </notebook>
+                        <notebook colspan="4" invisible="1">
+                            <page string="物料需求" >
+                                <field name="new_purchase_product_ids" mode="kanban" context="{'technical_confirmation_id': active_id}">
+                                    <kanban>
+                                        <field name="id"/>
+                                        <field name="image_small"/>
+                                        <field name="lst_price"/>
+                                        <field name="product_variant_count"/>
+                                        <field name="product_variant_ids"/>
+                                        <field name="currency_id"/>
+                                        <field name="uom_id"/>
+                                        <field name="technical_confirmation_set_purchase_count"/>
+                                        <field name="bom_count"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click">
+                                                    <div class="o_kanban_image">
+                                                        <img t-att-src="kanban_image('product.template', 'image_small', record.id.raw_value)" alt="Product"/>
+                                                    </div>
+                                                    <div class="oe_kanban_details">
+                                                        <strong class="o_kanban_record_title">
+                                                            <field name="name"/>
+                                                            <small t-if="record.default_code.value">[<field name="default_code"/>]</small>
+                                                        </strong>
+                                                        <div>
+                                                            <a  type="object" name="button_purchase_count" class="oe_inline" context="{'active_id': id,'technical_confirmation_id':parent.id}">
+                                                                <field name="technical_confirmation_set_purchase_count"/>
+                                                                    <strong>
+                                                                            <field name="uom_id"/>
+                                                                    </strong>
+                                                            </a> 
+                                                        </div>   
+                                                        <div t-if="record.product_variant_count.value &gt; 1" groups="product.group_product_variant">
+                                                            <strong>
+                                                                <t t-esc="record.product_variant_count.value"/> Variants
+                                                            </strong>
+                                                        </div>
+                                                        <div name="tags"/>
+                    
+                                                        <!-- <button type="object" class="btn btn-primary btn-sm" name="button_bom_list" context="{'active_id': active_id,'technical_confirmation_id':parent.id}">BOM清单
+                                                            <field name="bom_count"/>
+                                                        </button> -->
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                     
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_technical_confirmation">
+        <field name="name">技术确认</field>
+        <field name="model">technical.confirmation</field>
+        <field name="arch" type="xml">
+            <tree string="技术确认" default_order="write_date desc" decoration-info="state == 'draft'" decoration-danger="state == 'approving'">
+                <field name="name"/>
+                <field name="tech_user"/>
+                <field name="sale_apply_id"/>
+                <field name="date_handle"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_technical_confirmation">
+        <field name="name">技术确认</field>
+        <field name="model">technical.confirmation</field>
+        <field name="arch" type="xml">
+            <search string="技术确认">
+                <field name="name"/>
+                <field name="tech_user"/>
+                <field name="sale_apply_id"/>
+                <field name="state"/>
+                <filter name="tech_user" string="技术人员" context="{'group_by':'tech_user'}"/>
+                <filter name="sale_apply_id" string="销售申请单" context="{'group_by':'sale_apply_id'}"/>
+                <filter name="date_handle" string="处理日期" context="{'group_by':'date_handle'}"/>
+                <filter name="state" string="状态" context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_technical_confirmation">
+        <field name="name">技术确认</field>
+        <field name="res_model">technical.confirmation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="seq_technical_confirmation" model="ir.sequence">
+        <field name="name">技术确认</field>
+        <field name="code">technical.confirmation</field>
+        <field name="prefix">TC</field>
+        <field name="padding">5</field>
+    </record>
+    <record model="ir.ui.view" id="view_form_presale_line">
+        <field name="name">销售信息</field>
+        <field name="model">presale.line</field>
+        <field name="arch" type="xml">
+            <form string="销售信息">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <field name="product_qty"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_form_prepurchase_line">
+        <field name="name">采购信息</field>
+        <field name="model">prepurchase.line</field>
+        <field name="arch" type="xml">
+            <form string="采购信息">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <field name="product_qty"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

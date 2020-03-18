@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_hire_approval">
+        <field name="name">招聘申请</field>
+        <field name="model">hire.approval</field>
+        <field name="arch" type="xml">
+            <form string="招聘申请">
+                <sheet>
+                    <!-- <group>
+                        <field name="posi"/>
+                        <field name="belong"/>
+                        <field name="count"/>
+                        <field name="reason"/>
+                        <field name="work"/>
+                        <field name="request"/>
+                        <field name="start_approval_employee_id"/>
+                    </group> -->
+                    <div id="o_employee_container">
+                     <div id="o_employee_main">
+                      <group>
+                          <field name="approval_state" invisible="1"/>
+                          <field name="posi" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="start_approval_employee_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="belong" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="count" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="reason" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="work" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                          <field name="request" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                      </group>
+                     </div>
+                     <div id="o_employee_right">
+                      <h4 class="o_org_chart_title mb16 mt0">审批流程</h4>
+                      <field name="tem_approval_field" widget="einfo_hr_org_chart"/>
+                     </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_hire_approval">
+        <field name="name">招聘申请</field>
+        <field name="model">hire.approval</field>
+        <field name="arch" type="xml">
+            <tree string="招聘申请">
+                <field name="posi"/>
+                <field name="belong"/>
+                <field name="count"/>
+                <field name="reason"/>
+                <field name="work"/>
+                <field name="request"/>
+                <field name="start_approval_employee_id"/>
+                <field name="approval_state"/>
+                <field name="current_approval_employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_hire_approval">
+        <field name="name">招聘申请</field>
+        <field name="res_model">hire.approval</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

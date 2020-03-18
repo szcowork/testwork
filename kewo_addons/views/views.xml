@@ -1,0 +1,35 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="apply_for_tree">
+      <field name="name">apply_for list</field>
+      <field name="model">apply.for</field>
+      <field name="arch" type="xml">
+        <tree string="申请">
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="apply_for_action_window">
+      <field name="name">申请 window</field>
+      <field name="res_model">apply.for</field>
+      <field name="view_mode">tree</field>
+    </record>
+    <record model="ir.ui.view" id="kewo_sale_tree">
+      <field name="name">销售 list</field>
+      <field name="model">kewo.sale</field>
+      <field name="arch" type="xml">
+        <tree string="销售">
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="kewo_sale_action_window">
+      <field name="name">销售</field>
+      <field name="res_model">kewo.sale</field>
+      <field name="view_mode">tree</field>
+    </record>
+   
+  </data>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="res.groups" id="access_group_chairman">
+        <field name="name">董事长</field>
+    </record>
+
+    <record model="res.groups" id="access_group_automation">
+        <field name="name">自动化事业部总经理</field>
+    </record>
+
+
+
+    <record model="res.groups" id="access_group_deputy">
+        <field name="name">自动化事业部副总经理</field>
+    </record>
+    <record model="res.groups" id="access_group_sales_director">
+        <field name="name">销售总监</field>
+    </record>
+    <record model="res.groups" id="access_group_salesman">
+        <field name="name">销售员</field>
+    </record>
+    <record model="res.groups" id="access_group_technical_director">
+        <field name="name">技术总监</field>
+    </record>
+    <record model="res.groups" id="access_group_technical_team_leader">
+        <field name="name">技术组长</field>
+    </record>
+    <record model="res.groups" id="access_group_commissioning_team_leader">
+        <field name="name">调试组长</field>
+    </record>
+    <record model="res.groups" id="access_group_artisan">
+        <field name="name">技术员</field>
+    </record>
+    
+    <record model="res.groups" id="access_group_debugger">
+        <field name="name">调试员</field>
+    </record>
+
+    <record model="res.groups" id="access_group_project_management_director">
+        <field name="name">项目管理部门总监</field>
+    </record>
+
+    <record model="res.groups" id="access_group_departmental_members">
+        <field name="name">项目管理部门成员</field>
+    </record>
+
+
+
+
+    <record model="res.groups" id="access_group_comprehensive">
+        <field name="name">综合事业部总经理</field>
+    </record>
+
+    <record model="res.groups" id="access_group_ccomprehensive_deputy">
+        <field name="name">综合事业部副总经理</field>
+    </record>
+
+    <record model="res.groups" id="access_group_chief_financial_officer">
+        <field name="name">财务总监</field>
+    </record>
+
+    <record model="res.groups" id="access_group_member_of_ginance_department">
+        <field name="name">财务部成员</field>
+    </record>
+
+    <record model="res.groups" id="access_group_chief_executive_officer">
+        <field name="name">行政总监</field>
+    </record>
+
+    <record model="res.groups" id="access_group_administrative_personnel">
+        <field name="name">行政人员</field>
+    </record>
+
+    <record model="res.groups" id="access_group_general_manager_of_procurement">
+        <field name="name">采购采购总经理</field>
+    </record>
+
+    <record model="res.groups" id="access_group_deputy_general_manager_of_procurement">
+        <field name="name">采购副总经理</field>
+    </record>
+
+    <record model="res.groups" id="access_group_purchasing_director">
+        <field name="name">采购总监</field>
+    </record>
+
+    <record model="res.groups" id="access_group_buyer">
+        <field name="name">采购员</field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="res.groups" id="access_group_ceo_in_projecty_sales_flow">
+        <field name="name">CEO</field>
+        <field name="category_id" ref="module_category_projecty_sales_flow"/>
+    </record>
+
+    <record model="res.groups" id="access_group_technique_manager_in_projecty_sales_flow">
+        <field name="name">技术经理</field>
+        <field name="category_id" ref="module_category_projecty_sales_flow"/>
+    </record>
+
+    <record model="res.groups" id="access_group_sale_manager_in_projecty_sales_flow">
+        <field name="name">销售经理</field>
+        <field name="category_id" ref="module_category_projecty_sales_flow"/>
+    </record>
+
+    <record model="res.groups" id="access_group_legal_affairs_in_projecty_sales_flow">
+        <field name="name">法务</field>
+        <field name="category_id" ref="module_category_projecty_sales_flow"/>
+    </record>
+
+    <record model="res.groups" id="access_group_merchant_affairs_in_projecty_sales_flow">
+        <field name="name">商务</field>
+        <field name="category_id" ref="module_category_projecty_sales_flow"/>
+    </record>
+
+</odoo>

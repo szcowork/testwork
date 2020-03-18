@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_projecty_sales_flow_root" name="项目式销售流程" web_icon="projecty_sales_flow,static/description/icon.png"/>
+    <menuitem id="menu_sale_apply" name="销售申请" parent="menu_projecty_sales_flow_root" action="action_sale_apply"/>
+    <menuitem id="menu_technical_confirmation" name="技术确认" parent="menu_projecty_sales_flow_root" action="action_technical_confirmation"/>
+</odoo>

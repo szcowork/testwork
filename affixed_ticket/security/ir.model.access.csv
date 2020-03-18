@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_affixed_ticket,affixed.ticket,model_affixed_ticket,,1,1,1,1
+access_daily_financial,daily.financial,model_daily_financial,,1,1,1,1
+access_ticket_info,ticket.info,model_ticket_info,,1,1,1,1

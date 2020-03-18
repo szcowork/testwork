@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="ir.cron" id="ticket_ircron_action">
+            <field name="name">每日生成财务记录</field>
+            <field name="model_id" ref="model_daily_financial"/>
+            <field name="state">code</field>
+            <field name="code">model.just_atest()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="active" eval="False"/>
+            <!-- <field name="nextcall"></field> -->
+        </record>
+    </data>
+    <data>
+        <record id="daily_financial_seq" model="ir.sequence">
+            <field name="name">Daily Financial</field>
+            <field name="code">daily.financial</field>
+            <field name="prefix">TP/%(year)s%(month)s%(day)s/</field>
+        </record>
+    </data>
+</odoo>

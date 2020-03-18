@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <template id="_assets_backend_helpers" inherit_id="web._assets_backend_helpers">
+        <xpath expr="//link" position="before">
+            <link rel="stylesheet" type="text/scss" href="/cowork_ms/static/src/scss/variables.scss"/>
+        </xpath>
+    </template> -->
+
+    <template id="assets_backend" name="hr_org_chart_assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/einfo_hsp_approval/static/src/js/hr_org_chart.js"></script>
+        </xpath>
+    </template>
+    <record model="ir.ui.view" id="view_tree_einfo_approval_node">
+        <field name="name">审批节点</field>
+        <field name="model">einfo.approval.node</field>
+        <field name="arch" type="xml">
+            <tree string="审批节点" editable="top" >
+                <field name="job" readonly="1"/>
+                <!-- <field name="department_id" readonly="1"/> -->
+                <field name="is_node" widget="checkbox"/>
+                <field name="model_name" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

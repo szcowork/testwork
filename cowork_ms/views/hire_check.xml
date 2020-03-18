@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_hire_check">
+        <field name="name">面试评价单</field>
+        <field name="model">hire.check</field>
+        <field name="arch" type="xml">
+            <form string="面试评价单">
+                <sheet>
+                    <!-- <group>
+                        <field name="name"/>
+                        <field name="interviewer"/>
+                        <field name="interviewer_department"/>
+                        <field name="interviewer_posi"/>
+                        <field name="application_posi"/>
+                        <field name="applicant"/>
+                        <field name="is_quit"/>
+                        <field name="arrival_time"/>
+                        <field name="salary"/>
+                        <field name="evaluate"/>
+                        <field name="content"/>
+                    </group> -->
+                    <div id="o_employee_container">
+                     <div id="o_employee_main">
+                      <group>
+                            <field name="approval_state" invisible="1"/>
+                            <field name="name" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="interviewer" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="interviewer_department" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="interviewer_posi" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="application_posi" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="applicant" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="is_quit" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="arrival_time" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="salary" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="evaluate" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="content" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                      </group>
+                     </div>
+                     <div id="o_employee_right">
+                      <h4 class="o_org_chart_title mb16 mt0">审批流程</h4>
+                      <field name="tem_approval_field" widget="einfo_hr_org_chart"/>
+                     </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_hire_check">
+        <field name="name">面试评价单</field>
+        <field name="model">hire.check</field>
+        <field name="arch" type="xml">
+            <tree string="面试评价单">
+                <field name="name"/>
+                <field name="interviewer"/>
+                <field name="interviewer_department"/>
+                <field name="interviewer_posi"/>
+                <field name="application_posi"/>
+                <field name="applicant"/>
+                <field name="is_quit"/>
+                <field name="arrival_time"/>
+                <field name="salary"/>
+                <field name="evaluate"/>
+                <field name="content"/>
+                <field name="start_approval_employee_id"/>
+                <field name="approval_state"/>
+                <field name="current_approval_employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_hire_check">
+        <field name="name">面试评价单</field>
+        <field name="res_model">hire.check</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

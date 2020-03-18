@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+    <menuitem name="票务管理" id="affixed_ticket_menu_root"/>
+   
+    
+    <menuitem name="票务管理" id="menu_afficed_ticket" parent="affixed_ticket_menu_root"/>
+    
+    <menuitem name="贴票" id="affixed_ticket_menu1" parent="menu_afficed_ticket"
+              action="affixed_ticket_action"/>
+    <menuitem name="每日财务记录" id="everyday_record_financial" parent="affixed_ticket_menu_root"
+              action="daily_financial_action"/>
+    <menuitem name="账户变化查询" id="search_financial" parent="affixed_ticket_menu_root"
+              action="action_ticket_wizard"/>
+    <menuitem name="设置" id="affixed_ticket_setting" parent="affixed_ticket_menu_root"
+              action="ticket_config_settings_action" sequence="99"/>
+    </data>
+</odoo>

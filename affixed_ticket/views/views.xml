@@ -1,0 +1,174 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="affixed_ticket_form">
+            <field name="name">贴票业务 form</field>
+            <field name="model">affixed.ticket</field>
+            <field name="arch" type="xml">
+                <form string="贴票业务">
+                    <header>
+                        <button name="action_hold" string="收票" type="object" states="draft" class="btn-primary"/>
+                        <button name="action_pay" string="兑付" type="object" states="hold" class="btn-primary"/>
+                        <button name="action_buy" string="再贴现" type="object" states="hold" class="btn-primary"/>
+                        <button name="buy_account_move" string="购票凭证" type="object" attrs="{'invisible': [('invoice_no', '>', 0)]}"/>
+                        <button name="selling_account_move" string="再贴现凭证" type="object" attrs="{'invisible': [('invoice_no', '>', 1)]}"/>
+                        <button name="sell_account_move" string="兑付凭证" type="object" attrs="{'invisible': [('invoice_no', '>', 1)]}"/>
+                        <button name="action_cancel" string="异常" type="object" states="hold"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,hold,pay"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_no', '=', 0)]}">
+							   <field name="invoice_no" widget="statinfo" string="凭证"/>
+							 </button>
+                            <button name="action_view_hold" type="object" class="oe_stat_button" icon="fa-book" attrs="{'invisible': [('hold_no', '=', 0)]}">
+                                <field name="hold_no" widget="statinfo" string="每日明细"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group string="票据信息">
+                                <field name="name"/>
+                                <field name="maker"/>
+                                <field name="accept"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="make_date"/>
+                                <field name="amount_date"/>
+                                <field name="amount"/>
+                            </group>
+                            <group string="持票动态损益">
+                                <field name="hold_total_day"/>
+                                <field name="hold_total_income"/>
+                                <field name="hold_total_cost"/>
+                                <field name="hold_total_profit"/>
+                                <field name="true_profit_true"/>
+                                <field name="sell_move" attrs="{'invisible':[('state','in',('draft','hold','error','buy'))]}"/>
+                                <!-- <field name="bank_day"/>
+                                <field name="out_day"/> -->
+                            </group>
+                        </group>
+                        <group string="业务信息">
+                            <group>
+                                <field name="partner"/>
+                                <field name="saler"/>
+                                <field name="company"/>
+                                <field name="buy_date"/>
+                                <field name="disscount_rate"/>
+                                <field name="plandays"/>
+                                <field name="ticket_rate" readonly="1"/>
+                                <field name="account"/>
+                                <field name="ticket_rate_tax" readonly="1" attrs="{'invisible':[('account','=',False)]}"/>
+                                <field name="tax"/>
+                                <!-- <field name="have_total_income"/> -->
+                            </group>
+                            <group>
+                                <field name="buycost"/>
+                                <field name="money_from"/>
+                                <field name="bank_rate"/>
+                                <field name="planprofit"/>
+                                <field name="planprofit_true"/>
+                                <field name="everyday_income"/>
+                                <field name="daycost"/>
+                                <field name="avedayprofit"/>
+                                <field name="account_move"/>
+                            </group>
+                        </group>
+                        
+                        <!-- <group string="贴现">
+                            <group>
+                            </group>
+                        </group> -->
+                        <group string="持有">
+                            <group>
+                                <field name="delay_day"/>
+                                <field name="holdday"/>
+                            </group>
+                            <group>
+                                <field name="delay_cost"/>
+                                <field name="holdprofit"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="atype" readonly="1"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible':[('atype','=',False)]}" string="再贴现">
+                            <group>
+                                <field name="sell_date"/>  
+                                <field name="sell_money_true"/>
+                                <field name="sell_rate"/>
+                                <field name="buy_move"/>
+                            </group>
+                            <group>
+                                <field name="sell_day"/>  
+                                <field name="sell_money"/>
+                                <field name="sell_total"/>
+                                <field name="sell_cost"/>
+                                <field name="sell_profit"/>  
+                                <!-- <field name="true_profit"/>   -->
+                            </group>
+                        </group>
+                        <!-- <notebook>
+                            <page  string="凭证行">
+                                <field name="move_ids">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="amount"/>
+                                        <field name="state"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook> -->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="affixed_ticket_tree">
+            <field name="name">贴票业务 tree</field>
+            <field name="model">affixed.ticket</field>
+            <field name="arch" type="xml">
+                <tree string="贴票业务">
+                    <field name="name"/>
+                    <field name='company'/>
+                    <field name="money_from"/>
+                    <field name="partner"/>
+                    <field name="ticket_rate"/>
+                    <field name="amount"/>
+                    <field name="amount_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="affixed_ticket_pivot">
+            <field name="name">贴票业务 pivot</field>
+            <field name="model">affixed.ticket</field>
+            <field name="arch" type="xml">
+                <pivot string="贴票业务" >
+                    <!-- <field name="partner" type="column"/> -->
+                    <field name="buy_date" type="row"/>
+                    <field name="buycost" type="measure"/>
+                    <field name="holdprofit" type="measure"/>
+                    <!-- <field name="sell_money" type="measure"/>
+                    <field name="sell_profit" type="measure"/>
+                    <field name="true_profit_true" type="measure"/> -->
+                </pivot>
+            </field>
+        </record>
+        <record id="affixed_ticket_graph" model="ir.ui.view">
+            <field name="name">贴票业务 graph</field>
+            <field name="model">affixed.ticket</field>
+            <field name="arch" type="xml">
+                <graph string="贴票业务" type="bar">
+                    <field name="partner"/>
+                    <field name="buycost" type="measure"/>
+                    <!-- <field name="holdprofit" type="measure"/> -->
+                </graph>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="affixed_ticket_action">
+            <field name="name">贴票业务</field>
+            <field name="res_model">affixed.ticket</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+	</data>
+</odoo>

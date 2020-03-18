@@ -1,0 +1,99 @@
+<odoo>
+	<data>
+		<record id="account_move_template_line_form" model="ir.ui.view">
+			<field name="name">凭证模板明细行 form</field>
+			<field name="model">account.move.template.line</field>
+			<field name="arch" type="xml">
+				<form string="凭证模板明细行">
+					<sheet>
+						<group>
+							<group>
+								<field name="account_id"/>
+								<field name="model_id"/>
+							</group>
+							<group>
+								<field name="att"/>
+								<field name="value"/>
+							</group>
+						</group>
+						<field name="model_list" invisible="1"/>
+						<group>
+							<group>
+								<field name="field" attrs="{'invisible':[('value','=','code')]}" domain="[('ttype', 'in', ['float', 'integer','monetary']),('model_id','=',model_id)]"/>
+							</group>
+						</group>
+						<group attrs="{'invisible':[('value','=','fixed')]}">
+							<group>
+								<field name="code"/>
+							</group>
+							<notebook colspan="4">
+								<page string="字段行">
+									<field name="field_ids" colspan="4" nolabel="1" domain="[('ttype', 'in', ['float', 'integer','monetary']), ('model_id','=',model_id)]">
+									 <!-- domain="[('ttype', 'not in', ['reference', 'function']), ('model_id', 'in', model_list)]" -->
+									<tree>
+										<field name="name"/>
+										<field name="field_description"/>
+										<field name="ttype"/>
+									</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="account_move_template_form" model="ir.ui.view">
+			<field name="name">凭证模板 form</field>
+			<field name="model">account.move.template</field>
+			<field name="arch" type="xml">
+				<form string="凭证模板" class="oe_form_configuration">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+								<field name="model_id"/>
+							</group>
+							<group>
+								<field name="journal_id"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="凭证模板明细行">
+								<field name="lines" context="{'default_model_id':model_id}">
+									<tree string="凭证模板明细行">
+										<field name="account_id"/>
+										<field name="value"/>
+										<field name="att"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="account_move_template_tree" model="ir.ui.view">
+			<field name="name">凭证模板 tree</field>
+			<field name="model">account.move.template</field>
+			<field name="arch" type="xml">
+				<tree string="凭证模板">
+					<field name="name"/>
+					<field name="model_id"/>
+					<field name="journal_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_account_move_template">
+			<field name="name">凭证模板</field>
+			<field name="res_model">account.move.template</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="凭证模板配置" id="menu_account_move_template" parent="account.account_account_menu" action="action_account_move_template"/>
+	</data>
+</odoo>
