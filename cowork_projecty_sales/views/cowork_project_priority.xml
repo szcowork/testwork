@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_project_priority">
+        <field name="name">项目优先级</field>
+        <field name="model">cowork.project.priority</field>
+        <field name="arch" type="xml">
+            <form string="项目优先级">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_project_priority">
+        <field name="name">项目优先级</field>
+        <field name="model">cowork.project.priority</field>
+        <field name="arch" type="xml">
+            <tree string="项目优先级" default_order="write_date desc">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_project_priority">
+        <field name="name">项目优先级</field>
+        <field name="model">cowork.project.priority</field>
+        <field name="arch" type="xml">
+            <search string="项目优先级">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_project_priority">
+        <field name="name">项目优先级</field>
+        <field name="res_model">cowork.project.priority</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

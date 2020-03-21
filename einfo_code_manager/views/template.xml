@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="code manager assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/einfo_code_manager/static/src/js/widget.js"></script>
+            <script type="text/javascript" src="/einfo_code_manager/static/src/js/code_action.js"></script>
+            <script type="text/javascript" src="/einfo_code_manager/static/src/js/code_widget.js"></script>
+        </xpath>
+    </template>
+</odoo>

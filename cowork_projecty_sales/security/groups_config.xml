@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.module.category" id="module_category_cowork_projecty_sales">
+        <field name="name">柯沃项目式销售</field>
+    </record>
+
+    <record model="res.groups" id="access_group_ceo_in_cowork_projecty_sales">
+        <field name="name">CEO</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_technique_director_in_cowork_projecty_sales">
+        <field name="name">技术总监</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_execute_director_in_cowork_projecty_sales">
+        <field name="name">行政总监</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_market_director_in_cowork_projecty_sales">
+        <field name="name">市场总监</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_financial_director_in_cowork_projecty_sales">
+        <field name="name">财务总监</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_operation_director_in_cowork_projecty_sales">
+        <field name="name">运营总监</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_technique_manager_in_cowork_projecty_sales">
+        <field name="name">技术经理</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_sales_director_in_cowork_projecty_sales">
+        <field name="name">销售总监</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_sales_manager_in_cowork_projecty_sales">
+        <field name="name">销售经理</field>
+        <field name="category_id" ref="module_category_cowork_projecty_sales"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+</odoo>

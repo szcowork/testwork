@@ -121,6 +121,10 @@ class HrOrgChartController(http.Controller):
         elif approval == 2:
             approval = 'PASS'
             appoval_model.sudo().write({'approval_state':'pass'})
+
+        if hasattr(appoval_model ,'on_approval'):
+            appoval_model.on_approval()
+        
         appoval_model.sudo().write({'approval_msg_ids':[(0,0,{'employee_id':employee_id,'state':approval,'time':fields.Datetime.now()})]})
 
         

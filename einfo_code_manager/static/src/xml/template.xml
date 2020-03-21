@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="CodeGenerate">
+        <div style="display: flex;" t-att-name="widget.name" t-att-tabindex="widget.attrs.tabindex" t-att-autofocus="widget.attrs.autofocus" t-att-id="widget.idForLabel">
+            <!-- <div style="margin: 2px;">
+                <h4>1111</h4>
+                <select id="selectID" name="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div style="margin: 2px;">
+                <h4>1111</h4>
+                <select id="selectID" name="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div style="margin: 2px;">
+                <h4>1111</h4>
+                <select id="selectID" name="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div> -->
+        </div>
+    </t>
+    <t t-name="CodeGenerateAction">
+        <div  style="display: flex;">
+        </div>
+    </t>
+        <t t-name="CodeGenerateWidget">
+        <div  style="display: flex;">
+
+            <t t-foreach="values" t-as="value" >
+
+                <t t-if="value.ttype == 'select'">
+                    <div style="flex-grow: 1; margin-right: 2px;">
+                        <!-- <h4 class="einfo_code">?</h4><t t-esc="i"/> -->
+                        <h4><t t-esc="value.name"></t></h4>
+                        <t t-foreach="value.data" t-as="option" >
+                            <div class="o_field_radio o_vertical o_field_widget o_required_modifier" name="">
+                                <div class="" >
+                                    <!-- <input class="custom-control-input o_radio_input" t-att-checked="(1 == option[2]) ? true : undefined"
+                                        t-att-data-value="option[0]" /> -->
+                                    <label class="e_radio_item" t-att-data-i="value.id" t-att-data-j="option[2]"><t t-esc="option[0]"/>- <t t-esc="option[1]"/></label>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+
+                <t t-if="value.ttype == 'sequence'">
+                    <div style="flex-grow: 1; margin-right: 2px;">
+                        <!-- <h4 class="einfo_code">?</h4> -->
+                        <h4><t t-esc="value.name"></t></h4>
+                        <!-- <div>
+                            <button class="btn btn-primary einfo_code_button" t-att-data-id="value.data" type="button"  style="width:100%;padding-bottom: 2px;padding-top: 3px;">获取</button>
+                        </div> -->
+                    </div>
+                </t>
+
+                <t t-if="value.ttype == 'char'">
+                    <div style="flex-grow: 1; margin-right: 2px;">
+                        <!-- <h4 class="einfo_code">?</h4> -->
+                        <h4><t t-esc="value.name"></t></h4>
+                        <!-- <input class="o_field_char o_field_widget o_input einfo_input" name="name" placeholder="" type="text" /> -->
+                    </div>
+                </t>
+
+            </t>
+
+            <!-- <div style="flex-grow: 1; margin-right: 2px;">
+                <h4 class="">↓</h4>
+                <button class="btn btn-primary einfo_code_generate" type="button"  style="padding-bottom: 2px;padding-top: 3px;">生成</button>
+            </div> -->
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="cowork.project.priority" id="important_urgent">
+        <field name="name">重要紧急</field>
+    </record>
+    <record model="cowork.project.priority" id="important_noturgent">
+        <field name="name">重要不紧急</field>
+    </record>
+    <record model="cowork.project.priority" id="notimportant_urgent">
+        <field name="name">不重要紧急</field>
+    </record>
+    <record model="cowork.project.priority" id="notimportant_noturgent">
+        <field name="name">不重要不紧急</field>
+    </record>
+</odoo>

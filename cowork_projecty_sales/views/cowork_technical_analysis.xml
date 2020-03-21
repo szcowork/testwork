@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="view_form_cowork_technical_analysis">
+		<field name="name">技术性分析</field>
+		<field name="model">cowork.technical.analysis</field>
+		<field name="arch" type="xml">
+			<form string="技术性分析">
+                <header>
+                    <button type="object" class="oe_highlight" string="草稿" name="to_draft" attrs="{'invisible':[('state','in',['draft','done','cancel'])]}"/>
+                    <button type="object" class="oe_highlight" string="提交审批" name="to_confirm" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button type="object" class="oe_highlight" string="确认" name="to_done" attrs="{'invisible':[('state','!=','confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="不通过" name="to_cancel" attrs="{'invisible':[('state','!=','confirm')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+					</div>
+					<h1>
+						<field name="name" readonly="1"/>
+					</h1>
+					<group>
+						<group string="基本信息">
+							<field name="project_availability_analysis_id" readonly="1"/>
+							<field name="internal_code"/>
+							<field name="internal_name"/>
+							<field name="if_nonstandard_scheme"/>
+							<field name="if_nonstandard_quote"/>
+							<field name="if_tech_contract"/>
+						</group>
+						<group string="样品信息">
+							<field name="industry"/>
+							<field name="sample_name"/>
+							<field name="if_proof"/>
+							<field name="if_proof_before_sell"/>
+							<field name="if_proof_on_site"/>
+						</group>
+					</group>
+					<group string="技术参数">
+						<group>
+							<label for="efficiency_beat"/>
+							<div class="o_row">
+								<field name="efficiency_beat"/>
+								<span>BPM</span>
+							</div>
+							<field name="robot_model_id"/>
+							<field name="plc_controller"/>
+							<field name="module"/>
+							<field name="sensor"/>
+						</group>
+						<group>
+							<field name="cylinder"/>
+							<field name="fixture"/>
+							<field name="motor"/>
+							<field name="ccd_vision"/>
+							<field name="pneumatic_components"/>
+						</group>
+					</group>
+					<hr/>
+					<group string="技术评估意见">
+						<group>
+							<field name="project_difiiculty"/>
+							<field name="cost_amount" widget="monetary"/>
+							<field name="currency_id" invisible="1"/>
+							<field name="priority"/>
+						</group>
+						<group>
+							<label for="period"/>
+							<div class="o_row">
+								<field name="period"/>
+								<span>天</span>
+							</div>
+							<label for="person_count"/>
+							<div class="o_row">
+								<field name="person_count"/>
+								<span>人</span>
+							</div>
+							<field name="if_start"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="其他技术意见">
+							<field name="other_description"/>
+						</page>
+					</notebook>
+				</sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread"/>
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="view_tree_cowork_technical_analysis">
+		<field name="name">技术性分析</field>
+		<field name="model">cowork.technical.analysis</field>
+		<field name="arch" type="xml">
+			<tree string="技术性分析" default_order="write_date desc">
+				<field name="name"/>
+				<field name="project_availability_analysis_id"/>
+				<field name="industry"/>
+				<field name="sample_name"/>
+				<field name="pneumatic_components"/>
+				<field name="internal_code"/>
+				<field name="internal_name"/>
+				<field name="project_difiiculty"/>
+				<field name="cost_amount" widget="monetary"/>
+				<field name="priority"/>
+				<field name="period"/>
+				<field name="person_count"/>
+				<field name="if_start"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="view_search_cowork_technical_analysis">
+		<field name="name">技术性分析</field>
+		<field name="model">cowork.technical.analysis</field>
+		<field name="arch" type="xml">
+			<search string="技术性分析">
+				<field name="name" filter_domain="[('name','ilike',self)]"/>
+				<field name="project_availability_analysis_id"/>
+				<field name="industry"/>
+				<field name="sample_name" filter_domain="[('sample_name','ilike',self)]"/>
+				<field name="pneumatic_components"/>
+				<field name="internal_code" filter_domain="[('internal_code','ilike',self)]"/>
+				<field name="internal_name" filter_domain="[('internal_name','ilike',self)]"/>
+				<field name="priority"/>
+				<field name="project_difiiculty"/>
+				<filter name="project_availability_analysis_id" string="项目可行性分析单" context="{'group_by':'project_availability_analysis_id'}"/>
+				<filter name="priority" string="优先级" context="{'group_by':'priority'}"/>
+				<filter name="if_start" string="是否立项" context="{'group_by':'if_start'}"/>
+				<filter name="project_difiiculty" string="项目难度" context="{'group_by':'project_difiiculty'}"/>
+			</search>
+		</field>
+	</record>
+
+	<!-- 技术性分析编号规则 -->
+	<record id="seq_cowork_technical_analysis" model="ir.sequence">
+		<field name="name">技术性分析</field>
+		<field name="code">cowork.technical.analysis</field>
+		<field name="prefix">TA</field>
+		<field name="padding">5</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_cowork_technical_analysis">
+		<field name="name">技术性分析</field>
+		<field name="res_model">cowork.technical.analysis</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+</odoo>

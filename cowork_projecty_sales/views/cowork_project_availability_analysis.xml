@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_project_availability_analysis">
+        <field name="name">项目可行性分析</field>
+        <field name="model">cowork.project.availability.analysis</field>
+        <field name="arch" type="xml">
+            <form string="项目可行性分析">
+                <header>
+                    <button type="object" class="oe_highlight" string="提交技术部" name="apply_tc" attrs="{'invisible':[('contract_state','in',['done','cancel'])]}"/>
+                    <button type="object" class="oe_highlight" string="打回草稿" name="to_draft" attrs="{'invisible':[('contract_state','in',['draft','done','cancel'])]}"/>
+                    <button type="object" class="oe_highlight" string="提交商务审批" name="to_merchant_confirm" attrs="{'invisible':[('contract_state','!=','draft')]}"/>
+                    <button type="object" class="oe_highlight" string="提交法务审批" name="to_legal_confirm" attrs="{'invisible':[('contract_state','!=','merchant confirm')]}"/>                    
+                    <button type="object" class="oe_highlight" string="提交最终审批" name="to_confirm" attrs="{'invisible':[('contract_state','!=','legal confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="终审确认" name="to_done" attrs="{'invisible':[('contract_state','!=','confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="终审不通过" name="to_cancel" attrs="{'invisible':[('contract_state','!=','confirm')]}"/>
+                    <hr/>
+                    <field name="contract_state" widget="statusbar"/>
+                </header>
+                <header>
+                    <button type="object" class="oe_highlight" string="方案驳回草稿状态" name="sch2draft" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="方案提交" name="sch2confirm" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','draft')]}"/>
+                    <button type="object" class="oe_highlight" string="方案通过" name="sch2done" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
+                    <button type="object" class="oe_highlight" string="方案不通过" name="sch2cancel" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
+                    <field name="scheme_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-gear" string="技术性分析" name="tc_ids"/>
+                    </div>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="apply_date"/>
+                        </group>
+                        <group>
+                            <field name="ptype" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+                    <group string="客户信息">
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="ctype" widget="radio" options="{'horizontal': true}"/>
+                            <field name="address"/>
+                            <field name="contact_id" domain="[('parent_id','=',partner_id)]"/>
+                            <field name="contact"/>
+                        </group>
+                        <group>
+                            <field name="project_name"/>
+                            <field name="budget_amount" widget="monetary"/>
+                            <field name="count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="客户需求">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                    <hr/>
+                    <group string="技术性分析">
+                        <group>
+                            <button type="object" class="oe_stat_button" string="提交技术部" name="apply_tc" icon="fa-pencil-square-o"/>
+                            <field name="tech_analysis_id" readonly="1"/>
+                            <label for="abs" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales"/>
+                            <div class="o_row" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales">
+                                <field name="abs"/>
+                                <button type="object" class="oe_highlight" string="方案直接通过" name="sch2done" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('abs','!=',True)]}"/>
+                            </div>
+                        </group>
+                        <group attrs="{'invisible':[('tech_analysis_id','=',False)]}">
+                            <field name="if_start" readonly="1"/>
+                            <field name="project_difiiculty" readonly="1"/>
+                            <field name="cost_amount" widget="monetary" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="priority" readonly="1"/>
+                            <label for="period"/>
+                            <div class="o_row" readonly="1">
+                                <field name="period"/>
+                                <span>天</span>
+                            </div>
+                            <label for="person_count"/>
+                            <div class="o_row" readonly="1">
+                                <field name="person_count"/>
+                                <span>人</span>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible':[('tech_analysis_id','=',False)]}">
+                        <page string="其他技术意见">
+                            <field name="other_description" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_project_availability_analysis">
+        <field name="name">项目可行性分析</field>
+        <field name="model">cowork.project.availability.analysis</field>
+        <field name="arch" type="xml">
+            <tree string="项目可行性分析" default_order="write_date desc">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="apply_date"/>
+                <field name="ptype"/>
+                <field name="partner_id"/>
+                <field name="ctype"/>
+                <field name="project_name"/>
+                <field name="budget_amount" widget="monetary"/>
+                <field name="count"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_project_availability_analysis">
+        <field name="name">项目可行性分析</field>
+        <field name="model">cowork.project.availability.analysis</field>
+        <field name="arch" type="xml">
+            <search string="项目可行性分析">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="user_id"/>
+                <field name="ptype"/>
+                <field name="partner_id"/>
+                <field name="ctype"/>
+                <field name="project_name" filter_domain="[('project_name','ilike',self)]"/>
+                <filter name="user_id" string="填表人" context="{'group_by':'user_id'}"/>
+                <filter name="apply_date" string="接案日期" context="{'group_by':'apply_date'}"/>
+                <filter name="ptype" string="项目类型" context="{'group_by':'ptype'}"/>
+                <filter name="partner_id" string="客户名称" context="{'group_by':'partner_id'}"/>
+                <filter name="ctype" string="客户种类" context="{'group_by':'ctype'}"/>
+                <filter name="project_difiiculty" string="项目难度" context="{'group_by':'project_difiiculty'}"/>
+                <filter name="priority" string="优先级" context="{'group_by':'priority'}"/>
+                <filter name="if_start" string="是否立项" context="{'group_by':'if_start'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- 项目可行性分析编号规则 -->
+    <record id="seq_cowork_project_availability_analysis" model="ir.sequence">
+        <field name="name">项目可行性分析</field>
+        <field name="code">cowork.project.availability.analysis</field>
+        <field name="prefix">PAA</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_project_availability_analysis">
+        <field name="name">项目可行性分析</field>
+        <field name="res_model">cowork.project.availability.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

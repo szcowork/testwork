@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_code_rule,einfo.code.rule,einfo_code_manager.model_einfo_code_rule,,1,0,0,0
+access_generate_code_line,generate.code.line,einfo_code_manager.model_generate_code_line,,1,1,1,1
+access_code_rule_line,einfo.code.rule.line,einfo_code_manager.model_einfo_code_rule_line,,1,1,1,1
+access_code_rule_context,rule.context,einfo_code_manager.model_rule_context,,1,1,1,1
+
+
+access_code_rule1,einfo.code.rule,einfo_code_manager.model_einfo_code_rule,access_einfo_hsp_code_manager,1,1,1,1

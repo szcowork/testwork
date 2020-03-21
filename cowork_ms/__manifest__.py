@@ -14,9 +14,10 @@
    'category': 'Tools',
    'version': '1.0',
 
-   'depends': ['base','einfo_hsp_approval'],
+   'depends': ['base','einfo_hsp_approval','einfo_code_manager'],
 
    'data': [
+      
  		# "security/res.groups.xml",
       "security/ir.model.access.csv",
 		"views/overtime_appoval.xml", 
@@ -28,7 +29,9 @@
 		"views/business_travel_appoval.xml", 
 		"views/reimbursement_appoval.xml", 
 		"views/reimbursement_account.xml", 
+      "views/product_appoval.xml",
  		"views/menu.xml",
+       "views/rule.xml"
    ],
 
    "installable":True,

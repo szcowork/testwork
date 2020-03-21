@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_sequence_rule">
+        <field name="name">组合序号规则</field>
+        <field name="model">sequence.rule</field>
+        <field name="arch" type="xml">
+            <form string="组合序号规则">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="model_id"/>
+                        </group>
+                        <group>
+                            <field name="model"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="rule_lines" context="{'default_model_id': model_id,'default_company_id':company_id}">
+                            <tree>
+                                <field name="rule_type"/>
+                                <field name="field_id"/>
+                                <field name="sequence_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_sequence_rule">
+        <field name="name">组合序号规则</field>
+        <field name="model">sequence.rule</field>
+        <field name="arch" type="xml">
+            <tree string="组合序号规则">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="model"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_sequence_rule">
+        <field name="name">组合序号规则</field>
+        <field name="model">sequence.rule</field>
+        <field name="arch" type="xml">
+            <search string="组合序号规则">
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_sequence_rule">
+        <field name="name">组合序号规则</field>
+        <field name="res_model">sequence.rule</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_form_sequence_rule_line">
+        <field name="name">组合序号规则明细</field>
+        <field name="model">sequence.rule.line</field>
+        <field name="arch" type="xml">
+            <form string="组合序号规则明细">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <group>
+                            <field name="rule_type"/>
+                            <field name="model_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="field_id" attrs="{'invisible':[('rule_type','!=','field')],'required': [('rule_type', '=', 'field')]}"  domain="[('model_id','=',model_id),('readonly','=',False),('ttype','not in',['one2many','many2many','binary','html','text','boolean'])]"/>
+                            <field name="sequence_id" attrs="{'invisible':[('rule_type','!=','sequence')],'required': [('rule_type', '=', 'sequence')]}" domain="[('company_id','=',company_id)]"/>
+                        </group>
+                        <group>
+                            <button name="get_field_info" string="获取字段信息" type="object" class="btn-primary" attrs="{'invisible':[('rule_type','!=','field')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="select_lines" attrs="{'invisible':[('rule_type','!=','field')]}">
+                            <tree editable="bottom">
+                                <field name="key" readonly="1"/>
+                                <field name="value"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <menuitem name="组合规则" id="sequence_rule_menu" parent="einfo_code_manager.menu_code_parent" action="action_sequence_rule" sequence="10" />
+</odoo>

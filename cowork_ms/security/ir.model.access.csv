@@ -7,3 +7,11 @@ access_overtime_type,overtime_type.applier_overtime.type,model_overtime_type,,1,
 access_business_travel_appoval,business_travel_appoval.applier_business.travel.appoval,model_business_travel_appoval,,1,1,1,0
 access_reimbursement_appoval,reimbursement_appoval.applier_reimbursement.appoval,model_reimbursement_appoval,,1,1,1,0
 access_duty_type,duty_type.applier_duty.type,model_duty_type,,1,1,1,1
+
+access_product_appoval,product_appoval.product_appoval.type,model_product_appoval,,1,1,1,0
+
+access_sequence_rule,sequence.rule,model_sequence_rule,,1,1,1,1
+access_sequence_rule_line,sequence.rule.line,model_sequence_rule_line,,1,1,1,1
+access_select_line,select.line,model_select_line,,1,1,1,1
+access_department_info,department.info,model_department_info,,1,1,1,1
+access_factory_info,factory.info,model_factory_info,,1,1,1,1

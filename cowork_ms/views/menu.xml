@@ -8,10 +8,10 @@
     <menuitem id="menu_business_travel_appoval" name="出差申请" parent="menu_cowork_ms_root" action="action_business_travel_appoval"/>
     <menuitem id="menu_reimbursement_appoval" name="报销申请" parent="menu_cowork_ms_root" action="action_reimbursement_appoval"/>
     <menuitem id="menu_reimbursement_account" name="日常审批" parent="menu_cowork_ms_root" action="action_reimbursement_account"/>
+    <menuitem id="product_appoval" name="产品审批" parent="menu_cowork_ms_root" action="action_einfo_approval"/>
 
     <menuitem id="menu_appoval_type" name="配置" parent="menu_cowork_ms_root" />
     <menuitem id="menu_overtime_type" name="加班类型" parent="menu_appoval_type" action="action_overtime_type"  groups="einfo_hsp_approval.access_einfo_hsp_approval_manager"/>
     <menuitem id="menu_duty_type" name="请假类型" parent="menu_appoval_type" action="action_duty_type" groups="einfo_hsp_approval.access_einfo_hsp_approval_manager"/>
 
- 
 </odoo>

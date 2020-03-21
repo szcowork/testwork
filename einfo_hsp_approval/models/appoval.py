@@ -22,7 +22,6 @@ class approval_node(models.Model):
     # einfo_approval_id = fields.Many2one('einfo.approval',string='审批')
 
 
-
 class approval(models.Model):
     _name = "einfo.approval"
     _description = "审批"

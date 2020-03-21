@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_einfo_approval">
+        <field name="name">产品审批</field>
+        <field name="model">product.appoval</field>
+        <field name="arch" type="xml">
+            <form string="产品审批">
+                <sheet>
+
+                    <div id="o_employee_container">
+                     <div id="o_employee_main">
+                      <group>
+                            <field name="approval_state" invisible="1"/>
+                            <field name="name" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="start_approval_employee_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="job_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="reason" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <!-- <label for="rule_id" string="编号类型"/>
+                            <div class="o_row">
+                                <field name="rule_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                                <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight" attrs="{'invisible': [('approval_state', '!=', 'draft')]}"/>
+                            </div> -->
+                            <field name="product_code" readonly='1'/>
+                            <field name="product_id" readonly='1'/>
+                            <!-- <field name="product_code_template_widget" widget="code_generate_widget"/> -->
+                            <field name="department" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="categ_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="factory_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <label for="rule" string="编号规则"/>
+                            <div class="o_row">
+                                <field name="rule" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                                <button  name="button_get_code"  string="生成" type="object" class="oe_highlight" attrs="{'invisible': [('approval_state', '!=', 'draft')]}"/>
+                            </div>
+                      </group>
+                     </div>
+                     <div id="o_employee_right">
+                      <h4 class="o_org_chart_title mb16 mt0">审批流程</h4>
+                      <field name="tem_approval_field" widget="einfo_hr_org_chart"/>
+                     </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_einfo_approval">
+        <field name="name">产品审批</field>
+        <field name="model">product.appoval</field>
+        <field name="arch" type="xml">
+            <tree string="产品审批">
+                <field name="name"/>
+                <field name="reason"/>
+                <field name="start_approval_employee_id"/>
+                <field name="job_id"/>
+                <field name="approval_state"/>
+                <field name="current_approval_employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_einfo_approval">
+        <field name="name">产品审批</field>
+        <field name="res_model">product.appoval</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="product_product_ext_form_cowork" model="ir.ui.view">
+        <field name="name">product_extended.cowork.form.view</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="department"/>
+                <field name="factory_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_form_department_info">
+        <field name="name">部门信息</field>
+        <field name="model">department.info</field>
+        <field name="arch" type="xml">
+            <form string="部门信息">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tree_department_info">
+        <field name="name">部门信息</field>
+        <field name="model">department.info</field>
+        <field name="arch" type="xml">
+            <tree string="部门信息">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_department_info">
+        <field name="name">部门信息</field>
+        <field name="res_model">department.info</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="menu_department_info" name="部门" parent="cowork_ms.menu_appoval_type" action="action_department_info"/>
+
+    <record model="ir.ui.view" id="view_form_factory_info">
+        <field name="name">厂牌信息</field>
+        <field name="model">factory.info</field>
+        <field name="arch" type="xml">
+            <form string="厂牌信息">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tree_factory_info">
+        <field name="name">厂牌信息</field>
+        <field name="model">factory.info</field>
+        <field name="arch" type="xml">
+            <tree string="厂牌信息">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_factory_info">
+        <field name="name">厂牌信息</field>
+        <field name="res_model">factory.info</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="menu_factory_info" name="厂牌" parent="cowork_ms.menu_appoval_type" action="action_factory_info"/>
+</odoo>

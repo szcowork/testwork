@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_cowork_projecty_sales_root" name="柯沃项目式销售" web_icon="cowork_projecty_sales,static/description/cowork.png"/>
+    <menuitem id="menu_cowork_project_availability_analysis" name="项目可行性分析" parent="menu_cowork_projecty_sales_root" action="action_cowork_project_availability_analysis"/>
+    <menuitem id="menu_cowork_technical_analysis" name="技术性分析" parent="menu_cowork_projecty_sales_root" action="action_cowork_technical_analysis"/>
+
+    <menuitem id="menu_cowork_projecty_sales_config" name="设置" parent="menu_cowork_projecty_sales_root"/>
+    <menuitem id="menu_cowork_project_difficulty" name="项目难度" parent="menu_cowork_projecty_sales_config" action="action_cowork_project_difficulty"/>
+    <menuitem id="menu_cowork_project_priority" name="项目优先级" parent="menu_cowork_projecty_sales_config" action="action_cowork_project_priority"/>
+</odoo>
