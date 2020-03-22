@@ -9,6 +9,7 @@ from odoo.exceptions import UserError, ValidationError
 
 class sequence_rule(models.Model):
     _name = 'sequence.rule'
+    _description = u'组合规则'
 
     name =  fields.Char(u'组合序号名称')
     model_id = fields.Many2one("ir.model",string=u'模型说明')
