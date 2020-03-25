@@ -24,6 +24,7 @@ class sequence_rule(models.Model):
 
 class sequence_rule_line(models.Model):
     _name = 'sequence.rule.line'
+    _description = u'组合规则行'
 
     rule_id = fields.Many2one("sequence.rule")
     rule_type = fields.Selection([('field',u'字段值'),('sequence',u'序列号')],string="规则类型")  #,('diy',u'自定义')
