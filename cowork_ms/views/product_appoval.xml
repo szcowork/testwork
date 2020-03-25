@@ -105,7 +105,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="menu_department_info" name="部门" parent="cowork_ms.menu_appoval_type" action="action_department_info"/>
+    <!-- <menuitem id="menu_department_info" name="部门" parent="cowork_ms.menu_appoval_type" action="action_department_info"/> -->
 
     <record model="ir.ui.view" id="view_form_factory_info">
         <field name="name">厂牌信息</field>
@@ -135,5 +135,5 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="menu_factory_info" name="厂牌" parent="cowork_ms.menu_appoval_type" action="action_factory_info"/>
+    <!-- <menuitem id="menu_factory_info" name="厂牌" parent="cowork_ms.menu_appoval_type" action="action_factory_info"/> -->
 </odoo>
