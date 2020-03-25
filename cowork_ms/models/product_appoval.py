@@ -99,6 +99,7 @@ class product_appoval(models.Model):
             product = self.env['product.template'].create({'name':self.product_code,'default_code':self.product_code,
             'department':self.department.id,
             'categ_id':self.categ_id.id,
+            'type':'product',
             'factory_id':self.factory_id.id})
             self.write({'product_id':product.id})
             return {
