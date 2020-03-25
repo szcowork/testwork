@@ -29,8 +29,8 @@
 		"views/business_travel_appoval.xml", 
 		"views/reimbursement_appoval.xml", 
 		"views/reimbursement_account.xml", 
-      "views/product_appoval.xml",
  		"views/menu.xml",
+      "views/product_appoval.xml",
        "views/rule.xml"
    ],
 
