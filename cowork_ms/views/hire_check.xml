@@ -24,6 +24,7 @@
                       <group>
                             <field name="approval_state" invisible="1"/>
                             <field name="name" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="start_approval_employee_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="interviewer" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="interviewer_department" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="interviewer_posi" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
