@@ -9,7 +9,7 @@ from odoo import models, fields, api
 _logger = logging.getLogger(__name__)
 
 class HrOrgChartController(http.Controller):
-    _managers_level = 2  # FP request
+    _managers_level = 200  # FP request
 
     def _prepare_employee_data(self, employee,model,model_id):
         appoval_state = 'NONE'
@@ -101,7 +101,8 @@ class HrOrgChartController(http.Controller):
 
         manager_length = len(values['managers'])
         if manager_length > 0 :
-            last_manager = values['managers'][manager_length-1]
+            # last_manager = values['managers'][manager_length-1]
+            last_manager = values['managers'][0]
             #如果是最顶层员工，则默认是有审批通过权限
             #审批 0:不能 1: 能 2:能且最终审批
             if last_manager['can_approval'] == 1:
