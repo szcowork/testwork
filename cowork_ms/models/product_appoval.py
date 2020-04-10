@@ -37,9 +37,9 @@ class product_appoval(models.Model):
     @api.onchange('rule')
     def _onchange_rule_search(self):
         for record in self:
-            if record.rule and recor.rule.rule_lines:
+            if record.rule and record.rule.rule_lines:
                 no = ''
-                for ru in recor.rule.rule_lines:
+                for ru in record.rule.rule_lines:
                     if ru.rule_type == 'field':
                         if record[ru.field_id.name].id == False:
                             pass
