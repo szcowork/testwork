@@ -32,7 +32,9 @@ class product_appoval(models.Model):
     factory_id = fields.Many2one("factory.info",string="厂牌")
     rule = fields.Many2one('sequence.rule',string='编号规则')
 
-    other_element = fields.Many2many("product.appoval",string=u'组件申请')
+    # other_element = fields.Many2many("product.appoval",string=u'组件申请')
+    element = fields.Many2one("product.appoval")
+    other_element = fields.One2many("product.appoval","element",string=u'组件申请')
 
     # @api.onchange('rule_id')
     # def rule_onchange(self):
