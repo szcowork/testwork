@@ -60,7 +60,11 @@ class product_appoval(models.Model):
                         if ru.field_id.ttype == 'many2one':
                             if ru.select_lines:
                                 value = False
-                                record = self.env[ru.field_id.relation].search([('id','=',record[ru.field_id.name].id)])
+                                _logger.info("_______________________")
+                                _logger.info(record[ru.field_id.name])
+                                _logger.info(record[ru.field_id.name].id)
+                                _logger.info(ru.field_id.relation)
+                                record = self.env[ru.field_id.relation].sudo().search([('id','=',record[ru.field_id.name].id)])
                                 for select in ru.select_lines:
                                     if record.name == select.key:
                                         value = select.value
