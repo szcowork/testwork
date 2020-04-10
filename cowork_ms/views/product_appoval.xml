@@ -32,6 +32,9 @@
                                 <button  name="button_get_code"  string="生成" type="object" class="oe_highlight" attrs="{'invisible': [('approval_state', '!=', 'draft')]}"/>
                             </div>
                       </group>
+                      <group>
+                        <field name="search_product" widget="search_product_info"/>
+                      </group>
                       <!-- <group>
                         <field name="other_element">
                             <tree>

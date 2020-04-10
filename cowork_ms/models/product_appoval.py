@@ -32,6 +32,8 @@ class product_appoval(models.Model):
     factory_id = fields.Many2one("factory.info",string="厂牌")
     rule = fields.Many2one('sequence.rule',string='编号规则')
 
+    search_product = fields.Char(u'检索产品')
+
     # element = fields.Many2one("product.appoval")
     # other_element = fields.One2many("product.appoval","element",string=u'组件申请')
 

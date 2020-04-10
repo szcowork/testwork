@@ -31,7 +31,8 @@
 		"views/reimbursement_account.xml", 
       "views/product_appoval.xml",
  		"views/menu.xml",
-       "views/rule.xml"
+      "views/rule.xml",
+      "views/template.xml"
    ],
 
    "installable":True,
