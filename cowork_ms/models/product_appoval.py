@@ -74,9 +74,9 @@ class product_appoval(models.Model):
                                         no += value
                                 else:
                                     pass
-                        if ru.rule_type == 'sequence':#序列号
-                            number_next_actual = ru.sequence_id.number_next_actual
-                            no += ru.sequence_id.get_next_char(number_next_actual)
+                    if ru.rule_type == 'sequence':#序列号
+                        number_next_actual = ru.sequence_id.number_next_actual
+                        no += ru.sequence_id.get_next_char(number_next_actual)
                 product = self.env['product.template'].sudo().search([('default_code','=',no)])
                 if product:
                     self.search_product = product[0].name
