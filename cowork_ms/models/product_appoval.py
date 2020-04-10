@@ -34,7 +34,7 @@ class product_appoval(models.Model):
 
     search_product = fields.Char(u'检索产品')
 
-    # @api.onchange('rule')#检索产品
+    @api.onchange('rule')#检索产品
     def _onchange_rule_search(self):
         for record in self:
             if record.rule and record.rule.rule_lines:
