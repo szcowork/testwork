@@ -34,6 +34,49 @@ class product_appoval(models.Model):
 
     search_product = fields.Char(u'检索产品')
 
+    @api.onchange('rule')
+    def _onchange_rule_search(self):
+        for record in self:
+            if record.rule and recor.rule.rule_lines:
+                no = ''
+                for ru in recor.rule.rule_lines:
+                    if ru.rule_type == 'field':
+                        if record[ru.field_id.name].id == False:
+                            pass
+                        if ru.field_id.ttype not in ['selection','many2one']:
+                            no += str(record[ru.field_id.name])
+                        if ru.field_id.ttype == 'selection':
+                            if ru.select_lines:
+                                value = False
+                                for select in ru.select_lines:
+                                    if record[ru.field_id.name] == select.key:
+                                        value = select.value
+                                if value == False:
+                                    pass
+                                else:
+                                    no += value
+                            else:
+                                pass
+                        if ru.field_id.ttype == 'many2one':
+                            if ru.select_lines:
+                                value = False
+                                record = self.env[ru.field_id.relation].search([('id','=',record[ru.field_id.name].id)])
+                                for select in ru.select_lines:
+                                    if record.name == select.key:
+                                        value = select.value
+                                if value == False:
+                                    pass
+                                else:
+                                    no += value
+                            else:
+                                pass
+                    if ru.rule_type == 'sequence':#序列号
+                        number_next_actual = ru.sequence_id.number_next_actual
+                        no += ru.sequence_id.get_next_char(number_next_actual)
+                product = self.env['product.template'].sudo().search([('default_code','=',no)])
+                if product:
+                    self.search_product = product[0].name
+
     # element = fields.Many2one("product.appoval")
     # other_element = fields.One2many("product.appoval","element",string=u'组件申请')
 
