@@ -61,12 +61,7 @@ class product_appoval(models.Model):
                             if ru.field_id.ttype == 'many2one':
                                 if ru.select_lines:
                                     value = False
-                                    _logger.info("_______________________")
-                                    _logger.info(record[ru.field_id.name])
-                                    _logger.info(record[ru.field_id.name].id)
-                                    _logger.info(ru.field_id.relation)
                                     records = self.env[ru.field_id.relation].sudo().search([('id','=',record[ru.field_id.name].id)])
-                                    # _logger.info(record)
                                     for select in ru.select_lines:
                                         if records.name == select.key:
                                             value = select.value
@@ -80,6 +75,8 @@ class product_appoval(models.Model):
                         number_next_actual = ru.sequence_id.number_next_actual
                         no += ru.sequence_id.get_next_char(number_next_actual)
                 product = self.env['product.template'].sudo().search([('default_code','=',no)])
+                _logger.info(no)
+                _logger.info("_______________________")
                 if product:
                     self.search_product = product[0].name
 
