@@ -33,7 +33,8 @@
                             </div>
                       </group>
                       <group>
-                        <field name="search_product" widget="search_product_info" readonly="1"/>
+                        <field name="search_product" readonly="1"/>
+                         <!-- widget="search_product_info" -->
                       </group>
                       <!-- <group>
                         <field name="other_element">

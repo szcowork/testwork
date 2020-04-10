@@ -77,6 +77,7 @@ class product_appoval(models.Model):
                 product = self.env['product.template'].sudo().search([('default_code','=',no)])
                 _logger.info(no)
                 _logger.info("_______________________")
+                _logger.info(product)
                 if product:
                     self.search_product = product[0].name
 
