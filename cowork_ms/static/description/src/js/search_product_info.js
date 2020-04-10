@@ -9,38 +9,14 @@ odoo.define('product.appoval', function (require) {
     var QWeb = core.qweb;
 
     var SearchProductInfo = AbstractField.extend({
-        events: _.extend({
-        }, AbstractField.prototype.events),
-        supportedFieldTypes: ['char'],
-    
-        //--------------------------------------------------------------------------
-        // Public
-        //--------------------------------------------------------------------------
         /**
          * @override
-         * @returns {boolean}
          */
-        isSet: function() {
-            return true;
-        },
-        /**
-         * @private
-         * @override
-         */
-        _render: function() {
-            var self = this;
-            console.log("hhhahahahahahaha")
-            console.log(self)
-            // this.values = JSON.parse(this.value);
-            // console.log(this.values)
-            // if (!this.values) {
-            //     this.$el.html('');
-            //     return;
-            // }
-            // this.$el.html(QWeb.render('CodeGenerateWidget', {
-            //     values: this.values,
-            // }));
+        init: function() {
+            this._super.apply(this, arguments);
 
+            console.log("hhhahahahahahaha")
+            console.log(this)
         },
 
     });
