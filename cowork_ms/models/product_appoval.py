@@ -41,7 +41,7 @@ class product_appoval(models.Model):
                 no = ''
                 for ru in record.rule.rule_lines:
                     if ru.rule_type == 'field':
-                        if record[ru.field_id.name].id != False:
+                        if record[ru.field_id.name] != False:
                             # pass
                             if ru.field_id.ttype not in ['selection','many2one']:
                                 no += str(record[ru.field_id.name])
@@ -98,7 +98,7 @@ class product_appoval(models.Model):
                 for ru in rule.rule_lines:
                     if ru.rule_type == 'field':
                         # if vals_list.get(ru.field_id.name) == False:
-                        if self[ru.field_id.name].id == False:
+                        if self[ru.field_id.name] == False:
                             raise UserError(('请填写%s！')%(ru.field_id.field_description))
                         if ru.field_id.ttype not in ['selection','many2one']:
                             no += str(self[ru.field_id.name])
