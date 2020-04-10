@@ -79,7 +79,10 @@ class product_appoval(models.Model):
                 _logger.info("_______________________")
                 _logger.info(product)
                 if product:
-                    self.search_product = product[0].name
+                    record.search_product = product[0].name
+                    record.write({'search_product':product[0].name})
+                    _logger.info(product[0].name)
+                    _logger.info(record.search_product)
 
     # element = fields.Many2one("product.appoval")
     # other_element = fields.One2many("product.appoval","element",string=u'组件申请')
