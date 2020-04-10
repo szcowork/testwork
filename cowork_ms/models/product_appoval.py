@@ -64,9 +64,10 @@ class product_appoval(models.Model):
                                     _logger.info(record[ru.field_id.name])
                                     _logger.info(record[ru.field_id.name].id)
                                     _logger.info(ru.field_id.relation)
-                                    record = self.env[ru.field_id.relation].sudo().search([('id','=',record[ru.field_id.name].id)])
+                                    records = self.env[ru.field_id.relation].sudo().search([('id','=',record[ru.field_id.name].id)])
+                                    # _logger.info(record)
                                     for select in ru.select_lines:
-                                        if record.name == select.key:
+                                        if records.name == select.key:
                                             value = select.value
                                     if value == False:
                                         pass
