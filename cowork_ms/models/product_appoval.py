@@ -41,42 +41,42 @@ class product_appoval(models.Model):
                 no = ''
                 for ru in record.rule.rule_lines:
                     if ru.rule_type == 'field':
-                        if record[ru.field_id.name].id == False:
-                            pass
-                        if ru.field_id.ttype not in ['selection','many2one']:
-                            no += str(record[ru.field_id.name])
-                        if ru.field_id.ttype == 'selection':
-                            if ru.select_lines:
-                                value = False
-                                for select in ru.select_lines:
-                                    if record[ru.field_id.name] == select.key:
-                                        value = select.value
-                                if value == False:
-                                    pass
+                        if record[ru.field_id.name].id != False:
+                            # pass
+                            if ru.field_id.ttype not in ['selection','many2one']:
+                                no += str(record[ru.field_id.name])
+                            if ru.field_id.ttype == 'selection':
+                                if ru.select_lines:
+                                    value = False
+                                    for select in ru.select_lines:
+                                        if record[ru.field_id.name] == select.key:
+                                            value = select.value
+                                    if value == False:
+                                        pass
+                                    else:
+                                        no += value
                                 else:
-                                    no += value
-                            else:
-                                pass
-                        if ru.field_id.ttype == 'many2one':
-                            if ru.select_lines:
-                                value = False
-                                _logger.info("_______________________")
-                                _logger.info(record[ru.field_id.name])
-                                _logger.info(record[ru.field_id.name].id)
-                                _logger.info(ru.field_id.relation)
-                                record = self.env[ru.field_id.relation].sudo().search([('id','=',record[ru.field_id.name].id)])
-                                for select in ru.select_lines:
-                                    if record.name == select.key:
-                                        value = select.value
-                                if value == False:
                                     pass
+                            if ru.field_id.ttype == 'many2one':
+                                if ru.select_lines:
+                                    value = False
+                                    _logger.info("_______________________")
+                                    _logger.info(record[ru.field_id.name])
+                                    _logger.info(record[ru.field_id.name].id)
+                                    _logger.info(ru.field_id.relation)
+                                    record = self.env[ru.field_id.relation].sudo().search([('id','=',record[ru.field_id.name].id)])
+                                    for select in ru.select_lines:
+                                        if record.name == select.key:
+                                            value = select.value
+                                    if value == False:
+                                        pass
+                                    else:
+                                        no += value
                                 else:
-                                    no += value
-                            else:
-                                pass
-                    if ru.rule_type == 'sequence':#序列号
-                        number_next_actual = ru.sequence_id.number_next_actual
-                        no += ru.sequence_id.get_next_char(number_next_actual)
+                                    pass
+                        if ru.rule_type == 'sequence':#序列号
+                            number_next_actual = ru.sequence_id.number_next_actual
+                            no += ru.sequence_id.get_next_char(number_next_actual)
                 product = self.env['product.template'].sudo().search([('default_code','=',no)])
                 if product:
                     self.search_product = product[0].name
