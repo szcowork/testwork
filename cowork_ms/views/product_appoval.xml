@@ -32,7 +32,7 @@
                                 <button  name="button_get_code"  string="生成" type="object" class="oe_highlight" attrs="{'invisible': [('approval_state', '!=', 'draft')]}"/>
                             </div>
                       </group>
-                      <group>
+                      <!-- <group>
                         <field name="other_element">
                             <tree>
                                 <field name="product_code"/>
@@ -40,7 +40,7 @@
                                 <field name="rule"/>
                             </tree>
                         </field>
-                      </group>
+                      </group> -->
                      </div>
                      <div id="o_employee_right">
                       <h4 class="o_org_chart_title mb16 mt0">审批流程</h4>
