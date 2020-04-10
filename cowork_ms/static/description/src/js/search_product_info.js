@@ -8,7 +8,7 @@ odoo.define('product.appoval', function (require) {
     
     var QWeb = core.qweb;
 
-    var SearchProductInfo = AbstractField.extend({
+    var search_product_info = AbstractField.extend({
         /**
          * @override
          */
@@ -21,5 +21,10 @@ odoo.define('product.appoval', function (require) {
 
     });
 
-    core.form_widget_registry.add('search_product_info', SearchProductInfo);
+    // core.form_widget_registry.add('search_product_info', search_product_info);
+    field_registry.add('search_product_info', search_product_info);
+    
+    return {
+        search_product_info: search_product_info
+    };
 })
