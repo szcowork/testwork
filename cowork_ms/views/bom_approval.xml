@@ -11,6 +11,7 @@
                         <div class="oe_button_box" name="button_box">
                         </div>
                         <group>
+                            <field name="approval_state" invisible="1"/>
                             <field name="name" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="product_tmpl_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="product_qty" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
