@@ -32,6 +32,7 @@ class product_appoval(models.Model):
     factory_id = fields.Many2one("factory.info",string="厂牌")
     rule = fields.Many2one('sequence.rule',string='编号规则')
 
+    technical = fields.Many2one('cowork.technical.analysis',string="技术分析单")
     search_product = fields.Char(u'检索产品')
 
     #检索产品

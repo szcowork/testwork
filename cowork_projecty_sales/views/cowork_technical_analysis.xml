@@ -7,6 +7,7 @@
 			<form string="技术性分析">
                 <header>
                     <button type="object" class="oe_highlight" string="草稿" name="to_draft" attrs="{'invisible':[('state','in',['draft','done','cancel'])]}"/>
+					<button type="object" class="oe_highlight" string="申请产品" name="action_to_approval" attrs="{'invisible':[('state','=','cancel')]}"/>
                     <button type="object" class="oe_highlight" string="提交审批" name="to_confirm" attrs="{'invisible':[('state','!=','draft')]}"/>
                     <button type="object" class="oe_highlight" string="确认" name="to_done" attrs="{'invisible':[('state','!=','confirm')]}"/>
                     <button type="object" class="oe_highlight" string="不通过" name="to_cancel" attrs="{'invisible':[('state','!=','confirm')]}"/>
@@ -14,6 +15,14 @@
                 </header>
 				<sheet>
 					<div class="oe_button_box" name="button_box">
+						<button name="action_approval_pro" type="object" class="oe_stat_button" icon="fa-clone" attrs="{'invisible': [('sale_no', '=', 0)]}">
+							<div class="o_form_field o_stat_info">
+								<span class="o_stat_value">
+									<field name="sale_no" string="申请产品数"/>
+								</span>
+								<span class="o_stat_text">申请产品数</span>
+							</div>
+						</button>
 					</div>
 					<h1>
 						<field name="name" readonly="1"/>

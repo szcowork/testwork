@@ -41,6 +41,47 @@ class cowork_technical_analysis(models.Model):
     project_difiiculty = fields.Many2one(comodel_name="cowork.project.difficulty", string="项目难度")
     state = fields.Selection(selection=[('draft','草稿'),('confirm','审批中'),('done','确认'),('cancel','取消')], default='draft', string="状态", track_visibility="onchange")
 
+    # approval_pro_ids
+    approval_pro_count = fields.Integer(u'申请产品数', compute='_compute_approval_pro')
+
+    @api.one
+    def _compute_sale_ids(self):
+        for record in self:
+            approval = self.env['product.appoval'].sudo().search([('technical','=',self.id)])
+            if approval:
+                record.approval_pro_count = len(approval)
+
+    def action_to_approval(self):
+        return {
+            'name': u'申请产品',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'product.appoval',
+            'view_id': self.env.ref('cowork_ms.view_form_einfo_approval').id,
+            'target': 'new',
+            'context': {
+                    'default_technical': self.id,
+            }
+        }
+
+    @api.multi
+    def action_approval_pro(self):
+        #  technical = self.env['product.appoval'].sudo().search(['technical','=',self.id])
+        #  if technical:
+        #      tech = []
+        #      for te in technical:
+        #          tech.append(te.id)
+        action = {
+            'name': u'申请产品',
+            'view_mode': 'tree,form',
+            'res_model': 'product.appoval',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('technical', '=', self.id)]
+        }
+        return action
+
     @api.model
     def create(self, vals): 
         if vals.get('name', 'New') == 'New':
