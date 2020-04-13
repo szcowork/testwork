@@ -34,6 +34,28 @@ class bom_appoval(models.Model):
         ('normal', '制造此产品'),
         ('phantom', '套件')],required=True, default='normal', store=True, string="BoM 类型")
     technical = fields.Many2one('cowork.technical.analysis',string="技术分析单")
+    bom_id = fields.Many2one('mrp.bom',string='物料清单')
+
+    @api.model
+    def on_approval(self):
+        if self.approval_state == 'pass':
+            bom = self.env['mrp.bom'].create({
+                'product_tmpl_id':self.product_tmpl_id.id,
+                'product_qty':self.product_qty,
+                'ready_to_produce':self.ready_to_produce,
+                'type':self.type,
+                })
+            self.write({'bom_id':bom.id})
+            for line in self.bom_line_ids:
+                bom.bom_line_ids.sudo().create({
+                    'bom_id':bom.id,
+                    'product_id':line.product_id,
+                    'product_qty':line.product_qty
+                })
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'reload',
+            }
 
 class bom_appoval_line(models.Model):
     _name = "bom.appoval.line"
@@ -41,5 +63,5 @@ class bom_appoval_line(models.Model):
 
     bom_id = fields.Many2one(comodel_name="bom.appoval", required=True, index=True, ondelete="cascade", store=True, string="父级 BoM")
     product_qty = fields.Float(required=True, default=1.0, string="数量")
-    product_tmpl_id = fields.Many2one(comodel_name="product.template",string="组件")
-    # product_uom_id = fields.Many2one(comodel_name="uom.uom", required=True, default=1, help="Unit of Measure (Unit of Measure) is the unit of measurement for the inventory control", store=True, string="Product Unit of Measure")
+    # product_tmpl_id = fields.Many2one(comodel_name="product.template",string="组件")
+    product_id = fields.Many2one(comodel_name="product.product",string="组件")
