@@ -75,14 +75,12 @@ class product_appoval(models.Model):
                         number_next_actual = ru.sequence_id.number_next_actual
                         no += ru.sequence_id.get_next_char(number_next_actual)
                 product = self.env['product.template'].sudo().search([('default_code','=',no)])
-                _logger.info(no)
-                _logger.info("_______________________")
-                _logger.info(product[0])
+                # _logger.info(no)
+                # _logger.info("_______________________")
+                # _logger.info(product[0])
                 if product:
                     record.search_product = product.name
                     # record.write({'search_product':product[0].name})
-                    _logger.info(product[0].name)
-                    _logger.info(record.search_product)
 
     # element = fields.Many2one("product.appoval")
     # other_element = fields.One2many("product.appoval","element",string=u'组件申请')
@@ -134,7 +132,9 @@ class product_appoval(models.Model):
                         number_next_actual = ru.sequence_id.number_next_actual
                         no += ru.sequence_id.get_next_char(number_next_actual)
                         sequence_ids.append(ru.sequence_id)
-                
+                product = self.env['product.template'].sudo().search([('default_code','=',no)])
+                if product:
+                    raise UserError(u'产品编号已存在！')
                 # has_partner = self.env['product.template'].sudo().search([('ref','=',no)])
                 # if has_partner:
                 #     raise UserError(u'产品编号已存在！')
