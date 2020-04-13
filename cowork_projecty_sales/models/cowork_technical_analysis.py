@@ -43,13 +43,47 @@ class cowork_technical_analysis(models.Model):
 
     # approval_pro_ids
     approval_pro_count = fields.Integer(u'申请产品数', compute='_compute_approval_pro')
+    approval_bom_count = fields.Integer(u'申请BOM表数', compute='_compute_approval_bom')
+
+    @api.one
+    def _compute_approval_bom(self):
+        for record in self:
+            approval = self.env['bom.appoval'].sudo().search([('technical','=',self.id)])
+            if approval:
+                record.approval_pro_count = len(approval)
+    
+    @api.multi
+    def action_approval_bom(self):
+        action = {
+            'name': u'申请BOM表',
+            'view_mode': 'tree,form',
+            'res_model': 'bom.appoval',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('technical', '=', self.id)]
+        }
+        return action
+
+    def action_to_approval_bom(self):
+        return {
+            'name': u'申请BOM表',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'bom.appoval',
+            'view_id': self.env.ref('cowork_ms.view_form_bom_appoval').id,
+            'target': 'new',
+            'context': {
+                    'default_technical': self.id,
+            }
+        }
 
     @api.one
     def _compute_approval_pro(self):
         for record in self:
             approval = self.env['product.appoval'].sudo().search([('technical','=',self.id)])
             if approval:
-                record.approval_pro_count = len(approval)
+                record.approval_bom_count = len(approval)
 
     def action_to_approval(self):
         return {
@@ -67,11 +101,6 @@ class cowork_technical_analysis(models.Model):
 
     @api.multi
     def action_approval_pro(self):
-        #  technical = self.env['product.appoval'].sudo().search(['technical','=',self.id])
-        #  if technical:
-        #      tech = []
-        #      for te in technical:
-        #          tech.append(te.id)
         action = {
             'name': u'申请产品',
             'view_mode': 'tree,form',

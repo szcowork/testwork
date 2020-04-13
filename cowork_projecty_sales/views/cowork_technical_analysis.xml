@@ -9,6 +9,7 @@
                     <button type="object" class="oe_highlight" string="草稿" name="to_draft" attrs="{'invisible':[('state','in',['draft','done','cancel'])]}"/>
 					<button type="object" class="oe_highlight" string="申请产品" name="action_to_approval" attrs="{'invisible':[('state','=','cancel')]}"/>
                     <button type="object" class="oe_highlight" string="提交审批" name="to_confirm" attrs="{'invisible':[('state','!=','draft')]}"/>
+					<button type="object" string="申请BOM表" name="action_to_approval_bom" attrs="{'invisible':[('state','=','cancel')]}"/>
                     <button type="object" class="oe_highlight" string="确认" name="to_done" attrs="{'invisible':[('state','!=','confirm')]}"/>
                     <button type="object" class="oe_highlight" string="不通过" name="to_cancel" attrs="{'invisible':[('state','!=','confirm')]}"/>
                     <field name="state" widget="statusbar"/>
@@ -21,6 +22,14 @@
 									<field name="approval_pro_count" string="申请产品数"/>
 								</span>
 								<span class="o_stat_text">申请产品数</span>
+							</div>
+						</button>
+						<button name="action_approval_bom" type="object" class="oe_stat_button" icon="fa-file-o" attrs="{'invisible': [('approval_bom_count', '=', 0)]}">
+							<div class="o_form_field o_stat_info">
+								<span class="o_stat_value">
+									<field name="approval_bom_count" string="申请BOM表数"/>
+								</span>
+								<span class="o_stat_text">申请BOM表数</span>
 							</div>
 						</button>
 					</div>

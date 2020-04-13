@@ -33,6 +33,7 @@ class bom_appoval(models.Model):
     type = fields.Selection([
         ('normal', '制造此产品'),
         ('phantom', '套件')],required=True, default='normal', store=True, string="BoM 类型")
+    technical = fields.Many2one('cowork.technical.analysis',string="技术分析单")
 
 class bom_appoval_line(models.Model):
     _name = "bom.appoval.line"
