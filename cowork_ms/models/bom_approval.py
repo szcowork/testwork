@@ -49,7 +49,7 @@ class bom_appoval(models.Model):
             for line in self.bom_line_ids:
                 bom.bom_line_ids.sudo().create({
                     'bom_id':bom.id,
-                    'product_id':line.product_id,
+                    'product_id':line.product_id.id,
                     'product_qty':line.product_qty
                 })
             return {
