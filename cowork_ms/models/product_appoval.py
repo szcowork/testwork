@@ -82,6 +82,8 @@ class product_appoval(models.Model):
                 if product:
                     record.search_product = product.name
                     # record.write({'search_product':product[0].name})
+                else:
+                    record.search_product = False
 
     # element = fields.Many2one("product.appoval")
     # other_element = fields.One2many("product.appoval","element",string=u'组件申请')

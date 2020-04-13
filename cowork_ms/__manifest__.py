@@ -32,7 +32,8 @@
       "views/product_appoval.xml",
  		"views/menu.xml",
       "views/rule.xml",
-      "views/template.xml"
+      "views/template.xml",
+      "views/bom_approval"
    ],
 
    "installable":True,

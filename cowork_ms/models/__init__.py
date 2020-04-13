@@ -9,3 +9,4 @@ from . import reimbursement_appoval
 from . import reimbursement_account
 from . import product_appoval
 from . import rule
+from . import bom_approval
