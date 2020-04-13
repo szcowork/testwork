@@ -33,7 +33,7 @@
  		"views/menu.xml",
       "views/rule.xml",
       "views/template.xml",
-      "views/bom_approval"
+      "views/bom_approval.xml"
    ],
 
    "installable":True,
