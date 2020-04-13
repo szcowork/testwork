@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record model="ir.ui.view" id="view_form_bom_appoval">
-        <field name="name">BOM 审批</field>
+        <field name="name">BOM申请单</field>
         <field name="model">bom.appoval</field>
         <field name="arch" type="xml">
-            <form string="BOM 审批">
+            <form string="BOM申请单">
                 <sheet>
                     <div id="o_employee_container">
                     <div id="o_employee_main">
@@ -38,10 +38,10 @@
     </record>
 
     <record model="ir.ui.view" id="view_tree_bom_appoval">
-        <field name="name">BOM 审批</field>
+        <field name="name">BOM申请单</field>
         <field name="model">bom.appoval</field>
         <field name="arch" type="xml">
-            <tree string="BOM 审批" default_order="write_date desc">
+            <tree string="BOM申请单" default_order="write_date desc">
                 <field name="name"/>
                 <field name="product_tmpl_id"/>
                 <field name="product_qty"/>
@@ -52,7 +52,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="action_bom_appoval">
-        <field name="name">BOM 审批</field>
+        <field name="name">BOM申请单</field>
         <field name="res_model">bom.appoval</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

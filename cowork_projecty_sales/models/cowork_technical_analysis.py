@@ -50,7 +50,7 @@ class cowork_technical_analysis(models.Model):
         for record in self:
             approval = self.env['bom.appoval'].sudo().search([('technical','=',self.id)])
             if approval:
-                record.approval_pro_count = len(approval)
+                record.approval_bom_count = len(approval)
     
     @api.multi
     def action_approval_bom(self):
@@ -83,7 +83,7 @@ class cowork_technical_analysis(models.Model):
         for record in self:
             approval = self.env['product.appoval'].sudo().search([('technical','=',self.id)])
             if approval:
-                record.approval_bom_count = len(approval)
+                record.approval_pro_count = len(approval)
 
     def action_to_approval(self):
         return {
