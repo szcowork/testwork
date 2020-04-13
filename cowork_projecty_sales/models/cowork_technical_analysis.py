@@ -45,7 +45,7 @@ class cowork_technical_analysis(models.Model):
     approval_pro_count = fields.Integer(u'申请产品数', compute='_compute_approval_pro')
 
     @api.one
-    def _compute_sale_ids(self):
+    def _compute_approval_pro(self):
         for record in self:
             approval = self.env['product.appoval'].sudo().search([('technical','=',self.id)])
             if approval:

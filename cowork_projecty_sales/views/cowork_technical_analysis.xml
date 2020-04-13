@@ -117,7 +117,7 @@
 				<field name="priority"/>
 				<field name="period"/>
 				<field name="person_count"/>
-				<field name="if_start"/>
+				<!-- <field name="if_start"/> -->
 			</tree>
 		</field>
 	</record>
