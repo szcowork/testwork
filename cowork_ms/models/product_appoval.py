@@ -79,8 +79,8 @@ class product_appoval(models.Model):
                 _logger.info("_______________________")
                 _logger.info(product[0])
                 if product:
-                    record.search_product = product[0].name
-                    record.write({'search_product':product[0].name})
+                    record.search_product = product.name
+                    # record.write({'search_product':product[0].name})
                     _logger.info(product[0].name)
                     _logger.info(record.search_product)
 
