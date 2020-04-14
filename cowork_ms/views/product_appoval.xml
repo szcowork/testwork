@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record model="ir.ui.view" id="view_form_einfo_approval">
-        <field name="name">产品申请单</field>
+        <field name="name">物料申请单</field>
         <field name="model">product.appoval</field>
         <field name="arch" type="xml">
-            <form string="产品申请单">
+            <form string="物料申请单">
                 <sheet>
 
                     <div id="o_employee_container">
@@ -57,10 +57,10 @@
     </record>
 
     <record model="ir.ui.view" id="view_tree_einfo_approval">
-        <field name="name">产品申请单</field>
+        <field name="name">物料申请单</field>
         <field name="model">product.appoval</field>
         <field name="arch" type="xml">
-            <tree string="产品申请单">
+            <tree string="物料申请单">
                 <field name="name"/>
                 <field name="reason"/>
                 <field name="start_approval_employee_id"/>
@@ -72,7 +72,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="action_einfo_approval">
-        <field name="name">产品申请单</field>
+        <field name="name">物料申请单</field>
         <field name="res_model">product.appoval</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

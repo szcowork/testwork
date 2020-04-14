@@ -29,7 +29,7 @@
 
         <menuitem name="面试评价单" id="kewo_mianshi_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_hire_check"/>
 
-        <!-- <menuitem name="产品申请单" id="kewo_product_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_einfo_approval"/> -->
+        <!-- <menuitem name="物料申请单" id="kewo_product_menuitem" parent="kewo_shenqing_menu_root" action="cowork_ms.action_einfo_approval"/> -->
 
         <!-- <menuitem name="费用报销" id="hrexpense_menuitem" parent="kewo_shenpi_menu_root" action="hr_expense.hr_expense_actions_my_unsubmitted"/> -->
         <menuitem name="报销申请" id="hrexpense_menuitem_remibursement" parent="kewo_shenpi_menu_root" action="cowork_ms.action_reimbursement_appoval"/>

@@ -46,6 +46,17 @@ class cowork_technical_analysis(models.Model):
     approval_bom_count = fields.Integer(u'申请BOM表数', compute='_compute_approval_bom')
 
     @api.one
+    def one_action_to_approval(self):
+        product = self.env['product.appoval'].sudo().search([('technical','=',self.id),('approval_state','=','draft')]) 
+        if product:
+            for pro in product:
+                pro.approval_state = 'approvaling'
+        bom = self.env['bom.appoval'].sudo().search([('technical','=',self.id),('approval_state','=','draft')])
+        if bom:
+            for bo in bom:
+                bo.approval_state = 'approvaling'
+
+    @api.one
     def _compute_approval_bom(self):
         for record in self:
             approval = self.env['bom.appoval'].sudo().search([('technical','=',self.id)])
