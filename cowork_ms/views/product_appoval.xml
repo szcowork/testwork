@@ -6,7 +6,6 @@
         <field name="arch" type="xml">
             <form string="物料申请单">
                 <sheet>
-
                     <div id="o_employee_container">
                      <div id="o_employee_main">
                       <group>
@@ -24,6 +23,7 @@
                             <field name="product_id" readonly='1'/>
                             <!-- <field name="product_code_template_widget" widget="code_generate_widget"/> -->
                             <field name="department" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="department_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="categ_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="factory_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <label for="rule" string="编号规则"/>
@@ -85,6 +85,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='barcode']" position="after">
                 <field name="department"/>
+                <field name="department_id"/>
                 <field name="factory_id"/>
             </xpath>
         </field>

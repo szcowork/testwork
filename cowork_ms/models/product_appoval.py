@@ -28,6 +28,7 @@ class product_appoval(models.Model):
     product_code_template_widget = fields.Text('编号规则', compute='_get_product_code_template_widget_JSON', default="???")
 
     department = fields.Many2one("department.info",string="使用部门!!!")
+    department_id = fields.Many2one("hr.department",string="使用部门")
     categ_id = fields.Many2one("product.category",string="产品种类")
     factory_id = fields.Many2one("factory.info",string="厂牌")
     rule = fields.Many2one('sequence.rule',string='编号规则')
@@ -199,9 +200,11 @@ class product_product(models.Model):
 
     department = fields.Many2one("department.info",string="使用部门!!!")
     factory_id = fields.Many2one("factory.info",string="厂牌")
+    department_id = fields.Many2one("hr.department",string="使用部门")
 
 class product_template(models.Model):
     _inherit = "product.template"
 
     department = fields.Many2one("department.info",string="使用部门!!!")
     factory_id = fields.Many2one("factory.info",string="厂牌")
+    department_id = fields.Many2one("hr.department",string="使用部门")
