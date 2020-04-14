@@ -27,7 +27,7 @@ class product_appoval(models.Model):
     product_id = fields.Many2one('product.template',string='产品')
     product_code_template_widget = fields.Text('编号规则', compute='_get_product_code_template_widget_JSON', default="???")
 
-    department = fields.Many2one("department.info",string="部门!!!")
+    department = fields.Many2one("department.info",string="部门!!!")##不适用
     department_id = fields.Many2one("hr.department",string="使用部门")
     categ_id = fields.Many2one("product.category",string="产品种类")
     factory_id = fields.Many2one("factory.info",string="厂牌")
