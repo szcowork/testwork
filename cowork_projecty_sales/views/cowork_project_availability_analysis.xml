@@ -31,7 +31,6 @@
                     <button type="object" class="oe_highlight" string="方案提交" name="sch2confirm" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','draft')]}"/>
                     <button type="object" class="oe_highlight" string="方案通过" name="sch2done" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
                     <button type="object" class="oe_highlight" string="方案不通过" name="sch2cancel" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
-
                     
                     <button string="实体销售" name="%(action_create_sale_order_new)d" type="action" class="oe_highlight"
                     attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
