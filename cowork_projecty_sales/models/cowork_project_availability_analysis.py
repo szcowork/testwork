@@ -43,6 +43,10 @@ class cowork_project_availability_analysis(models.Model):
             order = self.env['sale.order'].sudo().search([('analysis_id','=',self.id)])
             if order:
                 record.sale_count = len(order)
+
+    @api.multi
+    def action_to_sale(self):
+        pass
     
     @api.one
     def _compute_purchase_count(self):
