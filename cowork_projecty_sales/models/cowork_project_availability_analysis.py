@@ -70,6 +70,10 @@ class cowork_project_availability_analysis(models.Model):
             if order:
                 record.purchase_count = len(order)
 
+    @api.multi
+    def action_to_purchase(self):
+        pass
+
     def action_create_purchase_order_new(self):
         return {
             'name': u'采购订单',
