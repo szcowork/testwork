@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="action_create_sale_order_new" model="ir.actions.act_window">
+        <field name="name">报价单</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">form,tree,graph</field>
+    </record>
+    <record id="action_create_purchase_order_new" model="ir.actions.act_window">
+        <field name="name">报价单</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">form,tree,graph</field>
+    </record>
     <record model="ir.ui.view" id="view_form_cowork_project_availability_analysis">
         <field name="name">项目可行性分析</field>
         <field name="model">cowork.project.availability.analysis</field>
@@ -67,6 +77,20 @@
                             <field name="project_name"/>
                             <field name="budget_amount" widget="monetary"/>
                             <field name="count"/>
+                            <button string="实体销售" name="%(action_create_sale_order_new)d" type="action" class="oe_highlight"
+                            attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
+                            context="{'search_default_partner_id': partner_id,
+                                    'default_partner_id': partner_id,
+                                    'default_origin': name，
+                                    'default_analysis_id':self.id
+                                    }"/>
+                            <button string="物料采购" name="%(action_create_purchase_order_new)d" type="action" class="oe_highlight"
+                            attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
+                            context="{'search_default_partner_id': partner_id,
+                                    'default_partner_id': partner_id,
+                                    'default_origin': name，
+                                    'default_analysis_id':self.id
+                                    }"/>
                         </group>
                     </group>
                     <notebook>
