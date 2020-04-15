@@ -77,12 +77,20 @@
                             <field name="project_name"/>
                             <field name="budget_amount" widget="monetary"/>
                             <field name="count"/>
-                            <button string="实体销售" name="action_create_sale_order_new" type="action" class="oe_highlight"
+                            <button string="实体销售" name="%(action_create_sale_order_new)d" type="action" class="oe_highlight"
                             attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
-                            />
-                            <button string="物料采购" name="action_create_purchase_order_new" type="action" class="oe_highlight"
+                            context="{
+                                    'default_partner_id': partner_id,
+                                    'default_origin': name,
+                                    'default_analysis_id':active_id
+                                    }"/>
+                            <button string="物料采购" name="%(action_create_purchase_order_new)d" type="action" class="oe_highlight"
                             attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
-                            />
+                            context="{
+                                    'default_partner_id': partner_id,
+                                    'default_origin': name,
+                                    'default_analysis_id':active_id
+                                    }"/>
                         </group>
                     </group>
                     <notebook>
