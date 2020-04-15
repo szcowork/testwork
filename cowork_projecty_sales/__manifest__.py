@@ -14,7 +14,7 @@
     'category': 'Tools',
     'version': '1.0',
 
-    'depends': ['base','mail'],
+    'depends': ['base','mail','sale','purchase'],
 
     'data': [
         "views/cowork_project_availability_analysis.xml",
