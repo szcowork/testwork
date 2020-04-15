@@ -26,6 +26,7 @@
         "views/menu.xml",
         "data/cowork_project_difficulty.xml",
         "data/cowork_project_priority.xml",
+        "views/order.xml"
     ],
 
     'installable':True,
