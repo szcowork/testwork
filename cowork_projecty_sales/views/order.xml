@@ -10,7 +10,6 @@
             </xpath>
         </field>
     </record>
-
     <record model="ir.ui.view" id="purchase_order_inherit_cowork_form">
         <field name="name">purchase order inherit cowork</field>
         <field name="model">purchase.order</field>
