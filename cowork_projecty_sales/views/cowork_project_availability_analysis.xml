@@ -80,16 +80,12 @@
                             <button string="实体销售" name="%(action_create_sale_order_new)d" type="action" class="oe_highlight"
                             attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
                             context="{
-                                    'default_partner_id': partner_id,
-                                    'default_origin': name，
-                                    'default_analysis_id':active_id
+                                    'default_partner_id': partner_id
                                     }"/>
                             <button string="物料采购" name="%(action_create_purchase_order_new)d" type="action" class="oe_highlight"
                             attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
                             context="{
-                                    'default_partner_id': partner_id,
-                                    'default_origin': name，
-                                    'default_analysis_id':active_id
+                                    'default_partner_id': partner_id
                                     }"/>
                         </group>
                     </group>
