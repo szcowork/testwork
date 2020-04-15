@@ -56,7 +56,7 @@ class cowork_project_availability_analysis(models.Model):
             'view_mode': 'form',
             'res_model': 'sale.order',
             'view_id': self.env.ref('sale.view_order_form').id,
-            'target': 'new',
+            # 'target': 'new',
             'context': {
                     'default_technical': self.id,
                     'default_partner_id':self.partner_id.id,
@@ -78,7 +78,7 @@ class cowork_project_availability_analysis(models.Model):
             'view_mode': 'form',
             'res_model': 'purchase.order',
             'view_id': self.env.ref('purchase.purchase_order_form').id,
-            'target': 'new',
+            # 'target': 'new',
             'context': {
                     'default_technical': self.id,
                     'default_partner_id':self.partner_id.id,
