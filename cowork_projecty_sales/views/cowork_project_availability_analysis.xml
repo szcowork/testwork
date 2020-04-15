@@ -25,6 +25,22 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button name="action_to_sale" type="object" class="oe_stat_button" icon="fa-shopping-cart" attrs="{'invisible': [('sale_count', '=', 0)]}">
+							<div class="o_form_field o_stat_info">
+								<span class="o_stat_value">
+									<field name="sale_count" string="销售订单"/>
+								</span>
+								<span class="o_stat_text">销售订单</span>
+							</div>
+						</button>
+                        <button name="action_to_purchase" type="object" class="oe_stat_button" icon="fa-shopping-basket" attrs="{'invisible': [('purchase_count', '=', 0)]}">
+							<div class="o_form_field o_stat_info">
+								<span class="o_stat_value">
+									<field name="purchase_count" string="采购订单"/>
+								</span>
+								<span class="o_stat_text">采购订单</span>
+							</div>
+						</button>
                         <button type="object" class="oe_stat_button" icon="fa-gear" string="技术性分析" name="tc_ids"/>
                     </div>
                     <h1>
