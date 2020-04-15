@@ -46,22 +46,15 @@ class cowork_project_availability_analysis(models.Model):
 
     @api.multi
     def action_to_sale(self):
-        pass
-    
-    # def action_create_sale_order_new(self):
-    #     return {
-    #         'name': u'销售订单',
-    #         'type': 'ir.actions.act_window',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'res_model': 'sale.order',
-    #         'view_id': self.env.ref('sale.view_order_form').id,
-    #         # 'target': 'new',
-    #         'context': {
-    #                 'default_technical': self.id,
-    #                 'default_partner_id':self.partner_id.id,
-    #         }
-    #     }
+        action = {
+            'name': u'销售订单',
+            'view_mode': 'tree,form',
+            'res_model': 'sale.order',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('analysis_id', '=', self.id)]
+        }
+        return action
     
     @api.one
     def _compute_purchase_count(self):
@@ -72,7 +65,15 @@ class cowork_project_availability_analysis(models.Model):
 
     @api.multi
     def action_to_purchase(self):
-        pass
+        action = {
+            'name': u'采购订单',
+            'view_mode': 'tree,form',
+            'res_model': 'purchase.order',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('analysis_id', '=', self.id)]
+        }
+        return action
 
     # def action_create_purchase_order_new(self):
     #     return {
