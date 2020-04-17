@@ -166,6 +166,8 @@ class product_appoval(models.Model):
             'type':'product',
             'factory_id':self.factory_id.id})
             self.write({'product_id':product.id})
+            if self.analysis:
+                self.analysis.product_id = product.id
             return {
                 'type': 'ir.actions.client',
                 'tag': 'reload',
