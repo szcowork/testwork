@@ -161,10 +161,11 @@ class product_appoval(models.Model):
     def on_approval(self):
         if self.approval_state == 'pass':
             product = self.env['product.template'].create({'name':self.product_code,'default_code':self.product_code,
-            'department':self.department.id,
-            'categ_id':self.categ_id.id,
+            # 'department':self.department.id,
+            # 'categ_id':self.categ_id.id,
             'type':'product',
-            'factory_id':self.factory_id.id})
+            # 'factory_id':self.factory_id.id
+            })
             self.write({'product_id':product.id})
             if self.analysis:
                 self.analysis.product_id = product.id
