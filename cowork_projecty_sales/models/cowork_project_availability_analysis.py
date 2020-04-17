@@ -162,7 +162,6 @@ class cowork_project_availability_analysis(models.Model):
             'domain': [('id', 'in', tc_ids)],
         }
 
-    @api.one
     def action_to_product_approval(self):
         tc_ids = self.env['product.appoval'].search([
             ('analysis', '=', self.id),
