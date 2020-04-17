@@ -55,7 +55,7 @@
 						</group>
 					</group>
 					<group string="技术参数">
-						<!-- <notebook>
+						<notebook>
 							<field name="technical_id">
 								<tree editable="bottom">
 									<field name="efficiency_beat"/>
@@ -79,7 +79,7 @@
 									<field name="pneumatic_components_count"/>
 								</tree>
 							</field>
-						</notebook> -->
+						</notebook>
 						<!-- <group>
 							<label for="efficiency_beat"/>
 							<div class="o_row">
