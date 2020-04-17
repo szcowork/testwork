@@ -37,7 +37,7 @@ class product_appoval(models.Model):
     search_product = fields.Char(u'检索产品')
     analysis = fields.Many2one('cowork.project.availability.analysis',string="项目可行性分析单")
 
-    def action_confirm(self):
+    def action_confirm(self): ##写进项目分析
         if self.analysis:
             self.analysis.approval_pro = self.id
 
