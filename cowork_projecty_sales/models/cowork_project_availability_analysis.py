@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import logging
+_logger = logging.getLogger(__name__)
 
 class cowork_project_availability_analysis(models.Model):
     _name = "cowork.project.availability.analysis"
@@ -164,7 +166,8 @@ class cowork_project_availability_analysis(models.Model):
         tc_ids = self.env['product.appoval'].search([
             ('analysis', '=', self.id),
         ]).mapped('id')
-
+        _logger.info("???????//")
+        _logger.info(tc_ids)
         return {
             'name': "技术性分析",
             'type': 'ir.actions.act_window',
