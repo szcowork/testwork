@@ -147,7 +147,7 @@ class cowork_project_availability_analysis(models.Model):
         self.contract_state = 'cancel'
 
     # 查看技术方案
-    @api.one
+    # @api.one
     def tc_ids(self):
         _logger.info("???????//")
         tc_ids = self.env['cowork.technical.analysis'].search([
