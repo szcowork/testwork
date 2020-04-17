@@ -21,18 +21,18 @@
                             </div> -->
                             <field name="product_code" readonly='1'/>
                             <field name="product_id" readonly='1'/>
-                            <!-- <field name="product_code_template_widget" widget="code_generate_widget"/> -->
-                            <field name="department_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
+                            <field name="product_code_template_widget" widget="code_generate_widget"/>
+                            <!-- <field name="department_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="categ_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="factory_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <label for="rule" string="编号规则"/>
                             <div class="o_row">
                                 <field name="rule" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                                 <button  name="button_get_code"  string="生成" type="object" class="oe_highlight" attrs="{'invisible': [('approval_state', '!=', 'draft')]}"/>
-                            </div>
+                            </div> -->
                       </group>
                       <group>
-                        <field name="search_product" readonly="1"/>
+                        <!-- <field name="search_product" readonly="1"/> -->
                          <!-- widget="search_product_info" -->
                       </group>
                       <!-- <group>
