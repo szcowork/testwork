@@ -37,7 +37,21 @@ class cowork_project_availability_analysis(models.Model):
     sale_count = fields.Integer(u'销售订单', compute='_compute_sale_count')
     purchase_count = fields.Integer(u'采购订单', compute='_compute_purchase_count')
     approval_pro = fields.Many2one("product.appoval",string=u"成品申请单")
-    # product_id = fields.Many2one("product.template",string=u'产品',related='approval_pro.product_id')
+    product_id = fields.Many2one("product.template",string=u'产品')
+
+    def approval_finished_product(self):
+        return {
+            'name': u'申请产品',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'product.appoval',
+            'view_id': self.env.ref('cowork_ms.view_form_einfo_approval').id,
+            'target': 'new',
+            'context': {
+                    'default_analysis': self.id,
+            }
+        }
 
     @api.one
     def _compute_sale_count(self):

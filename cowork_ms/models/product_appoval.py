@@ -35,6 +35,11 @@ class product_appoval(models.Model):
 
     technical = fields.Many2one('cowork.technical.analysis',string="技术分析单")
     search_product = fields.Char(u'检索产品')
+    analysis = fields.Many2one('cowork.project.availability.analysis',string="项目可行性分析单")
+
+    def action_confirm(self):
+        if self.analysis:
+            self.analysis.approval_pro = self.id
 
     #检索产品
     @api.onchange('rule')
