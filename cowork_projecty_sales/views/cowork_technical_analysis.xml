@@ -55,7 +55,32 @@
 						</group>
 					</group>
 					<group string="技术参数">
-						<group>
+						<notebook>
+							<field name="technical_id">
+								<tree editable="bottom">
+									<field name="efficiency_beat"/>
+									<field name="robot_model_id"/>
+									<field name="robot_count"/>
+									<field name="plc_controller"/>
+									<field name="plc_controller_count"/>
+									<field name="module"/>
+									<field name="module_count"/>
+									<field name="sensor"/>
+									<field name="sensor_count"/>
+									<field name="cylinder"/>
+									<field name="cylinder_count"/>
+									<field name="fixture"/>
+									<field name="fixture_count"/>
+									<field name="motor"/>
+									<field name="motor_count"/>
+									<field name="ccd_vision"/>
+									<field name="ccd_vision_count"/>
+									<field name="pneumatic_components"/>
+									<field name="pneumatic_components_count"/>
+								</tree>
+							</field>
+						</notebook>
+						<!-- <group>
 							<label for="efficiency_beat"/>
 							<div class="o_row">
 								<field name="efficiency_beat"/>
@@ -72,7 +97,7 @@
 							<field name="motor"/>
 							<field name="ccd_vision"/>
 							<field name="pneumatic_components"/>
-						</group>
+						</group> -->
 					</group>
 					<hr/>
 					<group string="技术评估意见">
