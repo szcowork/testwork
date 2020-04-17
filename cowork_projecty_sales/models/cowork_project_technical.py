@@ -25,18 +25,18 @@ class cowork_project_technical(models.Model):
     # ccd_vision_count = fields.Float(u'CCD视觉数量')
     # pneumatic_components = fields.Many2one(comodel_name="product.product", string="气动元件")
     # pneumatic_components_count = fields.Float(u'气动元件数量')
-    # type = fields.Selection([(
-    #     ('robot_model_id',u'机器人型号'),
-    #     ('plc_controller',u'PLC控制器'),
-    #     ('module',u'模组'),
-    #     ('sensor',u'传感器'),
-    #     ('cylinder',u'气缸'),
-    #     ('fixture',u'治具'),
-    #     ('motor',u'电机配置'),
-    #     ('ccd_vision',u'CCD视觉'),
-    #     ('pneumatic_components',u'气动元件')
-    # )],string="类型")
+    type = fields.Selection([(
+        ('robot_model_id',u'机器人型号'),
+        ('plc_controller',u'PLC控制器'),
+        ('module',u'模组'),
+        ('sensor',u'传感器'),
+        ('cylinder',u'气缸'),
+        ('fixture',u'治具'),
+        ('motor',u'电机配置'),
+        ('ccd_vision',u'CCD视觉'),
+        ('pneumatic_components',u'气动元件')
+    )],string="类型")
     count = fields.Float(u'数量')
     product_id = fields.Many2one('product.product',string="物料")
 
-    technical = fields.Many2one("cowork.technical.analysis",string="技术分析单")
+    technical_id = fields.Many2one("cowork.technical.analysis",string="技术分析单")
