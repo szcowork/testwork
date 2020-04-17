@@ -55,7 +55,7 @@
 						</group>
 					</group>
 					<group string="技术参数">
-						<notebook>
+						<!-- <notebook>
 							<page>
 							<field name="technical_id">
 								<tree editable="bottom">
@@ -65,7 +65,7 @@
 								</tree>
 							</field>
 							</page>
-						</notebook>
+						</notebook> -->
 						<!-- <group>
 							<label for="efficiency_beat"/>
 							<div class="o_row">
