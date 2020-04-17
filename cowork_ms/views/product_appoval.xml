@@ -172,7 +172,7 @@
 	</record>
 
 
-    <record model="ir.ui.view" id="view_form_einfo_approval_2">
+    <!-- <record model="ir.ui.view" id="view_form_einfo_approval_2">
         <field name="name">物料申请单</field>
         <field name="model">product.appoval</field>
         <field name="arch" type="xml">
@@ -209,5 +209,5 @@
                 </footer>
             </form>
         </field>
-    </record>
+    </record> -->
 </odoo>

@@ -157,3 +157,16 @@ class cowork_project_availability_analysis(models.Model):
             'res_model': 'cowork.technical.analysis',
             'domain': [('id', 'in', tc_ids)],
         }
+
+    def action_to_product_approval(self):
+        tc_ids = self.env['product.appoval'].search([
+            ('analysis', '=', self.id),
+        ]).mapped('id')
+
+        return {
+            'name': "技术性分析",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'res_model': 'product.appoval',
+            'domain': [('id', 'in', tc_ids)],
+        }
