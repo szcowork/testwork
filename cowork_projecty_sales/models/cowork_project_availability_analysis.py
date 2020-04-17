@@ -36,6 +36,8 @@ class cowork_project_availability_analysis(models.Model):
     
     sale_count = fields.Integer(u'销售订单', compute='_compute_sale_count')
     purchase_count = fields.Integer(u'采购订单', compute='_compute_purchase_count')
+    approval_pro = fields.Many2one("product.appoval",string="成品申请单")
+    product_id = fields.Many2one("product.template",string=u'产品',related='approval_pro.product_id')
 
     @api.one
     def _compute_sale_count(self):
