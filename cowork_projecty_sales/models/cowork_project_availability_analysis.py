@@ -149,10 +149,11 @@ class cowork_project_availability_analysis(models.Model):
     # 查看技术方案
     @api.one
     def tc_ids(self):
+        _logger.info("???????//")
         tc_ids = self.env['cowork.technical.analysis'].search([
             ('project_availability_analysis_id', '=', self.id),
         ]).mapped('id')
-
+        _logger.info(tc_ids)
         return {
             'name': "技术性分析",
             'type': 'ir.actions.act_window',
@@ -166,8 +167,6 @@ class cowork_project_availability_analysis(models.Model):
         tc_ids = self.env['product.appoval'].search([
             ('analysis', '=', self.id),
         ]).mapped('id')
-        _logger.info("???????//")
-        _logger.info(tc_ids)
         return {
             'name': "技术性分析",
             'type': 'ir.actions.act_window',
