@@ -44,7 +44,7 @@ class cowork_technical_analysis(models.Model):
     # approval_pro_ids
     approval_pro_count = fields.Integer(u'申请产品数', compute='_compute_approval_pro')
     approval_bom_count = fields.Integer(u'申请BOM表数', compute='_compute_approval_bom')
-    # technical_id = fields.One2many("cowork.project.technical","technical",string="技术参数")
+    technical_id = fields.One2many("cowork.project.technical","technical",string="技术参数")
 
     @api.one
     def one_action_to_approval(self):
