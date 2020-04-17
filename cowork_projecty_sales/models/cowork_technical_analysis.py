@@ -41,7 +41,7 @@ class cowork_technical_analysis(models.Model):
     project_difiiculty = fields.Many2one(comodel_name="cowork.project.difficulty", string="项目难度")
     state = fields.Selection(selection=[('draft','草稿'),('confirm','审批中'),('done','确认'),('cancel','取消')], default='draft', string="状态", track_visibility="onchange")
 
-    # approval_pro_ids
+    
     approval_pro_count = fields.Integer(u'申请产品数', compute='_compute_approval_pro')
     approval_bom_count = fields.Integer(u'申请BOM表数', compute='_compute_approval_bom')
     technical_id = fields.One2many("cowork.project.technical","technical",string=u'术参数')
