@@ -89,10 +89,10 @@ class product_appoval(models.Model):
     # element = fields.Many2one("product.appoval")
     # other_element = fields.One2many("product.appoval","element",string=u'组件申请')
 
-    # @api.onchange('rule_id')
-    # def rule_onchange(self):
-    #     _logger.info('rule_onchange')
-    #     self.tem_code = '???'
+    @api.onchange('rule_id')
+    def rule_onchange(self):
+        _logger.info('rule_onchange')
+        self.tem_code = '???'
     @api.one
     def button_get_code(self):
         if self.rule:

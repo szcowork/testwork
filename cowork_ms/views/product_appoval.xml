@@ -14,11 +14,11 @@
                             <field name="start_approval_employee_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="job_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                             <field name="reason" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
-                            <!-- <label for="rule_id" string="编号类型"/>
+                            <label for="rule_id" string="编号类型"/>
                             <div class="o_row">
                                 <field name="rule_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
                                 <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight" attrs="{'invisible': [('approval_state', '!=', 'draft')]}"/>
-                            </div> -->
+                            </div>
                             <field name="product_code" readonly='1'/>
                             <field name="product_id" readonly='1'/>
                             <field name="product_code_template_widget" widget="code_generate_widget"/>
