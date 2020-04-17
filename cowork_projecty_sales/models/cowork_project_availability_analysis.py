@@ -145,6 +145,7 @@ class cowork_project_availability_analysis(models.Model):
         self.contract_state = 'cancel'
 
     # 查看技术方案
+    @api.one
     def tc_ids(self):
         tc_ids = self.env['cowork.technical.analysis'].search([
             ('project_availability_analysis_id', '=', self.id),
@@ -158,6 +159,7 @@ class cowork_project_availability_analysis(models.Model):
             'domain': [('id', 'in', tc_ids)],
         }
 
+    @api.one
     def action_to_product_approval(self):
         tc_ids = self.env['product.appoval'].search([
             ('analysis', '=', self.id),
