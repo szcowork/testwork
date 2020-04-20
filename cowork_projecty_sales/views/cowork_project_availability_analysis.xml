@@ -6,9 +6,9 @@
         <field name="view_mode">form,tree,graph</field>
     </record>
     <record id="action_create_purchase_order_new" model="ir.actions.act_window">
-        <field name="name">报价单</field>
-        <field name="res_model">purchase.order</field>
-        <field name="view_mode">form,tree,graph</field>
+        <field name="name">采购申请单</field>
+        <field name="res_model">ps.purchase.requisition</field>
+        <field name="view_mode">form,tree</field>
     </record>
     <record model="ir.ui.view" id="view_form_cowork_project_availability_analysis">
         <field name="name">项目可行性分析</field>
@@ -44,8 +44,6 @@
                     <button string="物料采购" name="%(action_create_purchase_order_new)d" type="action" class="oe_highlight"
                     attrs="{'invisible': [('scheme_state', '!=', 'done')]}"
                     context="{
-                            'default_partner_id': partner_id,
-                            'default_origin': name,
                             'default_analysis_id':active_id
                             }"/>
                     <field name="scheme_state" widget="statusbar"/>
@@ -65,7 +63,7 @@
 								<span class="o_stat_value">
 									<field name="purchase_count" string="采购订单"/>
 								</span>
-								<span class="o_stat_text">采购订单</span>
+								<span class="o_stat_text">采购申请</span>
 							</div>
 						</button>
                         <button type="object" class="oe_stat_button" icon="fa-gear" string="成品分析单" name="action_to_product_approval"/>
