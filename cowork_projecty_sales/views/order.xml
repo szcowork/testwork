@@ -10,12 +10,12 @@
             </xpath>
         </field>
     </record>
-    <record model="ir.ui.view" id="purchase_order_inherit_cowork_form">
-        <field name="name">purchase order inherit cowork</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <record model="ir.ui.view" id="ps_purchase_requisition_inherit_cowork_form">
+        <field name="name">ps purchase order inherit cowork</field>
+        <field name="model">ps.purchase.requisition</field>
+        <field name="inherit_id" ref="ps_purchase.ps_purchase_requisition_form_view_id "/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_ref']" position="after">
+            <xpath expr="//field[@name='create_uid']" position="after">
                 <field name="analysis_id" option="{'no_create_edit': True}"/>
             </xpath>
         </field>

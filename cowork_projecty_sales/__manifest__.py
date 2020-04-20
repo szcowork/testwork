@@ -14,7 +14,7 @@
     'category': 'Tools',
     'version': '1.0',
 
-    'depends': ['base','mail','sale','purchase','purchase_requisition'],
+    'depends': ['base','mail','sale','ps_purchase','purchase_requisition'],
 
     'data': [
         "views/cowork_project_availability_analysis.xml",
