@@ -54,15 +54,15 @@
 							<field name="if_proof_on_site"/>
 						</group>
 					</group>
-					<notebook string="技术参数">
-						<page>
-						<field name="technical_id">
-							<tree editable="bottom">
-								<field name="type"/>
-								<field name="product_id"/>
-								<field name="count"/>
-							</tree>
-						</field>
+					<notebook>
+						<page string="技术参数">
+							<field name="technical_id">
+								<tree editable="bottom">
+									<field name="type"/>
+									<field name="product_id"/>
+									<field name="count"/>
+								</tree>
+							</field>
 						</page>
 					</notebook>
 					<!-- <group string="技术参数"> -->
