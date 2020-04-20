@@ -150,7 +150,7 @@
     </record>
     <!-- <menuitem id="menu_factory_info" name="厂牌" parent="cowork_ms.menu_appoval_type" action="action_factory_info"/> -->
 
-    <record model="ir.ui.view" id="product_template_cowork_tree_view">
+    <!-- <record model="ir.ui.view" id="product_template_cowork_tree_view">
 		<field name="name">product.template.cowork.tree</field>
 		<field name="model">product.template</field>
 		<field name="inherit_id" ref="product.product_template_tree_view"/>
@@ -160,54 +160,13 @@
 				<field name="factory_id"/>
 			</field>
 		</field>
-	</record>
+	</record> -->
 	<record id="product_template_action_cowork" model="ir.actions.act_window">
 		<field name="name">物料</field>
 		<field name="res_model">product.template</field>
-		<!-- <field name="view_type">form</field> -->
 		<field name="search_view_id" ref="product_template_cowork_tree_view"/>
 		<field name="view_mode">tree</field>
 		<field name="context">{'default_type': 'product'}</field>
-		<!-- "search_default_consumable": 1,  -->
 	</record>
 
-
-    <!-- <record model="ir.ui.view" id="view_form_einfo_approval_2">
-        <field name="name">物料申请单</field>
-        <field name="model">product.appoval</field>
-        <field name="arch" type="xml">
-            <form string="物料申请单">
-                <sheet>
-                    <div id="o_employee_container">
-                     <div id="o_employee_main">
-                      <group>
-                            <field name="approval_state" invisible="1"/>
-                            <field name="name" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
-                            <field name="start_approval_employee_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
-                            <field name="job_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
-                            <field name="reason" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
-                            <label for="rule_id" string="编号类型"/>
-                            <div class="o_row">
-                                <field name="rule_id" attrs="{'readonly': [('approval_state', '!=', 'draft')]}"/>
-                                <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight" attrs="{'invisible': [('approval_state', '!=', 'draft')]}"/>
-                            </div>
-                            <field name="product_code" readonly='1'/>
-                            <field name="product_id" readonly='1'/>
-                      </group>
-                      <group>
-                      </group>
-                     </div>
-                     <div id="o_employee_right">
-                      <h4 class="o_org_chart_title mb16 mt0">审批流程</h4>
-                      <field name="tem_approval_field" widget="einfo_hr_org_chart"/>
-                     </div>
-                    </div>
-                </sheet>
-                <footer>
-                    <button name="action_confirm" string="保存" type="object" class="btn-primary"/>
-                    <button string="取消" class="btn-default" special="cancel" />
-                </footer>
-            </form>
-        </field>
-    </record> -->
 </odoo>
