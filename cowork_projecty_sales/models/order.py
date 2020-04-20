@@ -9,7 +9,7 @@ class sale_order(models.Model):
 
     analysis_id = fields.Many2one("cowork.project.availability.analysis",string=u'项目可行性分析')
 
-class ps_purchase_requisition(models.Model):
-    _inherit = 'ps.purchase.requisition'
+# class ps_purchase_requisition(models.Model):
+#     _inherit = 'ps.purchase.requisition'
 
-    analysis_id = fields.Many2one("cowork.project.availability.analysis",string=u'项目可行性分析')
+#     analysis_id = fields.Many2one("cowork.project.availability.analysis",string=u'项目可行性分析')
