@@ -168,7 +168,21 @@ class product_appoval(models.Model):
             })
             self.write({'product_id':product.id})
             if self.analysis:
+                technical = self.env['cowork.technical.analysis'].sudo().search([('project_availability_analysis_id','=',self.analysis.id),('state','=','done')])
+                bom = self.env['mrp.bom'].create({
+                    'product_tmpl_id':product.id,
+                    'product_qty':1.0,
+                    })
+
+                for tech in technical[0].technical_id:
+                    bom.bom_line_ids.sudo().create({
+                        'bom_id':bom.id,
+                        'product_id':tech.product_id.id,
+                        'product_qty':tech.count
+                    })
+
                 self.analysis.product_id = product.id
+
             return {
                 'type': 'ir.actions.client',
                 'tag': 'reload',
