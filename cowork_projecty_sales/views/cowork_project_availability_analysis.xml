@@ -81,7 +81,7 @@
                         <group>
                             <field name="ptype" widget="radio" options="{'horizontal': true}"/>
                             <!-- <field name="approval_pro"/> -->
-                            <field name="product_id" readonly="1" string="成品"/>
+                            <field name="product_id" readonly="1" string="成品"/> 
                         </group>
                     </group>
                     <group string="客户信息">
