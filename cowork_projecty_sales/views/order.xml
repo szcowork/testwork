@@ -10,7 +10,7 @@
             </xpath>
         </field>
     </record>
-    <record model="ir.ui.view" id="ps_purchase_requisition_inherit_cowork_form_1">
+    <record model="ir.ui.view" id="ps_purchase_requisition_inherit_cowork_form">
         <field name="name">ps purchase order inherit cowork</field>
         <field name="model">ps.purchase.requisition</field>
         <field name="inherit_id" ref="ps_purchase.ps_purchase_requisition_form_view_id"/>
