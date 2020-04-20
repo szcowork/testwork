@@ -6,7 +6,7 @@
     <menuitem name="申请单" id="kewo_apply_menuitem" parent="menu_cowork_projecty_sales_root" sequence="3"/>
         <menuitem name="物料" id="kewo_product_menuitem_wuliao" parent="kewo_apply_menuitem" action="cowork_ms.product_template_action_cowork" />
         <menuitem name="物料申请单" id="kewo_product_menuitem_1" parent="kewo_apply_menuitem" action="cowork_ms.action_einfo_approval" />
-        <menuitem name="BOM申请单" id="kewo_bom_menuitem_1" parent="kewo_apply_menuitem" action="cowork_ms.action_bom_appoval" />
+        <!-- <menuitem name="BOM申请单" id="kewo_bom_menuitem_1" parent="kewo_apply_menuitem" action="cowork_ms.action_bom_appoval" /> -->
 
     <menuitem id="menu_cowork_projecty_sales_config" name="设置" parent="menu_cowork_projecty_sales_root" sequence="4"/>
     <menuitem id="menu_cowork_project_difficulty" name="项目难度" parent="menu_cowork_projecty_sales_config" action="action_cowork_project_difficulty"/>
