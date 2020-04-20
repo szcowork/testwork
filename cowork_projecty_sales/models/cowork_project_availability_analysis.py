@@ -77,16 +77,16 @@ class cowork_project_availability_analysis(models.Model):
     @api.one
     def _compute_purchase_count(self):
         for record in self:
-            order = self.env['purchase.order'].sudo().search([('analysis_id','=',self.id)])
+            order = self.env['ps.purchase.requisition'].sudo().search([('analysis_id','=',self.id)])
             if order:
                 record.purchase_count = len(order)
 
     @api.multi
     def action_to_purchase(self):
         action = {
-            'name': u'采购订单',
+            'name': u'采购申请',
             'view_mode': 'tree,form',
-            'res_model': 'purchase.order',
+            'res_model': 'ps.purchase.requisition',
             'view_id': False,
             'type': 'ir.actions.act_window',
             'domain': [('analysis_id', '=', self.id)]
