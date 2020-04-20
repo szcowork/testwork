@@ -7,10 +7,10 @@
 			<form string="技术性分析">
                 <header>
                     <button type="object" class="oe_highlight" string="草稿" name="to_draft" attrs="{'invisible':[('state','in',['draft','done','cancel'])]}"/>
-					<button type="object" class="oe_highlight" string="申请物料" name="action_to_approval" attrs="{'invisible':[('state','in',('draft','confirm'))]}"/>
+					<button type="object" class="oe_highlight" string="申请物料" name="action_to_approval" attrs="{'invisible':[('state','not in',('draft','confirm'))]}"/>
                     <button type="object" class="oe_highlight" string="提交审批" name="to_confirm" attrs="{'invisible':[('state','!=','draft')]}"/>
 					<!-- <button type="object" string="申请BOM表" name="action_to_approval_bom" attrs="{'invisible':[('state','=','cancel')]}"/> -->
-					<button type="object" string="一键申请" name="one_action_to_approval" attrs="{'invisible':[('state','in',('draft','confirm'))]}"/>
+					<button type="object" string="一键申请" name="one_action_to_approval" attrs="{'invisible':[('state','not in',('draft','confirm'))]}"/>
                     <button type="object" class="oe_highlight" string="确认" name="to_done" attrs="{'invisible':[('state','!=','confirm')]}"/>
                     <button type="object" class="oe_highlight" string="不通过" name="to_cancel" attrs="{'invisible':[('state','!=','confirm')]}"/>
                     <field name="state" widget="statusbar"/>
