@@ -25,6 +25,7 @@ class cowork_project_technical(models.Model):
     # ccd_vision_count = fields.Float(u'CCD视觉数量')
     # pneumatic_components = fields.Many2one(comodel_name="product.product", string="气动元件")
     # pneumatic_components_count = fields.Float(u'气动元件数量')
+    
     type = fields.Selection([
         ('robot_model_id',u'机器人型号'),
         ('plc_controller',u'PLC控制器'),
