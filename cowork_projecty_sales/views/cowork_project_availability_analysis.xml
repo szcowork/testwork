@@ -67,6 +67,7 @@
 							</div>
 						</button>
                         <button type="object" class="oe_stat_button" icon="fa-gear" string="成品分析单" name="action_to_product_approval" attrs="{'invisible':[('product_id','=',False)]}"/>
+                        
                         <button type="object" class="oe_stat_button" icon="fa-gear" string="技术性分析" name="tc_ids"/>
                     </div>
                     <h1>
