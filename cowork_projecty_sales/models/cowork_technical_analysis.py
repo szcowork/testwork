@@ -52,6 +52,7 @@ class cowork_technical_analysis(models.Model):
         if product:
             for pro in product:
                 pro.approval_state = 'approvaling'
+                
         # bom = self.env['bom.appoval'].sudo().search([('technical','=',self.id),('approval_state','=','draft')])
         # if bom:
         #     for bo in bom:
