@@ -54,9 +54,20 @@
 							<field name="if_proof_on_site"/>
 						</group>
 					</group>
-					<group string="技术参数">
-						<!-- <notebook> -->
-							<!-- <page> -->
+					<notebook string="技术参数">
+						<page>
+						<field name="technical_id">
+							<tree editable="bottom">
+								<field name="type"/>
+								<field name="product_id"/>
+								<field name="count"/>
+							</tree>
+						</field>
+						</page>
+					</notebook>
+					<!-- <group string="技术参数"> -->
+						<!-- <notebook>
+							<page>
 							<field name="technical_id">
 								<tree editable="bottom">
 									<field name="type"/>
@@ -64,8 +75,8 @@
 									<field name="count"/>
 								</tree>
 							</field>
-							<!-- </page> -->
-						<!-- </notebook> -->
+							</page>
+						</notebook> -->
 						<!-- <group>
 							<label for="efficiency_beat"/>
 							<div class="o_row">
@@ -84,7 +95,7 @@
 							<field name="ccd_vision"/>
 							<field name="pneumatic_components"/>
 						</group> -->
-					</group>
+					<!-- </group> -->
 					<hr/>
 					<group string="技术评估意见">
 						<group>
