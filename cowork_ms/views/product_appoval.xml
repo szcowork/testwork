@@ -77,18 +77,17 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="product_product_ext_form_cowork" model="ir.ui.view">
+    <!-- <record id="product_product_ext_form_cowork" model="ir.ui.view">
         <field name="name">product_extended.cowork.form.view</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_only_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='barcode']" position="after">
-                <!-- <field name="department"/> -->
                 <field name="department_id"/>
                 <field name="factory_id"/>
             </xpath>
         </field>
-    </record>
+    </record> -->
 
     <record model="ir.ui.view" id="view_form_department_info">
         <field name="name">部门信息</field>
