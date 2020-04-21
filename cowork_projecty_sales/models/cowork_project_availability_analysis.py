@@ -40,7 +40,7 @@ class cowork_project_availability_analysis(models.Model):
     purchase_count = fields.Integer(u'采购订单', compute='_compute_purchase_count')
     # approval_pro = fields.Many2one("product.appoval",string=u"成品申请单")
     product_id = fields.Many2one("product.template",string=u'产品')
-    user_id = fields.Many2one('res.users',string='创建人',default=lambda self: self.env.user)
+    user_id = fields.Many2one('res.users',string='创建人',default=lambda self: self.env.user)#创建人
 
     def approval_finished_product(self):
         return {
