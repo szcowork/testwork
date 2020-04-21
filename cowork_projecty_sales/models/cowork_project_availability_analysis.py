@@ -10,7 +10,7 @@ class cowork_project_availability_analysis(models.Model):
     _inherit = ['mail.thread']
 
     name = fields.Char(string="单号", default="New")
-    user_id = fields.Many2one(comodel_name="hr.employee", track_visibility="onchange", string="填表人")
+    employee_id = fields.Many2one(comodel_name="hr.employee", track_visibility="onchange", string="填表人")
     apply_date = fields.Date(default=fields.Date.today(), string="接案日期")
     ptype = fields.Selection(selection=[('standard', '标准设备'), ('nonstandard', '非标设备')], default="standard", string="项目类型")
     partner_id = fields.Many2one(comodel_name="res.partner", string="客户名称")
@@ -40,6 +40,7 @@ class cowork_project_availability_analysis(models.Model):
     purchase_count = fields.Integer(u'采购订单', compute='_compute_purchase_count')
     # approval_pro = fields.Many2one("product.appoval",string=u"成品申请单")
     product_id = fields.Many2one("product.template",string=u'产品')
+    user_id = fields.Many2one('res.users',string='创建人',default=lambda self: self.env.user)
 
     def approval_finished_product(self):
         return {
