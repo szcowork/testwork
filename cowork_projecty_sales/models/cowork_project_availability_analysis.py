@@ -41,6 +41,7 @@ class cowork_project_availability_analysis(models.Model):
     product_id = fields.Many2one("product.template",string=u'产品')
     user_id = fields.Many2one('res.users',string='创建人',default=lambda self: self.env.user)
 
+
     # def approval_finished_product(self):
     #     return {
     #         'name': u'申请产品',
