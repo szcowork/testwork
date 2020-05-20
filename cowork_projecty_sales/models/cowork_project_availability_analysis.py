@@ -34,7 +34,6 @@ class cowork_project_availability_analysis(models.Model):
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
 
     contract_state = fields.Selection(selection=[('draft','草稿'),('merchant confirm','商务审批中'),('legal confirm','法务审批中'),('confirm','最终审批中'),('done','确认'),('cancel','取消')], default='draft', string="合同审批状态", track_visibility="onchange")
-    scheme_state = fields.Selection(selection=[('draft','草稿'),('confirm','方案审批中'),('done','方案通过'),('cancel','方案不通过')], default='draft', string="方案审批状态", track_visibility="onchange")
     
     sale_count = fields.Integer(u'销售订单', compute='_compute_sale_count')
     purchase_count = fields.Integer(u'采购订单', compute='_compute_purchase_count')
@@ -122,16 +121,6 @@ class cowork_project_availability_analysis(models.Model):
             'if_nonstandard_scheme': True if self.ptype == 'nonstandard' else False,
             'if_nonstandard_quote': True if self.ptype == 'nonstandard' else False,
         })
-
-    # 方案流审批动作
-    def sch2draft(self):
-        self.scheme_state = 'draft'
-    def sch2confirm(self):
-        self.scheme_state = 'confirm'
-    def sch2done(self):
-        self.scheme_state = 'done'
-    def sch2cancel(self):
-        self.scheme_state = 'cancel'
         
     # 合同流审批动作
     def to_draft(self):

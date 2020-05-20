@@ -26,8 +26,7 @@
                     <hr/>
                     <field name="contract_state" widget="statusbar"/>
                 </header>
-                <header>
-                    <button type="object" class="oe_highlight" string="方案驳回草稿状态" name="sch2draft" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
+                <!-- <header>
                     <button type="object" class="oe_highlight" string="方案提交" name="sch2confirm" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','draft')]}"/>
                     <button type="object" class="oe_highlight" string="方案通过" name="sch2done" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
                     <button type="object" class="oe_highlight" string="方案不通过" name="sch2cancel" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('scheme_state','!=','confirm')]}"/>
@@ -47,7 +46,7 @@
                             'default_analysis_id':active_id
                             }"/>
                     <field name="scheme_state" widget="statusbar"/>
-                </header>
+                </header> -->
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_to_sale" type="object" class="oe_stat_button" icon="fa-shopping-cart" attrs="{'invisible': [('sale_count', '=', 0)]}">
