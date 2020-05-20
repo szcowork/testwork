@@ -17,14 +17,14 @@
                 </header>
 				<sheet>
 					<div class="oe_button_box" name="button_box">
-						<button name="action_approval_pro" type="object" class="oe_stat_button" icon="fa-clone" attrs="{'invisible': [('approval_pro_count', '=', 0)]}">
+						<!-- <button name="action_approval_pro" type="object" class="oe_stat_button" icon="fa-clone" attrs="{'invisible': [('approval_pro_count', '=', 0)]}">
 							<div class="o_form_field o_stat_info">
 								<span class="o_stat_value">
 									<field name="approval_pro_count" string="申请物料数"/>
 								</span>
 								<span class="o_stat_text">申请物料数</span>
 							</div>
-						</button>
+						</button> -->
 						<!-- <button name="action_approval_bom" type="object" class="oe_stat_button" icon="fa-file-o" attrs="{'invisible': [('approval_bom_count', '=', 0)]}">
 							<div class="o_form_field o_stat_info">
 								<span class="o_stat_value">
