@@ -57,8 +57,8 @@
 					<group>
 						<field name="technical_id">
 							<tree editable="bottom">
-								<field name="type"/>
-								<field name="product_id"/>
+								<field name="categ_id"/>
+								<field name="product_id" domain="[('categ_id','=',categ_id)]"/>
 								<field name="count"/>
 							</tree>
 						</field>
