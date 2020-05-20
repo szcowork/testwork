@@ -111,7 +111,7 @@
                             <label for="abs" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales"/>
                             <div class="o_row" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales">
                                 <field name="abs"/>
-                                <button type="object" class="oe_highlight" string="方案直接通过" name="sch2done" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('abs','!=',True)]}"/>
+                                <!-- <button type="object" class="oe_highlight" string="方案直接通过" name="sch2done" groups="cowork_projecty_sales.access_group_ceo_in_cowork_projecty_sales" attrs="{'invisible':[('abs','!=',True)]}"/> -->
                             </div>
                         </group>
                         <group attrs="{'invisible':[('tech_analysis_id','=',False)]}">
