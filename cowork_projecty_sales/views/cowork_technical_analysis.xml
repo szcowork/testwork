@@ -110,7 +110,6 @@
 				<field name="project_availability_analysis_id"/>
 				<field name="industry"/>
 				<field name="sample_name"/>
-				<field name="pneumatic_components"/>
 				<field name="internal_code"/>
 				<field name="internal_name"/>
 				<field name="project_difiiculty"/>
@@ -132,7 +131,6 @@
 				<field name="project_availability_analysis_id"/>
 				<field name="industry"/>
 				<field name="sample_name" filter_domain="[('sample_name','ilike',self)]"/>
-				<field name="pneumatic_components"/>
 				<field name="internal_code" filter_domain="[('internal_code','ilike',self)]"/>
 				<field name="internal_name" filter_domain="[('internal_name','ilike',self)]"/>
 				<field name="priority"/>
