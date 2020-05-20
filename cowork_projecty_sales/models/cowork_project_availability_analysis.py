@@ -38,23 +38,22 @@ class cowork_project_availability_analysis(models.Model):
     
     sale_count = fields.Integer(u'销售订单', compute='_compute_sale_count')
     purchase_count = fields.Integer(u'采购订单', compute='_compute_purchase_count')
-    # approval_pro = fields.Many2one("product.appoval",string=u"成品申请单")
     product_id = fields.Many2one("product.template",string=u'产品')
-    user_id = fields.Many2one('res.users',string='创建人',default=lambda self: self.env.user)#创建人
+    user_id = fields.Many2one('res.users',string='创建人',default=lambda self: self.env.user)
 
-    def approval_finished_product(self):
-        return {
-            'name': u'申请产品',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'product.appoval',
-            'view_id': self.env.ref('cowork_ms.view_form_einfo_approval').id,
-            'target': 'new',
-            'context': {
-                    'default_analysis': self.id,
-            }
-        }
+    # def approval_finished_product(self):
+    #     return {
+    #         'name': u'申请产品',
+    #         'type': 'ir.actions.act_window',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'product.appoval',
+    #         'view_id': self.env.ref('cowork_ms.view_form_einfo_approval').id,
+    #         'target': 'new',
+    #         'context': {
+    #                 'default_analysis': self.id,
+    #         }
+    #     }
 
     @api.one
     def _compute_sale_count(self):
@@ -161,14 +160,14 @@ class cowork_project_availability_analysis(models.Model):
             'domain': [('id', 'in', tc_ids)],
         }
 
-    def action_to_product_approval(self):
-        tc_ids = self.env['product.appoval'].search([
-            ('analysis', '=', self.id),
-        ]).mapped('id')
-        return {
-            'name': "成品申请",
-            'type': 'ir.actions.act_window',
-            'view_mode': 'tree,form',
-            'res_model': 'product.appoval',
-            'domain': [('id', 'in', tc_ids)],
-        }
+    # def action_to_product_approval(self):
+    #     tc_ids = self.env['product.appoval'].search([
+    #         ('analysis', '=', self.id),
+    #     ]).mapped('id')
+    #     return {
+    #         'name': "成品申请",
+    #         'type': 'ir.actions.act_window',
+    #         'view_mode': 'tree,form',
+    #         'res_model': 'product.appoval',
+    #         'domain': [('id', 'in', tc_ids)],
+    #     }

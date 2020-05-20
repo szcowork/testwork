@@ -87,7 +87,7 @@
                     </group>
                     <group string="客户信息">
                         <group>
-                            <field name="partner_id"/>
+                            <field name="partner_id" domain="[('customer','=',True)]"/>
                             <field name="ctype" widget="radio" options="{'horizontal': true}"/>
                             <field name="address"/>
                             <field name="contact_id" domain="[('parent_id','=',partner_id)]"/>

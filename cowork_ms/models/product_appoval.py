@@ -33,13 +33,13 @@ class product_appoval(models.Model):
     factory_id = fields.Many2one("factory.info",string="厂牌")
     rule = fields.Many2one('sequence.rule',string='编号规则')
 
-    technical = fields.Many2one('cowork.technical.analysis',string="技术分析单")
+    # technical = fields.Many2one('cowork.technical.analysis',string="技术分析单")
     search_product = fields.Char(u'检索产品')
-    analysis = fields.Many2one('cowork.project.availability.analysis',string="项目可行性分析单")
+    # analysis = fields.Many2one('cowork.project.availability.analysis',string="项目可行性分析单")
 
-    def action_confirm(self): ##写进项目分析
-        if self.analysis:
-            self.analysis.approval_pro = self.id
+    # def action_confirm(self): ##写进项目分析
+    #     if self.analysis:
+    #         self.analysis.approval_pro = self.id
 
     #检索产品
     @api.onchange('rule')
@@ -157,36 +157,36 @@ class product_appoval(models.Model):
         else:
             raise ValidationError(u'请选择编号规则!')
 
-    @api.model
-    def on_approval(self):
-        if self.approval_state == 'pass':
-            product = self.env['product.template'].create({'name':self.product_code,'default_code':self.product_code,
-            # 'department':self.department.id,
-            # 'categ_id':self.categ_id.id,
-            'type':'product',
-            # 'factory_id':self.factory_id.id
-            })
-            self.write({'product_id':product.id})
-            if self.analysis:
-                technical = self.env['cowork.technical.analysis'].sudo().search([('project_availability_analysis_id','=',self.analysis.id),('state','=','done')])
-                bom = self.env['mrp.bom'].create({
-                    'product_tmpl_id':product.id,
-                    'product_qty':1.0,
-                    })
+    # @api.model
+    # def on_approval(self):
+    #     if self.approval_state == 'pass':
+    #         product = self.env['product.template'].create({'name':self.product_code,'default_code':self.product_code,
+    #         # 'department':self.department.id,
+    #         # 'categ_id':self.categ_id.id,
+    #         'type':'product',
+    #         # 'factory_id':self.factory_id.id
+    #         })
+    #         self.write({'product_id':product.id})
+    #         if self.analysis:
+    #             technical = self.env['cowork.technical.analysis'].sudo().search([('project_availability_analysis_id','=',self.analysis.id),('state','=','done')])
+    #             bom = self.env['mrp.bom'].create({
+    #                 'product_tmpl_id':product.id,
+    #                 'product_qty':1.0,
+    #                 })
 
-                for tech in technical[0].technical_id:
-                    bom.bom_line_ids.sudo().create({
-                        'bom_id':bom.id,
-                        'product_id':tech.product_id.id,
-                        'product_qty':tech.count
-                    })
+    #             for tech in technical[0].technical_id:
+    #                 bom.bom_line_ids.sudo().create({
+    #                     'bom_id':bom.id,
+    #                     'product_id':tech.product_id.id,
+    #                     'product_qty':tech.count
+    #                 })
 
-                self.analysis.product_id = product.id
+    #             self.analysis.product_id = product.id
 
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'reload',
-            }
+    #         return {
+    #             'type': 'ir.actions.client',
+    #             'tag': 'reload',
+    #         }
 
     @api.multi
     def button_mark_done(self):
