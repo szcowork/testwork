@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="cowork.project.difficulty" id="high">
+        <field name="name">高</field>
+    </record>
+    <record model="cowork.project.difficulty" id="middle">
+        <field name="name">中</field>
+    </record>
+    <record model="cowork.project.difficulty" id="low">
+        <field name="name">低</field>
+    </record>
+    <record model="cowork.project.difficulty" id="impossible">
+        <field name="name">不可能</field>
+    </record>
+</odoo>

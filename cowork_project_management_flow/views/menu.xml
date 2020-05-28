@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_cowork_project_management_flow_root" name="柯沃项目管理体系流程" web_icon="cowork_project_management_flow,static/description/einfo-tech.png"/>
+    <menuitem id="menu_cowork_project_apply" name="立项申请" parent="menu_cowork_project_management_flow_root" sequence="1" action="action_cowork_project_apply"/>
+    <menuitem id="menu_cowork_project_estimate" name="项目评估" parent="menu_cowork_project_management_flow_root" sequence="2" action="action_cowork_project_estimate"/>
+    
+    <menuitem id="menu_cowork_scheme_preliminary_root" name="项目方案" parent="menu_cowork_project_management_flow_root" sequence="3"/>
+    <menuitem id="menu_cowork_scheme_preliminary" name="项目初步方案" parent="menu_cowork_scheme_preliminary_root" sequence="1" action="action_cowork_scheme_preliminary"/>
+    <!-- <menuitem id="menu_cowork_cost_material" name="物料成本行" parent="menu_cowork_scheme_preliminary_root" sequence="2" action="action_cowork_cost_material"/> -->
+    <!-- <menuitem id="menu_cowork_cost_material_detail_line" name="组件物料成本行" parent="menu_cowork_scheme_preliminary_root" sequence="1" action="action_cowork_cost_material_detail_line"/> -->
+    <menuitem id="menu_cowork_quote_order" name="项目报价单" parent="menu_cowork_scheme_preliminary_root" sequence="3" action="action_cowork_quote_order"/>
+
+    
+    <menuitem id="menu_cowork_settings" name="配置" parent="menu_cowork_project_management_flow_root"/>
+    <menuitem id="menu_cowork_project_priority" name="项目优先级" parent="menu_cowork_settings" action="action_cowork_project_priority"/>
+    <menuitem id="menu_cowork_project_difficulty" name="项目难度" parent="menu_cowork_settings" action="action_cowork_project_difficulty"/>
+    <menuitem id="menu_cowork_material_class" name="物料分类" parent="menu_cowork_settings" action="action_cowork_material_class"/>
+    <menuitem id="menu_cowork_material_category" name="物料项目" parent="menu_cowork_settings" action="action_cowork_material_category"/>
+    <menuitem id="menu_product_brand" name="品牌" parent="menu_cowork_settings" action="action_product_brand"/>
+</odoo>

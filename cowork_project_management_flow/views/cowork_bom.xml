@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record model="ir.ui.view" id="view_form_cowork_scheme_preliminary_inherit">
+        <field name="name">cowork.scheme.preliminary.inherit</field>
+        <field name="model">cowork.scheme.preliminary</field>
+        <field name="inherit_id" ref="cowork_project_management_flow.view_form_cowork_scheme_preliminary"/>
+        <field name="arch" type="xml">
+            <data>
+                <!-- <xpath expr="//button[@name='create_quote']" position="after">
+                    <button name="action_to_bom" string="物料方案" type="object" class="oe_highlight" states="business"/>
+                </xpath> -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <!-- <button type="object" class="oe_stat_button" icon="fa-bars" string="物料方案" name="button_material_scheme"/> -->
+                    <button type="object" class="oe_stat_button" icon="fa-briefcase" string="项目报价" name="button_to_requisition" attrs="{'invisible':[('quote_id','=',False)]}"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_form_cowork_bom">
+        <field name="name">物料方案</field>
+        <field name="model">cowork.bom</field>
+        <field name="arch" type="xml">
+            <form string="物料方案">
+                <header>
+                    <button name="get_material_info" string="获取组件信息" type="object" class="oe_highlight"/>
+                    <button name="action_to_requisition" string="采购申请" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name" readonly="1"/>
+                    </group>
+                    <group>
+                        <!-- <field name="material_details_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="count"/>
+                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑组件"/>
+                            </tree>
+                        </field> -->
+                        <field name="material_cost_details_lines">
+                            <tree editable="bottom">
+                                <field name="class_id"/>
+                                <field name="name"/>
+                                <field name="count"/>
+                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑组件"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_form_cowork_bom_material">
+        <field name="name">组件物料</field>
+        <field name="model">cowork.bom.material</field>
+        <field name="arch" type="xml">
+            <form string="组件物料">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="class_id" readonly="1"/>
+                        <field name="preliminary_scheme_id" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="count"/>
+                    </group>
+                    <group string="零部件">
+                        <field name="spare_parts_lines" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="categ_id"/>
+                                <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id}"/>
+                                <field name="brand_id"/>
+                                <field name="count"/>
+                                <field name="uom_id"/>
+                                <field name="comments"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_bom">
+        <field name="name">方案设计</field>
+        <field name="model">cowork.bom</field>
+        <field name="arch" type="xml">
+            <tree string="方案设计" default_order="write_date desc">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_cowork_bom">
+        <field name="name">方案设计</field>
+        <field name="res_model">cowork.bom</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_cowork_plan_design_root" name="项目执行" parent="cowork_project_management_flow.menu_cowork_project_management_flow_root" sequence="4"/>
+        <menuitem id="menu_cowork_material_bom" name="方案设计" parent="menu_cowork_plan_design_root" sequence="1" action="action_cowork_bom"/>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="cowork.material.category" id="machine">
+        <field name="name">机械</field>
+    </record>
+    <record model="cowork.material.category" id="electronic_control">
+        <field name="name">电控</field>
+    </record>
+    <record model="cowork.material.category" id="software">
+        <field name="name">软件</field>
+    </record>
+</odoo>

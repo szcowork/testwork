@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_cost_labor_quote">
+        <field name="name">人力成本行</field>
+        <field name="model">cowork.cost.labor.quote</field>
+        <field name="arch" type="xml">
+            <form string="人力成本行">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <group>
+                            <field name="job_id"/>
+                            <field name="count"/>
+                            <field name="total_hours"/>
+                            <field name="unit_price"/>
+                        </group>
+                        <group>
+                            <field name="count_day"/>
+                            <field name="hours_per_day"/>
+                            <field name="total_price"/>
+                            <field name="total_quote"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="工作内容">
+                        <field name="work_info_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="job_id"/>
+                                <field name="brand_id"/>
+                                <field name="count"/>
+                                <field name="uom_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

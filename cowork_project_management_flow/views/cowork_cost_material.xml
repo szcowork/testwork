@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_cost_material">
+        <field name="name">物料成本行</field>
+        <field name="model">cowork.cost.material</field>
+        <field name="arch" type="xml">
+            <form string="物料成本行">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="material_categ_id" readonly="1"/>
+                    </group>
+                    <group string="基本信息">
+                        <field name="preliminary_scheme_id" readonly="1"/>
+                        <field name="total_price" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <button type="object" class="oe_highlight" name="compute_total_price" string="统计合算"/>
+                    <group string="组件">
+                        <field name="material_cost_details_lines" context="{'default_preliminary_scheme_id':preliminary_scheme_id}" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="name" required="1"/>
+                                <field name="class_id" domain="[('categ_id','=',parent.material_categ_id)]" required="1"/>
+                                <field name="count"/>
+                                <!-- <field name="unit_cost"/>
+                                <field name="total_cost"/> -->
+                                <field name="preliminary_scheme_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_cost_material">
+        <field name="name">物料成本行</field>
+        <field name="model">cowork.cost.material</field>
+        <field name="arch" type="xml">
+            <tree string="物料成本行" default_order="write_date desc">
+                <field name="preliminary_scheme_id"/>
+                <field name="material_categ_id"/>
+                <!-- <field name="count"/>
+                <field name="unit_price"  widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
+                <field name="total_price"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_cost_material">
+        <field name="name">物料成本行</field>
+        <field name="model">cowork.cost.material</field>
+        <field name="arch" type="xml">
+            <search string="物料成本行">
+                <field name="preliminary_scheme_id"/>
+                <field name="material_categ_id"/>
+                <field name="currency_id" invisible="1"/>
+                <filter name="preliminary_scheme_id" string="项目初步方案" context="{'group_by':'preliminary_scheme_id'}"/>
+                <filter name="material_categ_id" string="分类" context="{'group_by':'material_categ_id'}"/>
+                
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_cost_material">
+        <field name="name">物料成本行</field>
+        <field name="res_model">cowork.cost.material</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

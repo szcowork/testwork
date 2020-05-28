@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_project_estimate">
+        <field name="name">项目评估</field>
+        <field name="model">cowork.project.estimate</field>
+        <field name="arch" type="xml">
+            <form string="项目评估">
+                <header>
+                    <button name="button_estimate_t" string="技术部确认" type="object" class="oe_highlight" states='technology'/>
+                    <!-- <button name="button_return_estimate_t" string="驳回" type="object" class="oe_highlight" states='technology'/> -->
+
+                    <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business'/>
+                    <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business'/>
+
+                    <button name="button_estimate_p" string="项目管理部确认" type="object" class="oe_highlight" states='project'/>
+                    <button name="button_return_estimate_p" string="驳回" type="object" class="oe_highlight" states='project'/>
+
+                    <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy'/>
+                    <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy'/>
+
+                    <button name="create_scheme_preliminary" string="转初步方案" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','general'),('preliminary_scheme_id','!=',False)]}"/>
+
+                    <button name="button_back_estimate" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','general')]}"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="technology,business,project,deputy,general" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-bars" string="项目初步方案" name="action_to_scheme" attrs="{'invisible':[('preliminary_scheme_id','=',False)]}"/>
+                    </div>
+                    <group string="基本信息">
+                        <field name="name" readonly="1"/>
+                        <field name="title" readonly="1"/>
+                        <field name="date_of_acceptance" readonly="1"/>
+                        <field name="user_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        <field name="apply_id" readonly="1"/>
+                        <field name="preliminary_scheme_id" attrs="{'invisible':[('preliminary_scheme_id','=',False)],'readonly': [('state', '=', 'general')]}"/>
+                    </group>
+                    <group string="业务信息">
+                        <field name="partner_id" readonly="1"/>
+                        <field name="partner_address" readonly="1"/>
+                        <field name="partner_type" widget="radio" options="{'horizontal': true}" readonly="1"/>
+                        <field name="contact_id" readonly="1"/>
+                        <field name="budget"  widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                        <field name="count" readonly="1"/>
+                        <field name="customer_requirement" readonly="1"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <group string="技术性评估">
+                        <field name="project_type" widget="radio" options="{'horizontal': true}"/>
+                        <field name="project_difficulty_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        <field name="cost_budget"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        <field name="priority_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        <label for="project_period"/>
+                        <div class="o_row">
+                            <field name="project_period" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                            <span>天</span>
+                        </div>
+                        <label for="count_person"/>
+                        <div class="o_row">
+                            <field name="count_person" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                            <span>人</span>
+                        </div>
+                        <field name="if_approval" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                    </group>
+                    <group string="备注">
+                        <field name="comments" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_project_estimate">
+        <field name="name">项目评估</field>
+        <field name="model">cowork.project.estimate</field>
+        <field name="arch" type="xml">
+            <tree string="项目评估" default_order="write_date desc">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="project_type"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+                <field name="partner_address"/>
+                <field name="partner_type"/>
+                <field name="date_of_acceptance"/>
+                <field name="contact_id"/>
+                <field name="budget"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="count"/>
+                <field name="project_difficulty_id"/>
+                <field name="cost_budget"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="priority_id"/>
+                <field name="project_period"/>
+                <field name="count_person"/>
+                <field name="if_approval"/>
+                <field name="comments"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_project_estimate">
+        <field name="name">项目评估</field>
+        <field name="model">cowork.project.estimate</field>
+        <field name="arch" type="xml">
+            <search string="项目评估">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="title" filter_domain="[('title','ilike',self)]"/>
+                <field name="project_type"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+                <field name="partner_address" filter_domain="[('partner_address','ilike',self)]"/>
+                <field name="partner_type"/>
+                <field name="contact_id"/>
+                <field name="project_difficulty_id"/>
+                <field name="priority_id"/>
+                <field name="comments" filter_domain="[('comments','ilike',self)]"/>
+                <field name="currency_id" invisible="1"/>
+                <filter name="project_type" string="项目类型" context="{'group_by':'project_type'}"/>
+                <filter name="user_id" string="填单人" context="{'group_by':'user_id'}"/>
+                <filter name="partner_id" string="客户名称" context="{'group_by':'partner_id'}"/>
+                <filter name="partner_type" string="客户种类" context="{'group_by':'partner_type'}"/>
+                <filter name="date_of_acceptance" string="接案日期" context="{'group_by':'date_of_acceptance'}"/>
+                <filter name="contact_id" string="联系人" context="{'group_by':'contact_id'}"/>
+                <filter name="project_difficulty_id" string="项目难度" context="{'group_by':'project_difficulty_id'}"/>
+                <filter name="priority_id" string="优先级" context="{'group_by':'priority_id'}"/>
+                <filter name="if_approval" string="是否立项" context="{'group_by':'if_approval'}"/>
+                
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_project_estimate">
+        <field name="name">项目评估</field>
+        <field name="res_model">cowork.project.estimate</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_material_class">
+        <field name="name">物料分类</field>
+        <field name="model">cowork.material.class</field>
+        <field name="arch" type="xml">
+            <form string="物料分类">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="categ_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_material_class">
+        <field name="name">物料分类</field>
+        <field name="model">cowork.material.class</field>
+        <field name="arch" type="xml">
+            <tree string="物料分类" default_order="write_date desc">
+                <field name="name"/>
+                <field name="categ_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_material_class">
+        <field name="name">物料分类</field>
+        <field name="model">cowork.material.class</field>
+        <field name="arch" type="xml">
+            <search string="物料分类">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="categ_id"/>
+                <filter name="categ_id" string="项目" context="{'group_by':'categ_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_material_class">
+        <field name="name">物料分类</field>
+        <field name="res_model">cowork.material.class</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

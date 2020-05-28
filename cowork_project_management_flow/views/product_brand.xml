@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_product_brand">
+        <field name="name">品牌</field>
+        <field name="model">product.brand</field>
+        <field name="arch" type="xml">
+            <form string="品牌">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_product_brand">
+        <field name="name">品牌</field>
+        <field name="model">product.brand</field>
+        <field name="arch" type="xml">
+            <tree string="品牌" default_order="write_date desc">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_product_brand">
+        <field name="name">品牌</field>
+        <field name="model">product.brand</field>
+        <field name="arch" type="xml">
+            <search string="品牌">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_product_brand">
+        <field name="name">品牌</field>
+        <field name="res_model">product.brand</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.module.category" id="module_category_cowork_project_management_flow">
+        <field name="name">柯沃项目管理体系流程</field>
+    </record>
+
+    <record model="res.groups" id="access_group_merchant_director_in_cowork_project_management_flow">
+        <field name="name">商务总监</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_merchant_assistant_in_cowork_project_management_flow">
+        <field name="name">商务助理</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_project_manager_in_cowork_project_management_flow">
+        <field name="name">项目经理</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_technique_director_in_cowork_project_management_flow">
+        <field name="name">技术总监</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_technique_manager_in_cowork_project_management_flow">
+        <field name="name">技术经理</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_technique_engineer_in_cowork_project_management_flow">
+        <field name="name">技术工程师</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_vice_general_manager_in_cowork_project_management_flow">
+        <field name="name">副总经理</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_general_manager_in_cowork_project_management_flow">
+        <field name="name">总经理</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+</odoo>

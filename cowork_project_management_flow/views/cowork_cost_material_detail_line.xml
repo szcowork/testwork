@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_cost_material_detail_line">
+        <field name="name">组件物料成本行</field>
+        <field name="model">cowork.cost.material.detail.line</field>
+        <field name="arch" type="xml">
+            <form string="组件物料成本行">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="class_id" readonly="1"/>
+                        <field name="cost_material_line" readonly="1"/>
+                        <field name="preliminary_scheme_id" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="count"/>
+                        <field name="unit_cost" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="total_cost" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <button type="object" class="oe_highlight" name="compute_total_price" string="统计合算"/>
+                    <group string="零部件">
+                        <field name="spare_parts_lines" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="categ_id" required="1"/>
+                                <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id}" required="1"/>
+                                <field name="brand_id" required="1"/>
+                                <field name="count"/>
+                                <field name="uom_id"/>
+                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="comments"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_cost_material_detail_line">
+        <field name="name">组件物料成本行</field>
+        <field name="model">cowork.cost.material.detail.line</field>
+        <field name="arch" type="xml">
+            <tree string="组件物料成本行" default_order="write_date desc">
+                <field name="cost_material_line"/>
+                <field name="name"/>
+                <field name="count"/>
+                <field name="class_id"/>
+                <field name="total_cost"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_cost_material_detail_line">
+        <field name="name">组件物料成本行</field>
+        <field name="model">cowork.cost.material.detail.line</field>
+        <field name="arch" type="xml">
+            <search string="组件物料成本行">
+                <field name="cost_material_line"/>
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="class_id"/>
+                <field name="currency_id" invisible="1"/>
+                <filter name="cost_material_line" string="物料成本行" context="{'group_by':'cost_material_line'}"/>
+                <filter name="class_id" string="分类" context="{'group_by':'class_id'}"/>                
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_cost_material_detail_line">
+        <field name="name">组件物料成本行</field>
+        <field name="res_model">cowork.cost.material.detail.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+
+
+
+    <record model="ir.ui.view" id="view_form_cowork_cost_material_detail_line_quote">
+        <field name="name">组件物料成本行</field>
+        <field name="model">cowork.cost.material.detail.line.quote</field>
+        <field name="arch" type="xml">
+            <form string="组件物料成本行">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="class_id" readonly="1"/>
+                        <field name="cost_material_line" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="count"/>
+                        <field name="unit_cost" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="total_cost" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="sale_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                    <button type="object" class="oe_highlight" name="compute_total_price" string="统计合算"/>
+                    <group string="零部件">
+                        <field name="spare_parts_lines" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="categ_id"/>
+                                <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id}"/>
+                                <field name="brand_id"/>
+                                <field name="count"/>
+                                <field name="uom_id"/>
+                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="premium_no"/>
+                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="comments"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

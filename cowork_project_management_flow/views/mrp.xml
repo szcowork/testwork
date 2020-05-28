@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record model="ir.ui.view" id="mrp_bom_form_view_inherit">
+            <field name="name">mrp.bom.cowork</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//sheet" position="before">
+                        <header>
+                            <button name="action_to_requisition" string="采购申请" type="object" class="oe_highlight"/>
+                        </header>
+                    </xpath>
+                </data>
+            </field>
+    </record>
+</odoo>

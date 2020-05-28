@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_scheme_preliminary">
+        <field name="name">项目初步方案</field>
+        <field name="model">cowork.scheme.preliminary</field>
+        <field name="arch" type="xml">
+            <form string="项目初步方案">
+                <header>
+                    <button name="action_to_business" string="项目管理部提交" type="object" class="oe_highlight" states='project'/>
+                    <button name="create_quote" string="转报价" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','business'),('quote_id','!=',False)]}"/>
+
+                    <button name="button_return_scheme" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('quote_id','!=',False),('state','!=','business')]}"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="project,business" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                    <group>
+                        <field name="apply_id" readonly="1"/>
+                        <field name="title" readonly="1"/>
+                        <field name="user_id" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="date_fill" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="quote_id" attrs="{'invisible':[('quote_id','=',False)],'readonly': [('state', '=', 'business')]}"/>
+                    </group>
+                    <hr/>
+                    <group string="1.人力成本">
+                        <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'business')]}">
+                            <tree editable="bottom">
+                                <field name="job_id" required="1"/>
+                                <field name="count"/>
+                                <field name="hours_per_day"/>
+                                <field name="count_day"/>
+                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_hours"/>
+                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <hr/>
+                    <button type="object" class="oe_highlight" name="import_categs" string="导入物料成本项目" attrs="{'invisible': [('state', '=', 'business')]}"/>->编辑物料
+                    <group string="2.物料成本">
+                        <field name="material_cost_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'business')]}">
+                            <tree editable="bottom">
+                                <field name="material_categ_id" required="1"/>
+                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="state" invisible="1"/>
+                                <button type="object" class="oe_highlight" name="edit_details" string="编辑物料" attrs="{'invisible': [('state', '=', 'business')]}"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <hr/>
+                    <group string="3.各组件物料成本预估">
+                        <field name="material_cost_details_lines" readonly="1" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="class_id"/>
+                                <field name="unit_cost"/>
+                                <field name="count"/>
+                                <field name="total_cost"/>
+                                <field name="state" invisible="1"/>
+                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑组件" attrs="{'invisible': [('state', '=', 'business')]}"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <hr/>
+                    <button type="object" class="oe_highlight" name="summary_all" string="统计合算" attrs="{'invisible': [('state', '=', 'business')]}"/>
+                    <group string="4.预估总成本">
+                        <field name="total_labor_cost"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="total_material_cost"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="total_untaxed_cost"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_scheme_preliminary">
+        <field name="name">项目初步方案</field>
+        <field name="model">cowork.scheme.preliminary</field>
+        <field name="arch" type="xml">
+            <tree string="项目初步方案" default_order="write_date desc">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="user_id"/>
+                <field name="date_fill"/>
+                <field name="apply_id"/>
+                <field name="total_labor_cost"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_material_cost"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_untaxed_cost"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_scheme_preliminary">
+        <field name="name">项目初步方案</field>
+        <field name="model">cowork.scheme.preliminary</field>
+        <field name="arch" type="xml">
+            <search string="项目初步方案">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="user_id"/>
+                <field name="apply_id"/>
+                <field name="currency_id" invisible="1"/>
+                <filter name="user_id" string="填单人" context="{'group_by':'user_id'}"/>
+                <filter name="date_fill" string="填单时间" context="{'group_by':'date_fill'}"/>
+                <filter name="apply_id" string="项目编号" context="{'group_by':'apply_id'}"/>
+                
+            </search>
+        </field>
+    </record>
+
+    <!-- 项目初步方案编号规则 -->
+    <record id="seq_cowork_scheme_preliminary" model="ir.sequence">
+        <field name="name">项目初步方案</field>
+        <field name="code">cowork.scheme.preliminary</field>
+        <field name="prefix">PS</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_scheme_preliminary">
+        <field name="name">项目初步方案</field>
+        <field name="res_model">cowork.scheme.preliminary</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

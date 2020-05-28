@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_project_apply">
+        <field name="name">立项申请</field>
+        <field name="model">cowork.project.apply</field>
+        <field name="arch" type="xml">
+            <form string="立项申请">
+                <header>
+                    <button name="action_to_project" string="商务部提交" type="object" class="oe_highlight" states='business'/>
+                    <button name="create_estimate" string="转项目评估" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','project'),('estimate_id','!=',False)]}"/>
+                    <button name="button_return_apply" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('estimate_id','!=',False),('state','!=','project')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="business,project" readonly="1" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-bookmark-o" string="项目评估" name="action_to_estimate" attrs="{'invisible':[('estimate_id','=',False)]}"/>
+                    </div>
+                    <group string="申请信息">
+                        <field name="name" readonly="1"/>
+                        <field name="date_apply" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="user_id" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="location_apply" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="title" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="estimate_id" attrs="{'invisible':[('estimate_id','=',False)],'readonly': [('state', '=', 'project')]}"/>
+                    </group>
+                    <group string="商务信息">
+                        <field name="partner_id" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="partner_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="partner_address" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="budget" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="count" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="date_deliver" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="customer_comment" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="customer_requirement" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <group string="项目负责人">
+                        <field name="charger_lines" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="job_id" required="1"/>
+                                <field name="employee_id" domain="[('job_id','=',job_id)]"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="需求附件" attrs="{'readonly': [('state', '=', 'project')]}">
+                        <!-- <field name="requirement_attament" widget="url" placeholder="http://www.einfo=tech.com"/> -->
+                        <field name="requirement_attament_lines" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="url" required="1" widget="url"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="其他事项">
+                        <field name="comments" nolabel="1" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_project_apply">
+        <field name="name">立项申请</field>
+        <field name="model">cowork.project.apply</field>
+        <field name="arch" type="xml">
+            <tree string="立项申请" default_order="write_date desc">
+                <field name="name"/>
+                <field name="date_apply"/>
+                <field name="user_id"/>
+                <field name="location_apply"/>
+                <field name="title"/>
+                <field name="partner_id"/>
+                <field name="partner_type"/>
+                <field name="partner_address"/>
+                <field name="budget"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="count"/>
+                <field name="date_deliver"/>
+                <field name="customer_comment"/>
+                <field name="comments"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_project_apply">
+        <field name="name">立项申请</field>
+        <field name="model">cowork.project.apply</field>
+        <field name="arch" type="xml">
+            <search string="立项申请">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="user_id"/>
+                <field name="location_apply" filter_domain="[('location_apply','ilike',self)]"/>
+                <field name="title" filter_domain="[('title','ilike',self)]"/>
+                <field name="partner_id"/>
+                <field name="partner_type"/>
+                <field name="partner_address" filter_domain="[('partner_address','ilike',self)]"/>
+                <field name="customer_comment" filter_domain="[('customer_comment','ilike',self)]"/>
+                <field name="comments" filter_domain="[('comments','ilike',self)]"/>
+                <field name="currency_id" invisible="1"/>
+                <filter name="date_apply" string="申请日期" context="{'group_by':'date_apply'}"/>
+                <filter name="user_id" string="业务申请人" context="{'group_by':'user_id'}"/>
+                <filter name="partner_id" string="客户名称" context="{'group_by':'partner_id'}"/>
+                <filter name="partner_type" string="客户类型" context="{'group_by':'partner_type'}"/>
+                <filter name="date_deliver" string="客户预计交期" context="{'group_by':'date_deliver'}"/>
+                
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_kanban_cowork_project_apply">
+        <field name="name">立项申请</field>
+        <field name="model">cowork.project.apply</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="user_id" class="oe_kanban_card o_kanban_small_column" on_create="quick_create">
+                <!-- 看板需要用到的字段 -->
+                <field name="name"/>
+                <field name="date_apply"/>
+                <field name="user_id"/>
+                <field name="location_apply"/>
+                <field name="title"/>
+                <field name="partner_id"/>
+                <field name="partner_type"/>
+                <field name="partner_address"/>
+                <field name="budget"/>
+                <field name="count"/>
+                <field name="date_deliver"/>
+                <field name="customer_comment"/>
+                <field name="comments"/>
+                <field name="currency_id" invisible="1"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_card_content">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <div class="dropdown-menu" role="menu">
+                                        <!-- 右上方下拉菜单 -->
+                                        <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">编辑</a>
+                                        <a t-if="widget.deletable" role="menuitem" type="delete" class="dropdown-item">删除</a>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_body">
+                                    <!-- 内容、字段 -->
+                                    <div class="o_row">
+                                        <span>项目编号：</span>
+                                        <field class="text-right" name="name"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>申请日期：</span>
+                                        <field class="text-right" name="date_apply"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>业务申请人：</span>
+                                        <field class="text-right" name="user_id"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>申请地点：</span>
+                                        <field class="text-right" name="location_apply"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>项目名称：</span>
+                                        <field class="text-right" name="title"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>客户名称：</span>
+                                        <field class="text-right" name="partner_id"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>客户类型：</span>
+                                        <field class="text-right" name="partner_type"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>客户地址：</span>
+                                        <field class="text-right" name="partner_address"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>客户项目预算：</span>
+                                        <field class="text-right" name="budget"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>项目预计数量：</span>
+                                        <field class="text-right" name="count"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>客户预计交期：</span>
+                                        <field class="text-right" name="date_deliver"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>客户信息备注：</span>
+                                        <field class="text-right" name="customer_comment"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>其他事项：</span>
+                                        <field class="text-right" name="comments"/>
+                                    </div>
+                                    <div class="o_row">
+                                        <span>货币：</span>
+                                        <field class="text-right" name="currency_id"/>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_footer">
+                                    <div class="oe_kanban_footer_left">
+                                        <!-- 左下方 -->
+                                    </div>
+                                    <div class="oe_kanban_footer_right">
+                                        <!-- 右下方 -->
+                                    </div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- 立项申请编号规则 -->
+    <record id="seq_cowork_project_apply" model="ir.sequence">
+        <field name="name">立项申请</field>
+        <field name="code">cowork.project.apply</field>
+        <field name="prefix">CW-PA</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_project_apply">
+        <field name="name">立项申请</field>
+        <field name="res_model">cowork.project.apply</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+</odoo>

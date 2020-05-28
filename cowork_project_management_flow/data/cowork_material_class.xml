@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="cowork.material.class" id="standard_component">
+        <field name="name">标准件</field>
+        <field name="categ_id" ref="cowork_project_management_flow.machine"/>
+    </record>
+    <record model="cowork.material.class" id="workpiece">
+        <field name="name">加工件</field>
+        <field name="categ_id" ref="cowork_project_management_flow.machine"/>
+    </record>
+    <record model="cowork.material.class" id="other_machinary">
+        <field name="name">其他</field>
+        <field name="categ_id" ref="cowork_project_management_flow.machine"/>
+    </record>
+    <record model="cowork.material.class" id="eletronic_control">
+        <field name="name">电控</field>
+        <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
+    </record>
+    <record model="cowork.material.class" id="system_electronic_control">
+        <field name="name">系统</field>
+        <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
+    </record>
+    <record model="cowork.material.class" id="other_electronic_control">
+        <field name="name">其他</field>
+        <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
+    </record>
+</odoo>
