@@ -12,7 +12,7 @@ class cowork_bom(models.Model):
     # name = fields.Many2one("cowork.scheme.preliminary",string="项目初步方案")
     name = fields.Many2one("cowork.quote.order",string="项目报价单")
 
-    material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料成本明细")
+    material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料明细")
 
     def get_material_info(self):
         if self.name:
@@ -39,14 +39,27 @@ class cowork_bom(models.Model):
 
     def action_to_requisition(self):
         if self.material_cost_details_lines:
-            requisition = self.env['purchase.requisition'].create({
-                'user_id':self.env.user.id,
+            employee = self.env['hr.employee'].search([('user_id','=',self.env.user.id)])
+            employee_id = False
+            department_id = False
+            if employee:
+                employee_id = employee[0].id
+                if employee[0].department_id:
+                    department_id = employee[0].department_id.id
+
+            requisition = self.env['ps.purchase.requisition'].create({
+                'create_uid':self.env.user.id,
+                'employee_id':employee_id,
+                'requisition_date':fields.Date.today(),
+                'department_id':department_id,
+                'sale_cowork_id':self.name.id
             })
+            #self.env['purchase.requisition'].create({'user_id':self.env.user.id})
             for bom in self.material_cost_details_lines:
                 if bom.spare_parts_lines:
                     for part in bom.spare_parts_lines:
                         requisition.line_ids.create({
-                            'product_id':part.product_tmpl_id.id,
+                            'product_id':part.product_tmpl_id.product_variant_id.id,
                             'product_qty':part.count,
                             'product_uom_id':part.uom_id.id,
                             'requisition_id':requisition.id
@@ -94,3 +107,8 @@ class cowork_bom_material_part(models.Model):
     def onchange_product_tmpl_id(self):
         if self.product_tmpl_id:
             self.uom_id = self.product_tmpl_id.uom_po_id or self.product_tmpl_id.uom_id
+
+class ps_purchase_requisition(models.Model):
+    _inherit = "ps.purchase.requisition"
+
+    sale_cowork_id = fields.Many2one("cowork.quote.order",string="项目报价单")
