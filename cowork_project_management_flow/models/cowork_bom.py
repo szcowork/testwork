@@ -68,7 +68,7 @@ class cowork_bom_material(models.Model):
 
     bom_id = fields.Many2one("cowork.bom",string="物料方案")
 
-    # preliminary_scheme_id = fields.Many2one(comodel_name="cowork.scheme.preliminary",string="项目初步方案",related="bom_id.name")
+    # 
     preliminary_scheme_id = fields.Many2one(comodel_name="cowork.quote.order",string="项目报价单",related="bom_id.name")
     name = fields.Char(string="组件名称")
     count = fields.Float(string="单台数量")
