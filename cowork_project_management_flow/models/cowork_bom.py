@@ -53,7 +53,6 @@ class cowork_bom(models.Model):
                 'department_id':department_id,
                 'sale_cowork_id':self.name.id
             })
-            #self.env['purchase.requisition'].create({'user_id':self.env.user.id})
             for bom in self.material_cost_details_lines:
                 if bom.spare_parts_lines:
                     for part in bom.spare_parts_lines:
