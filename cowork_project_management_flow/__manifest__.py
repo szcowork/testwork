@@ -14,7 +14,7 @@
     'category': 'Tools',
     'version': '1.0',
 
-    'depends': ['base','mail','hr'],
+    'depends': ['base','mail','hr','ps_purchase','purchase_requisition'],
 
     'data': [
         "views/cowork_project_priority.xml",
