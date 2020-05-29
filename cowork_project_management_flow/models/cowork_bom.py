@@ -59,14 +59,15 @@ class cowork_bom(models.Model):
                     for part in bom.spare_parts_lines:
                         _logger.info(part)
                         _logger.info("99999999999")
-                        # vals = {
-                        #     "name":part.product_tmpl_id.product_variant_id.name,,
-                        #     "product_id": part.product_tmpl_id.product_variant_id.id,
-                        #     "product_qty": part.count,
-                        #     "product_uom_id": part.uom_id.id,
-                        #     "plan_date": fields.Datetime.now(),
-                        # }
-                # pre_po_lines.append((0,0,vals))
+                        vals = {
+                            "name":part.product_tmpl_id.product_variant_id.name,,
+                            "product_id": part.product_tmpl_id.product_variant_id.id,
+                            "product_qty": part.count,
+                            "product_uom_id": part.uom_id.id,
+                            "plan_date": fields.Datetime.now(),
+                        }
+                        pre_po_lines.append((0,0,vals))
+            _logger.info(pre_po_lines)
             # self.env['ps.purchase.requisition'].create({
             #     "create_uid":self.env.user.id,
             #     # "line_ids":pre_po_lines,
