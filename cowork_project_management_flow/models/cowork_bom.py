@@ -82,7 +82,7 @@ class cowork_bom(models.Model):
             self.env['ps.purchase.requisition'].create({
                 "create_uid":self.env.user.id,
                 "line_ids":pre_po_lines,
-                "sale_cowork_id":self.name.id,
+                # "sale_cowork_id":self.name.id,
                 'employee_id':employee_id,
                 'requisition_date':fields.Date.today(),
                 'department_id':department_id,
