@@ -47,6 +47,8 @@ class cowork_bom(models.Model):
                     department_id = employee[0].department_id.id
             _logger.info("?????????/")
             _logger.info(self.env.user.id)
+            _logger.info(employee_id)
+            _logger.info(department_id)
             requisition = self.env['ps.purchase.requisition'].create({
                 'create_uid':self.env.user.id,
                 'employee_id':employee_id,
