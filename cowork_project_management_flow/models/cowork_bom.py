@@ -72,15 +72,15 @@ class cowork_bom(models.Model):
                         }
                         pre_po_lines.append((0,0,vals))
             _logger.info(pre_po_lines)
-            # self.env['ps.purchase.requisition'].create({
-            #     "create_uid":self.env.user.id,
-            #     # "line_ids":pre_po_lines,
-            #     # "sale_cowork_id":self.name.id,
-            #     'employee_id':employee_id,
-            #     'requisition_date':fields.Date.today(),
-            #     'department_id':department_id,
-            # })
-            # _logger.info("ps.purchase.requisition")
+            self.env['ps.purchase.requisition'].create({
+                "create_uid":self.env.user.id,
+                "line_ids":pre_po_lines,
+                "sale_cowork_id":self.name.id,
+                'employee_id':employee_id,
+                'requisition_date':fields.Date.today(),
+                'department_id':department_id,
+            })
+            _logger.info("ps.purchase.requisition")
 
 class cowork_bom_material(models.Model):
     _name = 'cowork.bom.material'
