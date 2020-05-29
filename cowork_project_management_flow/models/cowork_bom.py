@@ -45,7 +45,8 @@ class cowork_bom(models.Model):
                 employee_id = employee[0].id
                 if employee[0].department_id:
                     department_id = employee[0].department_id.id
-
+            _logger.info("?????????/")
+            _logger.info(self.env.user.id)
             requisition = self.env['ps.purchase.requisition'].create({
                 'create_uid':self.env.user.id,
                 'employee_id':employee_id,
@@ -53,15 +54,16 @@ class cowork_bom(models.Model):
                 'department_id':department_id,
                 'sale_cowork_id':self.name.id
             })
-            # for bom in self.material_cost_details_lines:
-            #     if bom.spare_parts_lines:
-            #         for part in bom.spare_parts_lines:
-            #             requisition.line_ids.create({
-            #                 'product_id':part.product_tmpl_id.product_variant_id.id,
-            #                 'product_qty':part.count,
-            #                 'product_uom_id':part.uom_id.id,
-            #                 'requisition_id':requisition.id
-            #             })
+            for bom in self.material_cost_details_lines:
+                if bom.spare_parts_lines:
+                    for part in bom.spare_parts_lines:
+                        _logger.info("!!!!!!!!")
+                        requisition.line_ids.create({
+                            'product_id':part.product_tmpl_id.product_variant_id.id,
+                            'product_qty':part.count,
+                            'product_uom_id':part.uom_id.id,
+                            'requisition_id':requisition.id
+                        })
 
 class cowork_bom_material(models.Model):
     _name = 'cowork.bom.material'
