@@ -9,15 +9,16 @@ class cowork_bom(models.Model):
     _description = '物料方案'
 
     material_details_ids = fields.One2many('cowork.cost.material.detail.line','cowork_bom_id',string="组件信息")
-    quote_id = fields.Many2one("cowork.quote.order",string="项目报价单")
+    # name = fields.Many2one("cowork.scheme.preliminary",string="项目初步方案")
+    name = fields.Many2one("cowork.quote.order",string="项目报价单")
 
-    material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料明细")
+    material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料成本明细")
 
     def get_material_info(self):
-        if self.quote_id:
-            if self.quote_id.material_cost_details_lines:
+        if self.name:
+            if self.name.material_cost_details_lines:
                 self.material_cost_details_lines = False
-                for detail in self.quote_id.material_cost_details_lines:
+                for detail in self.name.material_cost_details_lines:
                     bom_material = self.env['cowork.bom.material'].create({
                         'bom_id':self.id,
                         'name':detail.name,
@@ -37,58 +38,19 @@ class cowork_bom(models.Model):
                             })
 
     def action_to_requisition(self):
-        pass
-        # if self.material_cost_details_lines:
-        #     employee = self.env['hr.employee'].search([('user_id','=',self.env.user.id)])
-        #     employee_id = False
-        #     department_id = False
-        #     if employee:
-        #         employee_id = employee[0].id
-        #         if employee[0].department_id:
-        #             department_id = employee[0].department_id.id
-        #     _logger.info("?????????/")
-        #     _logger.info(self.env.user.id)
-        #     _logger.info(employee_id)
-        #     _logger.info(department_id)
-            # requisition = self.env['ps.purchase.requisition'].create({
-            #     'create_uid':self.env.user.id,
-            #     'employee_id':employee_id,
-            #     'requisition_date':fields.Date.today(),
-            #     'department_id':department_id,
-            #     'sale_cowork_id':self.name.id
-            # })
-            # for bom in self.material_cost_details_lines:
-            #     if bom.spare_parts_lines:
-            #         for part in bom.spare_parts_lines:
-            #             _logger.info("!!!!!!!!")
-            #             _logger.info(part)
-            #             requisition.line_ids.create({
-            #                 'product_id':part.product_tmpl_id.product_variant_id.id,
-            #                 'product_qty':part.count,
-            #                 'product_uom_id':part.uom_id.id,
-            #                 'requisition_id':requisition.id
-            #             })
-            # pre_po_lines = []
-            # for bom in self.material_cost_details_lines:
-            #     if bom.spare_parts_lines:
-            #         for part in bom.spare_parts_lines:
-            #             vals = {
-            #                 "name":part.product_tmpl_id.product_variant_id.name,,
-            #                 "product_id": part.product_tmpl_id.product_variant_id.id,
-            #                 "product_qty": part.count,
-            #                 "product_uom_id": part.uom_id.id,
-            #                 "plan_date": fields.Datetime.now(),
-            #             }
-            #     pre_po_lines.append((0,0,vals))
-            # self.env['ps.purchase.requisition'].create({
-            #     "create_uid":self.env.user.id,
-            #     "line_ids":pre_po_lines,
-            #     # "sale_cowork_id":self.name.id,
-            #     'employee_id':employee_id,
-            #     'requisition_date':fields.Date.today(),
-            #     'department_id':department_id,
-            # })
-            # _logger.info("ps.purchase.requisition")
+        if self.material_cost_details_lines:
+            requisition = self.env['purchase.requisition'].create({
+                'user_id':self.env.user.id,
+            })
+            for bom in self.material_cost_details_lines:
+                if bom.spare_parts_lines:
+                    for part in bom.spare_parts_lines:
+                        requisition.line_ids.create({
+                            'product_id':part.product_tmpl_id.id,
+                            'product_qty':part.count,
+                            'product_uom_id':part.uom_id.id,
+                            'requisition_id':requisition.id
+                        })
 
 class cowork_bom_material(models.Model):
     _name = 'cowork.bom.material'
@@ -132,8 +94,3 @@ class cowork_bom_material_part(models.Model):
     def onchange_product_tmpl_id(self):
         if self.product_tmpl_id:
             self.uom_id = self.product_tmpl_id.uom_po_id or self.product_tmpl_id.uom_id
-
-class ps_purchase_requisition(models.Model):
-    _inherit = "ps.purchase.requisition"
-
-    sale_cowork_id = fields.Many2one("cowork.quote.order",string="项目报价单")

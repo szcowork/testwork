@@ -30,7 +30,7 @@
                     <div class="oe_button_box" name="button_box">
                     </div>
                     <group>
-                        <field name="quote_id" readonly="1"/>
+                        <field name="name" readonly="1"/>
                     </group>
                     <group>
                         <!-- <field name="material_details_ids">
@@ -105,16 +105,4 @@
 
     <menuitem id="menu_cowork_plan_design_root" name="项目执行" parent="cowork_project_management_flow.menu_cowork_project_management_flow_root" sequence="4"/>
         <menuitem id="menu_cowork_material_bom" name="方案设计" parent="menu_cowork_plan_design_root" sequence="1" action="action_cowork_bom"/>
-        <menuitem id="menu_ps_purchase_requistion_cowork" name="采购申请" parent="menu_cowork_plan_design_root" sequence="2" action="ps_purchase.ps_purchase_requisition_action"/>
-
-    <record model="ir.ui.view" id="ps_purchase_requisition_inherit_cowork_form_bom">
-        <field name="name">bom ps purchase order inherit cowork</field>
-        <field name="model">ps.purchase.requisition</field>
-        <field name="inherit_id" ref="ps_purchase.ps_purchase_requisition_form_view_id"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='create_uid']" position="after">
-                <field name="sale_cowork_id" options="{'no_create_edit': True,'no_open': True}"/>
-            </xpath>
-        </field>
-    </record>
 </odoo>

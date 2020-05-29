@@ -63,7 +63,7 @@ class cowork_quote_order(models.Model):
             'res_model': 'cowork.bom',
             'view_id': self.env.ref('cowork_project_management_flow.view_form_cowork_bom').id,
             'context': {
-                    'default_quote_id': self.id,
+                    'default_name': self.id,
             }
         }
     
