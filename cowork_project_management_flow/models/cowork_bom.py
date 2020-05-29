@@ -53,27 +53,29 @@ class cowork_bom(models.Model):
             _logger.info(employee_id)
             _logger.info(department_id)
 
-            # pre_po_lines = []
-            # for bom in self.material_cost_details_lines:
-            #     if bom.spare_parts_lines:
-            #         for part in bom.spare_parts_lines:
-            #             vals = {
-            #                 "name":part.product_tmpl_id.product_variant_id.name,,
-            #                 "product_id": part.product_tmpl_id.product_variant_id.id,
-            #                 "product_qty": part.count,
-            #                 "product_uom_id": part.uom_id.id,
-            #                 "plan_date": fields.Datetime.now(),
-            #             }
-            #     pre_po_lines.append((0,0,vals))
-            self.env['ps.purchase.requisition'].create({
-                "create_uid":self.env.user.id,
-                # "line_ids":pre_po_lines,
-                # "sale_cowork_id":self.name.id,
-                'employee_id':employee_id,
-                'requisition_date':fields.Date.today(),
-                'department_id':department_id,
-            })
-            _logger.info("ps.purchase.requisition")
+            pre_po_lines = []
+            for bom in self.material_cost_details_lines:
+                if bom.spare_parts_lines:
+                    for part in bom.spare_parts_lines:
+                        _logger.info(part)
+                        _logger.info("99999999999")
+                        # vals = {
+                        #     "name":part.product_tmpl_id.product_variant_id.name,,
+                        #     "product_id": part.product_tmpl_id.product_variant_id.id,
+                        #     "product_qty": part.count,
+                        #     "product_uom_id": part.uom_id.id,
+                        #     "plan_date": fields.Datetime.now(),
+                        # }
+                # pre_po_lines.append((0,0,vals))
+            # self.env['ps.purchase.requisition'].create({
+            #     "create_uid":self.env.user.id,
+            #     # "line_ids":pre_po_lines,
+            #     # "sale_cowork_id":self.name.id,
+            #     'employee_id':employee_id,
+            #     'requisition_date':fields.Date.today(),
+            #     'department_id':department_id,
+            # })
+            # _logger.info("ps.purchase.requisition")
 
 class cowork_bom_material(models.Model):
     _name = 'cowork.bom.material'
