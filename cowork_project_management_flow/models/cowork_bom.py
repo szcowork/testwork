@@ -11,7 +11,7 @@ class cowork_bom(models.Model):
     material_details_ids = fields.One2many('cowork.cost.material.detail.line','cowork_bom_id',string="组件信息")
     # name = fields.Many2one("cowork.scheme.preliminary",string="项目初步方案")
     name = fields.Many2one("cowork.quote.order",string="项目报价单")
-
+    project_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
     material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料成本明细")
 
     def get_material_info(self):
@@ -48,21 +48,11 @@ class cowork_bom(models.Model):
                 employee_id = employee[0].id
                 if employee[0].department_id:
                     department_id = employee[0].department_id.id
-            _logger.info("?????????/")
-            _logger.info(self.env.user.id)
-            _logger.info(employee_id)
-            _logger.info(department_id)
 
             pre_po_lines = []
             for bom in self.material_cost_details_lines:
                 if bom.spare_parts_lines:
                     for part in bom.spare_parts_lines:
-                        _logger.info(part)
-                        _logger.info("99999999999")
-                        _logger.info(part.product_tmpl_id.product_variant_id.name)
-                        _logger.info(part.product_tmpl_id.product_variant_id.id)
-                        _logger.info(part.count)
-                        _logger.info(part.uom_id.id)
                         vals = {
                             "name":part.product_tmpl_id.product_variant_id.name,
                             "product_id": part.product_tmpl_id.product_variant_id.id,
@@ -71,7 +61,6 @@ class cowork_bom(models.Model):
                             "plan_date": fields.Datetime.now(),
                         }
                         pre_po_lines.append((0,0,vals))
-            _logger.info(pre_po_lines)
             self.env['ps.purchase.requisition'].create({
                 "create_uid":self.env.user.id,
                 "line_ids":pre_po_lines,
@@ -79,6 +68,7 @@ class cowork_bom(models.Model):
                 'employee_id':employee_id,
                 'requisition_date':fields.Date.today(),
                 'department_id':department_id,
+                'project_sale_id':self.project_id.id
             })
             _logger.info("ps.purchase.requisition")
 
@@ -130,3 +120,4 @@ class ps_purchase_requisition(models.Model):
     _inherit = "ps.purchase.requisition"
 
     sale_cowork_id = fields.Many2one("cowork.quote.order",string="项目报价单")
+    project_sale_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")

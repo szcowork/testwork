@@ -56,7 +56,7 @@ class cowork_quote_order(models.Model):
 
     def action_to_bom(self):
         return {
-            'name': "物料方案",
+            'name': "方案设计",
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
@@ -64,6 +64,7 @@ class cowork_quote_order(models.Model):
             'view_id': self.env.ref('cowork_project_management_flow.view_form_cowork_bom').id,
             'context': {
                     'default_name': self.id,
+                    'default_project_id':self.project_id.id
             }
         }
     
