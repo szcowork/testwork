@@ -25,6 +25,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" class="oe_stat_button" icon="fa-bars" string="物料方案" name="button_material_scheme_order"/>
+                        <button type="object" class="oe_stat_button" icon="fa-shopping-bag" string="采购申请" name="button_to_requisition"/>
                     </div>
                     <h1>
                         <field name="name" readonly="1"/>

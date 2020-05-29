@@ -80,6 +80,19 @@ class cowork_quote_order(models.Model):
             'domain': [('id','=',tc_ids)]
         }
 
+    def button_to_requisition(self):
+        tc_ids = self.env['ps.purchase.requisition'].search([
+            ('sale_cowork_id', '=', self.id),
+        ]).mapped('id')
+        return {
+            'name': "采购申请",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'res_model': 'ps.purchase.requisition',
+            'domain': [('id','in',tc_ids)]
+        }
+
     @api.depends('labor_cost_lines.total_quote','material_cost_details_lines.sale_cost')
     def _amount_all(self):
         for order in self:
