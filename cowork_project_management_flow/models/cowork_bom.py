@@ -37,7 +37,7 @@ class cowork_bom(models.Model):
                                 'material_id':bom_material.id
                             })
 
-    @api.model
+    @api.one
     def action_to_requisition(self):
         # pass
         if self.material_cost_details_lines:
