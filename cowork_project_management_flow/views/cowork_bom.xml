@@ -117,6 +117,9 @@
                 <field name="sale_cowork_id" options="{'no_create_edit': True}"/>
                 <!-- <field nmae="project_sale_id" options="{'no_create_edit':True}"/> -->
             </xpath>
+            <xpath expr="//field[@name='requisition_date']" position="after">
+                <field nmae="project_sale_id" options="{'no_create_edit':True}"/>
+            </xpath>
         </field>
     </record>
 </odoo>
