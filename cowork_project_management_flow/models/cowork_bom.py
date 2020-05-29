@@ -58,6 +58,7 @@ class cowork_bom(models.Model):
                 if bom.spare_parts_lines:
                     for part in bom.spare_parts_lines:
                         _logger.info("!!!!!!!!")
+                        _logger.info(part)
                         requisition.line_ids.create({
                             'product_id':part.product_tmpl_id.product_variant_id.id,
                             'product_qty':part.count,
