@@ -14,10 +14,10 @@ class cowork_bom(models.Model):
     material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料明细")
 
     def get_material_info(self):
-        if self.name:
-            if self.name.material_cost_details_lines:
+        if self.quote_id:
+            if self.quote_id.material_cost_details_lines:
                 self.material_cost_details_lines = False
-                for detail in self.name.material_cost_details_lines:
+                for detail in self.quote_id.material_cost_details_lines:
                     bom_material = self.env['cowork.bom.material'].create({
                         'bom_id':self.id,
                         'name':detail.name,
@@ -37,18 +37,19 @@ class cowork_bom(models.Model):
                             })
 
     def action_to_requisition(self):
-        if self.material_cost_details_lines:
-            employee = self.env['hr.employee'].search([('user_id','=',self.env.user.id)])
-            employee_id = False
-            department_id = False
-            if employee:
-                employee_id = employee[0].id
-                if employee[0].department_id:
-                    department_id = employee[0].department_id.id
-            _logger.info("?????????/")
-            _logger.info(self.env.user.id)
-            _logger.info(employee_id)
-            _logger.info(department_id)
+        pass
+        # if self.material_cost_details_lines:
+        #     employee = self.env['hr.employee'].search([('user_id','=',self.env.user.id)])
+        #     employee_id = False
+        #     department_id = False
+        #     if employee:
+        #         employee_id = employee[0].id
+        #         if employee[0].department_id:
+        #             department_id = employee[0].department_id.id
+        #     _logger.info("?????????/")
+        #     _logger.info(self.env.user.id)
+        #     _logger.info(employee_id)
+        #     _logger.info(department_id)
             # requisition = self.env['ps.purchase.requisition'].create({
             #     'create_uid':self.env.user.id,
             #     'employee_id':employee_id,
