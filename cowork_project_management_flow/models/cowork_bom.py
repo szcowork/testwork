@@ -94,3 +94,9 @@ class cowork_bom_material_part(models.Model):
     def onchange_product_tmpl_id(self):
         if self.product_tmpl_id:
             self.uom_id = self.product_tmpl_id.uom_po_id or self.product_tmpl_id.uom_id
+
+
+class ps_purchase_requisition(models.Model):
+    _inherit = "ps.purchase.requisition"
+
+    sale_cowork_id = fields.Many2one("cowork.quote.order",string="项目报价单")
