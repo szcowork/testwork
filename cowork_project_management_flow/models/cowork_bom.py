@@ -59,6 +59,10 @@ class cowork_bom(models.Model):
                     for part in bom.spare_parts_lines:
                         _logger.info(part)
                         _logger.info("99999999999")
+                        _logger.info(part.product_tmpl_id.product_variant_id.name)
+                        _logger.info(part.product_tmpl_id.product_variant_id.id)
+                        _logger.info(part.count)
+                        _logger.info(part.uom_id.id)
                         vals = {
                             "name":part.product_tmpl_id.product_variant_id.name,,
                             "product_id": part.product_tmpl_id.product_variant_id.id,
