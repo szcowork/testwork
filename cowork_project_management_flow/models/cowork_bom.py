@@ -64,7 +64,7 @@ class cowork_bom(models.Model):
                         _logger.info(part.count)
                         _logger.info(part.uom_id.id)
                         vals = {
-                            "name":part.product_tmpl_id.product_variant_id.name,,
+                            "name":part.product_tmpl_id.product_variant_id.name,
                             "product_id": part.product_tmpl_id.product_variant_id.id,
                             "product_qty": part.count,
                             "product_uom_id": part.uom_id.id,
