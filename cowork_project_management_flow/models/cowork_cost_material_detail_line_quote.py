@@ -47,5 +47,5 @@ class cowork_cost_material_detail_line(models.Model):
     def compute_total_price(self):
         tmp = 0.0
         for line in self.spare_parts_lines:
-            tmp += line.total_cost
+            tmp += line.total_price
         self.total_cost = tmp
