@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_cowork_project_management_flow_root" name="柯沃项目管理体系流程" web_icon="cowork_project_management_flow,static/description/einfo-tech.png"/>
+    <menuitem id="menu_cowork_project_management_flow_root" name="柯沃项目管理体系流程" web_icon="cowork_project_management_flow,static/description/cowork.png"/>
     <menuitem id="menu_cowork_project_apply" name="立项申请" parent="menu_cowork_project_management_flow_root" sequence="1" action="action_cowork_project_apply"/>
     <menuitem id="menu_cowork_project_estimate" name="项目评估" parent="menu_cowork_project_management_flow_root" sequence="2" action="action_cowork_project_estimate"/>
     
