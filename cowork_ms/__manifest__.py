@@ -14,7 +14,7 @@
    'category': 'Tools',
    'version': '1.0',
 
-   'depends': ['base','einfo_hsp_approval','einfo_code_manager','cowork_projecty_sales'],
+   'depends': ['base','einfo_hsp_approval','einfo_code_manager'],  #,'cowork_projecty_sales'
 
    'data': [
       
