@@ -126,3 +126,19 @@ class ps_purchase_requisition_line(models.Model):
     _inherit = "ps.purchase.requisition.line"
 
     approval = fields.Selection([('draft','草稿'),('confirm','确认'),('faile','不通过')],default='draft',string="状态")
+
+    @api.multi
+    def action_approval(self):
+        for order in self:
+            order.button_to_confirm()
+
+    def button_to_confirm(self):
+        self.approval = 'approval'
+
+    @api.multi
+    def action_disapproval(self):
+        for order in self:
+            order.button_to_file()
+
+    def button_to_file(self):
+        self.approval = 'faile'

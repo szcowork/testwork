@@ -126,7 +126,7 @@
         <field name="name">采购申请明细</field>
         <field name="model">ps.purchase.requisition.line</field>
         <field name="arch" type="xml">
-            <tree string="采购申请明细" default_order="write_date desc">
+            <tree string="采购申请明细" default_order="write_date desc" create="0">
                 <field name="product_id"/>
                 <field name="ps_partner_id"/>
                 <field name="product_qty"/>
@@ -144,4 +144,23 @@
         <field name="view_mode">tree</field>
     </record>
     <menuitem id="menu_ps_purchase_requistion_line_cowork" name="采购申请明细" parent="menu_cowork_plan_design_root" sequence="3" action="action_ps_purchase_requisition_line"/>
+
+    <record id="action_ps_purchase_requisition_line_1" model="ir.actions.server">
+        <field name="name">同意</field>
+        <field name="model_id" ref="ps_purchase.model_ps_purchase_requisition_line"/>
+        <field name="state">code</field>
+        <field name="code">
+        if records:
+            action = records.action_approval()
+        </field>
+    </record>
+    <record id="action_ps_purchase_requisition_line_2" model="ir.actions.server">
+        <field name="name">不同意</field>
+        <field name="model_id" ref="ps_purchase.model_ps_purchase_requisition_line"/>
+        <field name="state">code</field>
+        <field name="code">
+        if records:
+            action = records.action_disapproval()
+        </field>
+    </record>
 </odoo>
