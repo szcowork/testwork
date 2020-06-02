@@ -121,3 +121,8 @@ class ps_purchase_requisition(models.Model):
 
     sale_cowork_id = fields.Many2one("cowork.quote.order",string="项目报价单")
     project_sale_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
+
+class ps_purchase_requisition_line(models.Model):
+    _inherit = "ps.purchase.requisition.line"
+
+    approval = fields.Selection([('draft','草稿'),('confirm','确认'),('faile','不通过')],default='draft',string="状态")
