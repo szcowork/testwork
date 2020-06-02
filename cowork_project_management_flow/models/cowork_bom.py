@@ -133,7 +133,7 @@ class ps_purchase_requisition_line(models.Model):
             order.button_to_confirm()
 
     def button_to_confirm(self):
-        self.approval = 'approval'
+        self.approval = 'confirm'
 
     @api.multi
     def action_disapproval(self):
