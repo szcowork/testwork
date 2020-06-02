@@ -126,6 +126,7 @@ class ps_purchase_requisition_line(models.Model):
     _inherit = "ps.purchase.requisition.line"
 
     approval = fields.Selection([('draft','草稿'),('confirm','确认'),('faile','不通过')],default='draft',string="状态")
+    categ_id = fields.Many2one('product.category',string="产品种类",related='product_id.categ_id')
 
     @api.multi
     def action_approval(self):
@@ -142,3 +143,18 @@ class ps_purchase_requisition_line(models.Model):
 
     def button_to_file(self):
         self.approval = 'faile'
+
+    def edit_to_purchase(self):
+        return {
+            'name': self.requisition_id.name,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'ps.purchase.requisition',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+            'res_id': self.requisition_id.id,
+            'view_id':self.env.ref('ps_purchase.ps_purchase_requisition_form_view_id').id,
+            'context':{
+                'form_view_initial_mode':'edit'
+            }
+        }
