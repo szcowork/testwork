@@ -17,7 +17,7 @@
 
                     <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy'/>
                     <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy'/>
-                    <button name="action_to_bom" string="物料方案" type="object" class="oe_highlight" states="general"/>
+                    <button name="action_to_bom" string="总经理审批，转物料方案" type="object" class="oe_highlight" states="general"/>
                     <button name="button_return_estimate_g" string="驳回" type="object" class="oe_highlight" states='general'/>
                     <button name="action_to_draft" string="设为草稿" type="object" states='cancel'/>
                     <field name="state" widget="statusbar" statusbar_visible="business,technology,project,deputy,general" readonly="1"/>
@@ -73,7 +73,20 @@
                         <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1"/>
                         <field name="currency_id" invisible="1"/>
                     </group>
+                    <hr/>
+                    <group>
+                        <field name="contract_state" widget="statusbar" attrs="{'invisible':[('tech_agreement_url','=',False)]}" readonly="1"/>
+                        <field name="contract_url" widget="url"/>
+                    </group>
+                    <group>
+                        <field name="agreemtn_state" widget="statusbar" attrs="{'invisible':[('tech_agreement_url','=',False)]}" readonly="1"/>
+                        <field name="tech_agreement_url" widget="url"/>
+                    </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>

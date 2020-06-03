@@ -9,7 +9,6 @@ class cowork_bom(models.Model):
     _description = '物料方案'
 
     material_details_ids = fields.One2many('cowork.cost.material.detail.line','cowork_bom_id',string="组件信息")
-    # name = fields.Many2one("cowork.scheme.preliminary",string="项目初步方案")
     name = fields.Many2one("cowork.quote.order",string="项目报价单")
     project_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
     material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料成本明细")
@@ -76,8 +75,6 @@ class cowork_bom_material(models.Model):
     _name = 'cowork.bom.material'
 
     bom_id = fields.Many2one("cowork.bom",string="物料方案")
-
-    # preliminary_scheme_id = fields.Many2one(comodel_name="cowork.scheme.preliminary",string="项目初步方案",related="bom_id.name")
     preliminary_scheme_id = fields.Many2one(comodel_name="cowork.quote.order",string="项目报价单",related="bom_id.name")
     name = fields.Char(string="组件名称")
     count = fields.Float(string="单台数量")

@@ -12,7 +12,6 @@ class cowork_scheme_preliminary(models.Model):
     title = fields.Char(string="项目名称")
     user_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user, string="填单人")
     date_fill = fields.Date(default=fields.Date.today(), string="填单时间")
-    material_lines = fields.One2many(comodel_name="cowork.bom.line", inverse_name="preliminary_scheme_id", string="物料")
     apply_id = fields.Many2one(comodel_name="cowork.project.estimate", string="项目编号")
     labor_cost_lines = fields.One2many(comodel_name="cowork.cost.labor", inverse_name="preliminary_scheme_id", string="人力成本")
     material_cost_lines = fields.One2many(comodel_name="cowork.cost.material", inverse_name="preliminary_scheme_id", string="物料成本")
@@ -23,9 +22,9 @@ class cowork_scheme_preliminary(models.Model):
     material_cost_details_lines = fields.One2many(comodel_name="cowork.cost.material.detail.line", inverse_name="preliminary_scheme_id", string="组件物料成本明细")
     quote_id = fields.Many2one(comodel_name="cowork.quote.order", ondelete="cascade", string="项目报价单")
     state = fields.Selection([
-        ('project','项目管理部'),
+        ('technology','技术部'),
         ('business','商务部'),
-    ],string="状态",default='project')
+    ],string="状态",default='technology', track_visibility='onchange')
 
     def action_to_business(self):
         self.state = 'business'
@@ -87,4 +86,4 @@ class cowork_scheme_preliminary(models.Model):
         }
 
     def button_return_scheme(self):
-        self.state = 'project'
+        self.state = 'technology'

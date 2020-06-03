@@ -29,18 +29,13 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                     </div>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
                     <group>
                         <field name="project_id" readonly="1"/>
-                        <field name="name" readonly="1"/>
                     </group>
                     <group>
-                        <!-- <field name="material_details_ids">
-                            <tree editable="bottom">
-                                <field name="name"/>
-                                <field name="count"/>
-                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑组件"/>
-                            </tree>
-                        </field> -->
                         <field name="material_cost_details_lines">
                             <tree editable="bottom">
                                 <field name="class_id"/>

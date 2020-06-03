@@ -4,7 +4,6 @@ from . import cowork_project_apply
 from . import cowork_project_estimate
 from . import cowork_scheme_preliminary
 from . import cowork_project_charger
-from . import cowork_bom_line
 from . import cowork_attachment_line
 from . import cowork_cost_labor
 from . import cowork_cost_labor_quote

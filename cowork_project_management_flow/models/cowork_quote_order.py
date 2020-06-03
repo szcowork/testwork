@@ -21,10 +21,25 @@ class cowork_quote_order(models.Model):
         ('deputy','副总经理'),
         ('general','总经理'),
         ('cancel','无效')
-    ],string="状态",default='business')
-
+    ],string="状态",default='business', track_visibility='onchange')
     amount = fields.Monetary(string="合计", store=True, compute='_amount_all')
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
+    
+    contract_state = fields.Selection([
+        ('draft','草稿'),
+        ('approving','审批中'),
+        ('done','完成'),
+        ('cancel','取消')
+    ],string="状态",default='draft', track_visibility='onchange')
+    contract_url = fields.Char("合同附件")
+
+    agreement_state = fields.Selection([
+        ('draft','草稿'),
+        ('approving','审批中'),
+        ('done','完成'),
+        ('cancel','取消')
+    ],string="状态",default='draft', track_visibility='onchange')
+    tech_agreement_url = fields.Char("技术协议附件")
 
     @api.model
     def create(self, vals): 
@@ -53,6 +68,32 @@ class cowork_quote_order(models.Model):
         self.state = 'deputy'
     def action_to_draft(self):
         self.state = 'business'
+
+    def contract_state_to_approving(self):
+        self.contract_state = "approving"
+    def contract_state_to_done(self):
+        self.contract_state = "done"
+    def contract_state_to_cancel(self):
+        self.contract_state = "cancel"
+    def contract_state_to_draft(self):
+        self.contract_state = "draft"
+
+    def agreement_state_to_approving(self):
+        self.agreement_state = "approving"
+    def agreement_state_to_done(self):
+        self.agreement_state = "done"
+    def agreement_state_to_cancel(self):
+        self.agreement_state = "cancel"
+    def agreement_state_to_draft(self):
+        self.agreement_state = "draft"
+
+
+    def create_bom(self):
+        vals = {
+            'name':self.id,
+            'project_id': self.project_id.id
+        }
+        self.env['cowork.bom'].create(vals)
 
     def action_to_bom(self):
         return {
