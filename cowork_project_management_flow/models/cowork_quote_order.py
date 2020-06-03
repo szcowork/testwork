@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class cowork_quote_order(models.Model):
     _name = "cowork.quote.order"
     _description = "项目报价单"
+    _inherit = ['mail.thread']
     
     name = fields.Char(default="New", string="单号")
     project_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
