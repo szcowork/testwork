@@ -79,7 +79,7 @@
                         <field name="contract_url" widget="url"/>
                     </group>
                     <group>
-                        <field name="agreemtn_state" widget="statusbar" attrs="{'invisible':[('tech_agreement_url','=',False)]}" readonly="1"/>
+                        <field name="agreement_state" widget="statusbar" attrs="{'invisible':[('tech_agreement_url','=',False)]}" readonly="1"/>
                         <field name="tech_agreement_url" widget="url"/>
                     </group>
                 </sheet>
