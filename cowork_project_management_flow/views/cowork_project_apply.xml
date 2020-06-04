@@ -38,8 +38,8 @@
                     <group string="项目负责人">
                         <field name="charger_lines" nolabel="1">
                             <tree editable="bottom">
-                                <field name="job_id" required="1"/>
-                                <field name="employee_id" domain="[('job_id','=',job_id)]"/>
+                                <field name="job_id" required="1" options="{'no_create': True}"/>
+                                <field name="employee_id" domain="[('job_id','=',job_id)]" options="{'no_create': True}"/>
                             </tree>
                         </field>
                     </group>

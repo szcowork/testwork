@@ -104,9 +104,11 @@
         <field name="model">cowork.purchase</field>
         <field name="arch" type="xml">
             <form string="拟询价单">
+                <header>
+                    <button string="生成询价列表" type="object" class="oe_highlight" name="return_purchase"/>
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button string="生成询价列表" type="object" class="oe_highlight" name="return_purchase"/>
                     </div>
                     <group>
                         <field name="name"/>

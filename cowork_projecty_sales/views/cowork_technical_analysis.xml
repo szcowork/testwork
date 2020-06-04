@@ -43,7 +43,7 @@
 							<field name="technical_id">
 								<tree editable="bottom">
 									<field name="categ_id"/>
-									<field name="product_id" domain="[('categ_id','=',categ_id)]"/>
+									<field name="product_id" content="{'default_categ_id': categ_id,'default_type':'product'}" domain="[('categ_id','=',categ_id)]"/>
 									<field name="count"/>
 								</tree>
 							</field>
