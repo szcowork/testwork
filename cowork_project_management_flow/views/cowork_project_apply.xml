@@ -14,6 +14,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" class="oe_stat_button" icon="fa-bookmark-o" string="项目评估" name="action_to_estimate" attrs="{'invisible':[('estimate_id','=',False)]}"/>
+                        <button type="object" class="oe_stat_button" icon="fa-cart-plus" string="询价单" name="action_to_purchase" attrs="{'invisible':[('state','=','business')]}"/>
                     </div>
                     <group string="申请信息">
                         <field name="name" readonly="1"/>

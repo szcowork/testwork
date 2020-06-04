@@ -16,3 +16,5 @@ from . import cowork_spare_part_line
 from . import product_brand
 from . import cowork_quote_order
 from . import cowork_bom
+from . import cowork_purchase_order
+from . import cowork_purchase_order_line

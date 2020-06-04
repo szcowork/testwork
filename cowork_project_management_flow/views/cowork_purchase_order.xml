@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_purchase_order">
+        <field name="name">申购单</field>
+        <field name="model">cowork.purchase.order</field>
+        <field name="arch" type="xml">
+            <form string="申购单">
+                <header>
+                    <button name="button_order" states="draft" string="确认" type="object" class="oe_highlight"/>
+                    <button name="button_to_purchase" states="confirm" string="转询价" type="object" class="oe_highlight"/>
+                    <button name="button_draft" states="cancel" string="设为草稿" type="object"/>
+                    <button name="button_cancel" states="confirm" string="取消" type="object" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,purchase" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <h1>
+                        <field name="name"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="user_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="class_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="code"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <label for="qty" string="数量"/>
+                            <div>
+                                <field  name="qty" class="oe_inline"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="uom_id" force_save="1" class="oe_inline oe_no_button"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </div>
+                            <!-- <field name="qty"/>
+                            <field name="uom_id"/> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="采购明细">
+                        <field name="line_id"  attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <tree editable="bottom">
+                                <field name="categ_id"/>
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="uom_id"/>
+                                <field name="material"/>
+                                <field name="type_id"/>
+                                <field name="brand_id"/>
+                                <field name="partner_id" doamin="[('supplier','=',True)]"/>
+                                <field name="list_price"/>
+                                <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
+                                <field name="amount"/>
+                                <field name="delivery"/>
+                                <field name="comment"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                        <group class="oe_subtotal_footer oe_right">
+                            <div class="oe_subtotal_footer_separator oe_inline">
+                                <label for="amount"/>
+                            </div>
+                            <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1"/>
+                        </group>
+                        <div class="oe_clear"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_purchase_order">
+        <field name="name">申购单</field>
+        <field name="model">cowork.purchase.order</field>
+        <field name="arch" type="xml">
+            <tree string="申购单" default_order="write_date desc">
+                <field name="project_id"/>
+                <field name="class_id"/>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="date"/>
+                <field name="qty"/>
+                <field name="uom_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_purchase_order">
+        <field name="name">申购单</field>
+        <field name="model">cowork.purchase.order</field>
+        <field name="arch" type="xml">
+            <search string="申购单">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="user_id"/>
+                <field name="uom_id"/>
+                <filter name="user_id" string="编制" context="{'group_by':'user_id'}"/>
+                <filter name="date" string="日期" context="{'group_by':'date'}"/>
+                <filter name="uom_id" string="单位" context="{'group_by':'uom_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cowork_purchase_order">
+        <field name="name">申购单</field>
+        <field name="res_model">cowork.purchase.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="menu_cowork_purchase_order" name="申购单" parent="cowork_project_management_flow.menu_cowork_plan_design_root" sequence="3" action="action_cowork_purchase_order"/>
+
+    <record model="ir.ui.view" id="purchase_order_form_inherit_cowork">
+        <field name="name">purchase.order.form.inherit.cowork</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='date_order']" position="after">
+            <field name="project_id"/>
+          </xpath>
+        </field>
+    </record>
+
+</odoo>

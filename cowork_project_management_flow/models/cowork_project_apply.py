@@ -84,3 +84,16 @@ class cowork_project_apply(models.Model):
 
     def button_return_apply(self):
         self.state = 'business'
+
+    def action_to_purchase(self):
+        tc_ids = self.env['purchase.order'].search([
+            ('project_id', '=', self.id),
+        ]).mapped('id')
+        return {
+            'name': "采购单",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'res_model': 'purchase.order',
+            'domain': [('id','in',tc_ids)]
+        }

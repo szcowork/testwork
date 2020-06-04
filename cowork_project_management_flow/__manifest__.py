@@ -14,7 +14,7 @@
     'category': 'Tools',
     'version': '1.0',
 
-    'depends': ['base','mail','hr','ps_purchase','purchase_requisition'],
+    'depends': ['base','mail','hr','account','purchase'],  #,'ps_purchase','purchase_requisition'
 
     'data': [
         "views/cowork_project_priority.xml",
@@ -36,7 +36,9 @@
         "data/cowork_material_category.xml",
         "data/cowork_material_class.xml",
         "views/cowork_bom.xml",
-        "views/work.xml"
+        "views/work.xml",
+        "views/cowork_purchase_order.xml",
+        "views/cowork_purchase_order_line.xml"
     ],
 
     'installable':True,

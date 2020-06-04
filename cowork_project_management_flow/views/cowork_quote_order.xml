@@ -74,14 +74,32 @@
                         <field name="currency_id" invisible="1"/>
                     </group>
                     <hr/>
-                    <group>
-                        <field name="contract_state" widget="statusbar" attrs="{'invisible':[('tech_agreement_url','=',False)]}" readonly="1"/>
-                        <field name="contract_url" widget="url"/>
-                    </group>
-                    <group>
-                        <field name="agreement_state" widget="statusbar" attrs="{'invisible':[('tech_agreement_url','=',False)]}" readonly="1"/>
-                        <field name="tech_agreement_url" widget="url"/>
-                    </group>
+                    <notebook>
+                        <page string="设备合同">
+                            <header>
+                                <button name="contract_state_to_approving" string="提交" type="object" class="oe_highlight" states='draft'/>
+                                <button name="contract_state_to_draft" string="驳回" type="object" class="oe_highlight" states='approving'/>
+                                <button name="contract_state_to_done" string="审核通过" type="object" class="oe_highlight" states='approving'/>
+                                <button name="contract_state_to_cancel" string="无效" type="object" class="oe_highlight" states='approving'/>
+                                <field name="contract_state" widget="statusbar" readonly="1"/>
+                            </header>
+                            <group>
+                                <field name="contract_url" widget="url"/>
+                            </group>
+                        </page>
+                        <page string="技术协议">
+                            <header>
+                                <button name="agreement_state_to_approving" string="提交" type="object" class="oe_highlight" states='draft'/>
+                                <button name="agreement_state_to_draft" string="驳回" type="object" class="oe_highlight" states='approving'/>
+                                <button name="agreement_state_to_done" string="审核通过" type="object" class="oe_highlight" states='approving'/>
+                                <button name="agreement_state_to_cancel" string="无效" type="object" class="oe_highlight" states='approving'/>
+                                <field name="agreement_state" widget="statusbar" readonly="1"/>
+                            </header>
+                            <group>
+                                <field name="tech_agreement_url" widget="url"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>

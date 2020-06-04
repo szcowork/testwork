@@ -40,36 +40,56 @@ class cowork_bom(models.Model):
     def action_to_requisition(self):
         # pass
         if self.material_cost_details_lines:
-            employee = self.env['hr.employee'].search([('user_id','=',self.env.user.id)])
-            employee_id = False
-            department_id = False
-            if employee:
-                employee_id = employee[0].id
-                if employee[0].department_id:
-                    department_id = employee[0].department_id.id
+            for material in self.material_cost_details_lines:
+                purchase = self.env['cowork.purchase.order'].create({
+                    'name': material.name,
+                    'user_id': self.env.user.id,
+                    'date': fields.Date.today(),
+                    'qty': material.count,
+                    'project_id': self.project_id.id,
+                    'class_id': material.class_id.id
+                })
+                if material.spare_parts_lines:
+                    for part in material.spare_parts_lines:
+                        purchase.line_id.create({
+                            'categ_id': part.categ_id.id,
+                            'product_id': part.product_tmpl_id.product_variant_id.id,
+                            'product_qty': part.count,
+                            'uom_id': part.uom_id.id,
+                            'brand_id': part.brand_id.id,
+                            'order_id': purchase.id
+                        })
+        # if self.material_cost_details_lines:
+        #     employee = self.env['hr.employee'].search([('user_id','=',self.env.user.id)])
+        #     employee_id = False
+        #     department_id = False
+        #     if employee:
+        #         employee_id = employee[0].id
+        #         if employee[0].department_id:
+        #             department_id = employee[0].department_id.id
 
-            pre_po_lines = []
-            for bom in self.material_cost_details_lines:
-                if bom.spare_parts_lines:
-                    for part in bom.spare_parts_lines:
-                        vals = {
-                            "name":part.product_tmpl_id.product_variant_id.name,
-                            "product_id": part.product_tmpl_id.product_variant_id.id,
-                            "product_qty": part.count,
-                            "product_uom_id": part.uom_id.id,
-                            "plan_date": fields.Datetime.now(),
-                        }
-                        pre_po_lines.append((0,0,vals))
-            self.env['ps.purchase.requisition'].create({
-                "create_uid":self.env.user.id,
-                "line_ids":pre_po_lines,
-                "sale_cowork_id":self.name.id,
-                'employee_id':employee_id,
-                'requisition_date':fields.Date.today(),
-                'department_id':department_id,
-                'project_sale_id':self.project_id.id
-            })
-            _logger.info("ps.purchase.requisition")
+        #     pre_po_lines = []
+        #     for bom in self.material_cost_details_lines:
+        #         if bom.spare_parts_lines:
+        #             for part in bom.spare_parts_lines:
+        #                 vals = {
+        #                     "name":part.product_tmpl_id.product_variant_id.name,
+        #                     "product_id": part.product_tmpl_id.product_variant_id.id,
+        #                     "product_qty": part.count,
+        #                     "product_uom_id": part.uom_id.id,
+        #                     "plan_date": fields.Datetime.now(),
+        #                 }
+        #                 pre_po_lines.append((0,0,vals))
+        #     self.env['ps.purchase.requisition'].create({
+        #         "create_uid":self.env.user.id,
+        #         "line_ids":pre_po_lines,
+        #         "sale_cowork_id":self.name.id,
+        #         'employee_id':employee_id,
+        #         'requisition_date':fields.Date.today(),
+        #         'department_id':department_id,
+        #         'project_sale_id':self.project_id.id
+        #     })
+        #     _logger.info("ps.purchase.requisition")
 
 class cowork_bom_material(models.Model):
     _name = 'cowork.bom.material'
@@ -113,45 +133,45 @@ class cowork_bom_material_part(models.Model):
             self.uom_id = self.product_tmpl_id.uom_po_id or self.product_tmpl_id.uom_id
 
 
-class ps_purchase_requisition(models.Model):
-    _inherit = "ps.purchase.requisition"
+# class ps_purchase_requisition(models.Model):
+#     _inherit = "ps.purchase.requisition"
 
-    sale_cowork_id = fields.Many2one("cowork.quote.order",string="项目报价单")
-    project_sale_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
+#     sale_cowork_id = fields.Many2one("cowork.quote.order",string="项目报价单")
+#     project_sale_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
 
-class ps_purchase_requisition_line(models.Model):
-    _inherit = "ps.purchase.requisition.line"
+# class ps_purchase_requisition_line(models.Model):
+#     _inherit = "ps.purchase.requisition.line"
 
-    approval = fields.Selection([('draft','草稿'),('confirm','确认'),('faile','不通过')],default='draft',string="状态")
-    categ_id = fields.Many2one('product.category',string="产品种类",related='product_id.categ_id')
+#     approval = fields.Selection([('draft','草稿'),('confirm','确认'),('faile','不通过')],default='draft',string="状态")
+#     categ_id = fields.Many2one('product.category',string="产品种类",related='product_id.categ_id')
 
-    @api.multi
-    def action_approval(self):
-        for order in self:
-            order.button_to_confirm()
+#     @api.multi
+#     def action_approval(self):
+#         for order in self:
+#             order.button_to_confirm()
 
-    def button_to_confirm(self):
-        self.approval = 'confirm'
+#     def button_to_confirm(self):
+#         self.approval = 'confirm'
 
-    @api.multi
-    def action_disapproval(self):
-        for order in self:
-            order.button_to_file()
+#     @api.multi
+#     def action_disapproval(self):
+#         for order in self:
+#             order.button_to_file()
 
-    def button_to_file(self):
-        self.approval = 'faile'
+#     def button_to_file(self):
+#         self.approval = 'faile'
 
-    def edit_to_purchase(self):
-        return {
-            'name': self.requisition_id.name,
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'ps.purchase.requisition',
-            'type': 'ir.actions.act_window',
-            'target': 'current',
-            'res_id': self.requisition_id.id,
-            'view_id':self.env.ref('ps_purchase.ps_purchase_requisition_form_view_id').id,
-            'context':{
-                'form_view_initial_mode':'edit'
-            }
-        }
+#     def edit_to_purchase(self):
+#         return {
+#             'name': self.requisition_id.name,
+#             'view_type': 'form',
+#             'view_mode': 'form',
+#             'res_model': 'ps.purchase.requisition',
+#             'type': 'ir.actions.act_window',
+#             'target': 'current',
+#             'res_id': self.requisition_id.id,
+#             'view_id':self.env.ref('ps_purchase.ps_purchase_requisition_form_view_id').id,
+#             'context':{
+#                 'form_view_initial_mode':'edit'
+#             }
+#         }
