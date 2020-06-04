@@ -24,6 +24,11 @@ class CoworkProjectManagementFlow(http.Controller):
         alignment.vert = xlwt.Alignment.VERT_CENTER
         style = xlwt.XFStyle()
         style.alignment = alignment
+        
+        font = xlwt.Font()
+        font.height = 24
+        font.bold = True
+        style.font = font
 
         borders = xlwt.Borders()
         borders.left = 1
