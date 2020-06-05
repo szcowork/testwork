@@ -34,7 +34,7 @@ class cowork_scheme_preliminary(models.Model):
     def create(self, vals): 
          #创建时自动生成单号
         if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('cowork.scheme.preliminary') or '/'
+            vals['name'] =self.apply_id.name +"/"+ self.env['ir.sequence'].next_by_code('cowork.scheme.preliminary') or '/'
         return super(cowork_scheme_preliminary, self).create(vals)
 
     def import_categs(self):

@@ -6,11 +6,11 @@
         <field name="arch" type="xml">
             <form string="项目初步方案">
                 <header>
-                    <button name="action_to_business" string="技术部提交" type="object" class="oe_highlight" states='project'/>
+                    <button name="action_to_business" string="技术部提交" type="object" class="oe_highlight" states='technology'/>
                     <button name="create_quote" string="转报价" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','business'),('quote_id','!=',False)]}"/>
                     <button name="button_return_scheme" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('quote_id','!=',False),('state','!=','business')]}"/>
 
-                    <field name="state" widget="statusbar" statusbar_visible="project,business" readonly="1"/>
+                    <field name="state" widget="statusbar" statusbar_visible="technology,business" readonly="1"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">

@@ -17,7 +17,7 @@
 
                     <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy'/>
                     <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy'/>
-                    <button name="action_to_bom" string="总经理审批，转物料方案" type="object" class="oe_highlight" states="general"/>
+                    <button name="create_project_start" string="总经理审批，转物料方案" type="object" class="oe_highlight" states="general"/>
                     <button name="button_return_estimate_g" string="驳回" type="object" class="oe_highlight" states='general'/>
                     <button name="action_to_draft" string="设为草稿" type="object" states='cancel'/>
                     <field name="state" widget="statusbar" statusbar_visible="business,technology,project,deputy,general" readonly="1"/>
@@ -34,15 +34,15 @@
                         <field name="project_id" attrs="{'readonly': [('state', '!=', 'business')]}"/>
                         <field name="title" attrs="{'readonly': [('state', '!=', 'business')]}"/>
                         <field name="partner_id" attrs="{'readonly': [('state', '!=', 'business')]}"/>
-                        <field name="contact_id" attrs="{'readonly': [('state', '!=', 'business')]}"/>
+                        <field name="contact_id" attrs="{'readonly': [('state', '!=', 'business')]}" domain="[('parent_id','=',partner_id)]" options="{'no_create_edit':1}"/>
                     </group>
                     <group string="物料成本">
-                        <field name="material_cost_details_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}">
+                        <field name="material_cost_details_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}" options="{'no_create_edit':1}">
                             <tree editable="bottom">
-                                <field name="name"/>
-                                <field name="count"/>
-                                <field name="class_id"/>
-                                <field name="total_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="name" readonly="1"/>
+                                <field name="count" readonly="1"/>
+                                <field name="class_id" readonly="1"/>
+                                <field name="total_cost" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="sale_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="state" invisible="1"/>
@@ -51,14 +51,14 @@
                         </field>
                     </group>
                     <group string="人力成本">
-                        <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}">
+                        <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}" options="{'no_create_edit':1}">
                             <tree editable="bottom">
-                                <field name="job_id"/>
-                                <field name="count"/>
-                                <field name="hours_per_day"/>
-                                <field name="total_hours"/>
-                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="job_id" readonly="1"/>
+                                <field name="count" readonly="1"/>
+                                <field name="hours_per_day" readonly="1"/>
+                                <field name="total_hours" readonly="1"/>
+                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
                                 <field name="total_quote" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="state" invisible="1"/>

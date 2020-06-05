@@ -119,21 +119,21 @@
                         <field name="user_id" readonly="1"/>
                     </group>
                     <group string="申购列表">
-                        <field name="line_id" nolabel="1">
+                        <field name="line_id" nolabel="1" readonly="1">
                             <tree editable="bottom">
                                 <field name="partner_id"/>
                                 <field name="categ_id"/>
                                 <field name="product_id"/>
                                 <field name="product_qty"/>
-                                <field name="uom_id" readonly="1"/>
-                                <field name="material" readonly="1"/>
-                                <field name="type_id" readonly="1"/>
-                                <field name="brand_id" readonly="1"/>
+                                <field name="uom_id"/>
+                                <field name="material"/>
+                                <field name="type_id"/>
+                                <field name="brand_id"/>
                                 <field name="list_price"/>
                                 <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
                                 <field name="amount"/>
-                                <field name="delivery" readonly="1"/>
-                                <field name="comment" readonly="1"/>
+                                <field name="delivery"/>
+                                <field name="comment"/>
                                 <field name="currency_id" invisible="1"/>
                             </tree>
                         </field>
@@ -147,7 +147,7 @@
                     <group string="询价列表">
                         <field name="pline_id" nolabel="1">
                             <tree editable="bottom">
-                                <field name="partner_id"/>
+                                <field name="partner_id" domain="[('supplier','=',True)]" context="{'default_supplier':True}"/>
                                 <field name="categ_id"/>
                                 <field name="product_id"/>
                                 <field name="product_qty"/>
@@ -175,6 +175,8 @@
         <field name="arch" type="xml">
             <tree string="拟询价单" default_order="write_date desc">
                 <field name="name"/>
+                <field name="user_id"/>
+                <field name="apply_time"/>
             </tree>
         </field>
     </record>
