@@ -18,3 +18,4 @@ from . import cowork_quote_order
 from . import cowork_bom
 from . import cowork_purchase_order
 from . import cowork_purchase_order_line
+from . import stock

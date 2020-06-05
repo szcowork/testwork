@@ -78,11 +78,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-
-
-
-
-
     <record model="ir.ui.view" id="view_form_cowork_cost_material_detail_line_quote">
         <field name="name">组件物料成本行</field>
         <field name="model">cowork.cost.material.detail.line.quote</field>

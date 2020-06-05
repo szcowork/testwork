@@ -29,7 +29,7 @@
                     <group string="1.人力成本">
                         <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'business')]}">
                             <tree editable="bottom">
-                                <field name="job_id" required="1"/>
+                                <field name="job_id" required="1" options="{'no_create_edit': True}"/>
                                 <field name="count"/>
                                 <field name="hours_per_day"/>
                                 <field name="count_day"/>
@@ -45,7 +45,7 @@
                     <group string="2.物料成本">
                         <field name="material_cost_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'business')]}">
                             <tree editable="bottom">
-                                <field name="material_categ_id" required="1"/>
+                                <field name="material_categ_id" required="1" options="{'no_create_edit': True}"/>
                                 <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="state" invisible="1"/>
@@ -70,9 +70,9 @@
                     <hr/>
                     <button type="object" class="oe_highlight" name="summary_all" string="统计合算" attrs="{'invisible': [('state', '=', 'business')]}"/>
                     <group string="4.预估总成本">
-                        <field name="total_labor_cost"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
-                        <field name="total_material_cost"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
-                        <field name="total_untaxed_cost"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="total_untaxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
                         <field name="currency_id" invisible="1"/>
                     </group>
                 </sheet>
@@ -94,9 +94,9 @@
                 <field name="user_id"/>
                 <field name="date_fill"/>
                 <field name="apply_id"/>
-                <field name="total_labor_cost"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                <field name="total_material_cost"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                <field name="total_untaxed_cost"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_untaxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="currency_id" invisible="1"/>
             </tree>
         </field>

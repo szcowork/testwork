@@ -13,12 +13,12 @@
                             <field name="job_id"/>
                             <field name="count"/>
                             <field name="total_hours"/>
-                            <field name="unit_price"/>
+                            <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         </group>
                         <group>
                             <field name="count_day"/>
                             <field name="hours_per_day"/>
-                            <field name="total_price"/>
+                            <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="total_quote"/>
                             <field name="currency_id" invisible="1"/>
                         </group>

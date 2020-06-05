@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-
+from random import *
 
 class cowork_purchase_order_line(models.Model):
     _name = "cowork.purchase.order.line"
-    _description = "柯沃采购明细行"
+    _description = "柯沃申购明细行"
     
     order_id = fields.Many2one(comodel_name="cowork.purchase.order", string="设备名称/组件")
     categ_id = fields.Many2one(comodel_name="product.category", string="图号/名称")
@@ -67,12 +67,16 @@ class cowork_purchase_order_line(models.Model):
     @api.multi
     def action_be_purchase(self):
         purchase = self.env['cowork.purchase'].create({
-            'name':str(fields.Datetime.now())
+            'name':"申购询价单:"+str(fields.Datetime.now()) + "-" + "".join([choice("0123456789ABCDEF") for i in range(12)]),
+            'user_id': self.env.user.id,
+            'apply_time': fields.Datetime.now()
         })
         for order in self:
-            order.purchase_id = purchase.id
+            if not order.purchase_id:
+                order.purchase_id = purchase.id
 
 class purchase_type(models.Model):
     _name = 'purchase.type'
+    _description = '采购类型'
 
     name = fields.Char(string="类型名称")

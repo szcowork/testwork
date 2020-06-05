@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_cowork_project_management_flow_root" name="柯沃项目管理体系流程" web_icon="cowork_project_management_flow,static/description/cowork.png"/>
-    <menuitem id="menu_cowork_project_apply" name="立项申请" parent="menu_cowork_project_management_flow_root" sequence="1" action="action_cowork_project_apply"/>
-    <menuitem id="menu_cowork_project_estimate" name="项目评估" parent="menu_cowork_project_management_flow_root" sequence="2" action="action_cowork_project_estimate"/>
+    <menuitem id="menu_cowork_project_apply" name="1.立项申请" parent="menu_cowork_project_management_flow_root" sequence="1" action="action_cowork_project_apply"/>
+    <menuitem id="menu_cowork_project_estimate" name="2.项目评估" parent="menu_cowork_project_management_flow_root" sequence="2" action="action_cowork_project_estimate"/>
     
-    <menuitem id="menu_cowork_scheme_preliminary_root" name="项目方案" parent="menu_cowork_project_management_flow_root" sequence="3"/>
-    <menuitem id="menu_cowork_scheme_preliminary" name="项目初步方案" parent="menu_cowork_scheme_preliminary_root" sequence="1" action="action_cowork_scheme_preliminary"/>
+    <menuitem id="menu_cowork_scheme_preliminary_root" name="3.项目方案" parent="menu_cowork_project_management_flow_root" sequence="3"/>
+    <menuitem id="menu_cowork_scheme_preliminary" name="3.1 项目初步方案" parent="menu_cowork_scheme_preliminary_root" sequence="1" action="action_cowork_scheme_preliminary"/>
     <!-- <menuitem id="menu_cowork_cost_material" name="物料成本行" parent="menu_cowork_scheme_preliminary_root" sequence="2" action="action_cowork_cost_material"/> -->
     <!-- <menuitem id="menu_cowork_cost_material_detail_line" name="组件物料成本行" parent="menu_cowork_scheme_preliminary_root" sequence="1" action="action_cowork_cost_material_detail_line"/> -->
-    <menuitem id="menu_cowork_quote_order" name="项目报价单" parent="menu_cowork_scheme_preliminary_root" sequence="3" action="action_cowork_quote_order"/>
+    <menuitem id="menu_cowork_quote_order" name="3.2 项目报价单" parent="menu_cowork_scheme_preliminary_root" sequence="3" action="action_cowork_quote_order"/>
 
-    
-    <menuitem id="menu_cowork_settings" name="配置" parent="menu_cowork_project_management_flow_root"/>
+    <menuitem id="menu_cowork_plan_design_root" name="4.项目执行" parent="menu_cowork_project_management_flow_root" sequence="4"/>
+        <menuitem id="menu_cowork_material_bom" name="4.1 方案设计" parent="menu_cowork_plan_design_root" sequence="1" action="action_cowork_bom"/>
+
+    <menuitem id="menu_cowork_plan_design_purchase" name="4.2 采购事宜" parent="menu_cowork_plan_design_root" sequence="2"/>
+        <menuitem id="menu_cowork_purchase_order" name="4.2.1 申购单" parent="menu_cowork_plan_design_purchase" sequence="1" action="action_cowork_purchase_order"/>
+        <menuitem id="menu_cowork_purchase_order_line" name="4.2.2 申购单明细" parent="menu_cowork_plan_design_purchase" sequence="2" action="action_cowork_purchase_order_line"/>
+        <menuitem action="action_cowork_purchase" id="menu_action_cowork_ni" parent="menu_cowork_plan_design_purchase" sequence="3" name="4.2.3 拟询价单"/>
+        <menuitem action="purchase.purchase_rfq" id="menu_purchase_form_action_cowork" parent="menu_cowork_plan_design_purchase" sequence="4" name="4.2.4 采购订单"/>
+
+    <menuitem id="menu_cowork_settings" name="#配置" parent="menu_cowork_project_management_flow_root"/>
     <menuitem id="menu_cowork_project_priority" name="项目优先级" parent="menu_cowork_settings" action="action_cowork_project_priority"/>
     <menuitem id="menu_cowork_project_difficulty" name="项目难度" parent="menu_cowork_settings" action="action_cowork_project_difficulty"/>
     <menuitem id="menu_cowork_material_class" name="物料分类" parent="menu_cowork_settings" action="action_cowork_material_class"/>

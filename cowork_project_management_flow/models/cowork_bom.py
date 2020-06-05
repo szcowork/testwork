@@ -12,6 +12,8 @@ class cowork_bom(models.Model):
     name = fields.Many2one("cowork.quote.order",string="项目报价单")
     project_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
     material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料成本明细")
+    mechaine_pic = fields.Char(string="机械3D图")
+    electric_pic = fields.Char(string="电气3D图")
 
     def get_material_info(self):
         if self.name:

@@ -7,7 +7,7 @@
             <form string="申购单">
                 <header>
                     <button name="button_order" states="draft" string="确认" type="object" class="oe_highlight"/>
-                    <button name="button_to_purchase" states="confirm" string="转询价" type="object" class="oe_highlight"/>
+                    <button name="button_to_purchase" states="confirm" string="转采购订单" type="object" class="oe_highlight"/>
                     <button name="button_draft" states="cancel" string="设为草稿" type="object"/>
                     <button name="button_cancel" states="confirm" string="取消" type="object" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,purchase" readonly="1"/>
@@ -110,7 +110,6 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="menu_cowork_purchase_order" name="申购单" parent="cowork_project_management_flow.menu_cowork_plan_design_root" sequence="3" action="action_cowork_purchase_order"/>
 
     <record model="ir.ui.view" id="purchase_order_form_inherit_cowork">
         <field name="name">purchase.order.form.inherit.cowork</field>

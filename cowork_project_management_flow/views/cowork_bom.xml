@@ -36,6 +36,10 @@
                         <field name="project_id" readonly="1"/>
                     </group>
                     <group>
+                        <field name="mechaine_pic" widget="url"/>
+                        <field name="electric_pic" widget="url"/>
+                    </group>
+                    <group>
                         <field name="material_cost_details_lines">
                             <tree editable="bottom">
                                 <field name="class_id"/>
@@ -99,8 +103,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_cowork_plan_design_root" name="项目执行" parent="cowork_project_management_flow.menu_cowork_project_management_flow_root" sequence="4"/>
-        <menuitem id="menu_cowork_material_bom" name="方案设计" parent="menu_cowork_plan_design_root" sequence="1" action="action_cowork_bom"/>
         <!-- <menuitem id="menu_ps_purchase_requistion_cowork" name="采购申请" parent="menu_cowork_plan_design_root" sequence="2" action="ps_purchase.ps_purchase_requisition_action"/> -->
 
     <!-- <record model="ir.ui.view" id="ps_purchase_requisition_inherit_cowork_form_bom">
@@ -158,4 +160,17 @@
             action = records.action_disapproval()
         </field>
     </record> -->
+    <record id="view_picking_form_inherit_cowork_" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.cowork</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="project_id" options="{'no_create_edit':True,'no_open':True}"/>
+            </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before">
+                <field name="project_id"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

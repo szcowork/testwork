@@ -18,9 +18,9 @@
                         <field name="type_id"/>
                         <field name="brand_id"/>
                         <field name="partner_id"/>
-                        <field name="list_price" widget="monetary"/>
+                        <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <field name="tax_ids"/>
-                        <field name="amount" widget="monetary"/>
+                        <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <field name="delivery"/>
                         <field name="comment"/>
                         <field name="currency_id" invisible="1"/>
@@ -36,21 +36,22 @@
         <field name="arch" type="xml">
             <tree string="申购单明细" default_order="write_date desc" create="0" editable="bottom">
                 <field name="project_id" readonly="1"/>
-                <field name="order_id" readonly="1"/>
-                <field name="categ_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="product_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="order_id" readonly="1" options="{'bg_color':'SpringGreen:purchase_id==False'}"/>
+                <field name="categ_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'bg_color':'SpringGreen:purchase_id==False'}"/>
+                <field name="product_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'bg_color':'SpringGreen:purchase_id==False'}"/>
                 <field name="product_qty" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="uom_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="material" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="type_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="brand_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="list_price" widget="monetary" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="amount" widget="monetary"/>
+                <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="delivery" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="comment" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="state" invisible="1"/>
+                <field name="purchase_id" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -70,8 +71,10 @@
                 <field name="brand_id"/>
                 <field name="partner_id"/>
                 <field name="comment" filter_domain="[('comment','ilike',self)]"/>
+                <filter string="询价中" name="quoteing" domain="[('purchase_id', '!=', False)]"/>
+                <filter string="待询价" name="to_quote" domain="[('purchase_id', '=', False)]"/>
                 <filter name="order_id" string="采购单据" context="{'group_by':'order_id'}"/>
-                <filter name="categ_id" string="图号/名称" context="{'group_by':'categ_id'}"/>
+                <filter name="categ_id_group" string="图号/名称" context="{'group_by':'categ_id'}"/>
                 <filter name="product_id" string="名称/型号" context="{'group_by':'product_id'}"/>
                 <filter name="uom_id" string="单位" context="{'group_by':'uom_id'}"/>
                 <filter name="type_id" string="类型" context="{'group_by':'type_id'}"/>
@@ -85,9 +88,8 @@
         <field name="name">申购单明细</field>
         <field name="res_model">cowork.purchase.order.line</field>
         <field name="view_mode">tree</field>
+        <field name="context">{'search_default_categ_id_group':1}</field>
     </record>
-    <menuitem id="menu_cowork_purchase_order_line" name="申购单明细" parent="cowork_project_management_flow.menu_cowork_plan_design_root" sequence="4" action="action_cowork_purchase_order_line"/>
-    <menuitem action="purchase.purchase_rfq" id="menu_purchase_form_action_cowork" parent="cowork_project_management_flow.menu_cowork_plan_design_root" sequence="5" name="采购订单"/>
 
     <record id="action_ps_purchase_requisition_line_1" model="ir.actions.server">
         <field name="name">拟询价单</field>
@@ -105,13 +107,16 @@
         <field name="arch" type="xml">
             <form string="拟询价单">
                 <header>
-                    <button string="生成询价列表" type="object" class="oe_highlight" name="return_purchase"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                     </div>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
                     <group>
-                        <field name="name"/>
+                        <field name="apply_time" readonly="1"/>
+                        <field name="user_id" readonly="1"/>
                     </group>
                     <group string="申购列表">
                         <field name="line_id" nolabel="1">
@@ -129,6 +134,32 @@
                                 <field name="amount"/>
                                 <field name="delivery" readonly="1"/>
                                 <field name="comment" readonly="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <hr/>
+                    <button string="1.生成询价列表" type="object" class="oe_highlight" name="generate_plines"/>
+                    -
+                    <button string="2.下载询价列表" type="object" class="oe_highlight" name="return_purchase"/>
+                    -
+                    <button string="3.更新申购列表↑↑" type="object" class="oe_highlight" name="update_purchase"/>
+                    <group string="询价列表">
+                        <field name="pline_id" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="partner_id"/>
+                                <field name="categ_id"/>
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="uom_id" readonly="1"/>
+                                <field name="material" readonly="1"/>
+                                <field name="type_id" readonly="1"/>
+                                <field name="brand_id" readonly="1"/>
+                                <field name="list_price"/>
+                                <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
+                                <field name="amount"/>
+                                <field name="delivery"/>
+                                <field name="comment"/>
                                 <field name="currency_id" invisible="1"/>
                             </tree>
                         </field>
@@ -153,6 +184,5 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <menuitem action="action_cowork_purchase" id="menu_action_cowork_ni" parent="cowork_project_management_flow.menu_cowork_plan_design_root" sequence="6" name="拟询价单"/>
 
 </odoo>
