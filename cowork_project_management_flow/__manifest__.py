@@ -14,7 +14,7 @@
     'category': 'Tools',
     'version': '1.0',
 
-    'depends': ['base','mail','hr','account','purchase','stock'],  #,'ps_purchase','purchase_requisition'
+    'depends': ['base','mail','hr','account','purchase','stock','web_tree_dynamic_colored_field'],  #,'ps_purchase','purchase_requisition'
 
     'data': [
         "views/cowork_project_priority.xml",

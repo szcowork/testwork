@@ -21,7 +21,7 @@
                         <field name="currency_id" invisible="1"/>
                     </group>
                     <button type="object" class="oe_highlight" name="compute_total_price" string="统计合算"/>
-                    <group string="零部件">
+                    <group string="单件零部件明细">
                         <field name="spare_parts_lines" nolabel="1">
                             <tree editable="bottom">
                                 <field name="categ_id" required="1"/>
@@ -99,7 +99,7 @@
                         <field name="sale_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     </group>
                     <button type="object" class="oe_highlight" name="compute_total_price" string="统计合算"/>
-                    <group string="零部件">
+                    <group string="单件零部件明细">
                         <field name="spare_parts_lines" nolabel="1">
                             <tree editable="bottom">
                                 <field name="categ_id"/>

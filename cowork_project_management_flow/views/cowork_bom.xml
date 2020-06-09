@@ -28,6 +28,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-shopping-cart" string="申购明细" name="action_to_cowork_purchase"/>
                     </div>
                     <h1>
                         <field name="name" readonly="1"/>
@@ -70,7 +71,7 @@
                     <group>
                         <field name="count"/>
                     </group>
-                    <group string="零部件">
+                    <group string="单件零部件明细">
                         <field name="spare_parts_lines" nolabel="1">
                             <tree editable="bottom">
                                 <field name="categ_id"/>

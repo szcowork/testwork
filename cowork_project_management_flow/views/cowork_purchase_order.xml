@@ -22,6 +22,7 @@
                         <group>
                             <field name="user_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="currency_id" invisible="1"/>
                         </group>
                         <group>
                             <field name="class_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
@@ -59,7 +60,11 @@
                             <div class="oe_subtotal_footer_separator oe_inline">
                                 <label for="amount"/>
                             </div>
-                            <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1"/>
+                            <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
+                            <div class="oe_subtotal_footer_separator oe_inline">
+                                <label for="amount_total"/>
+                            </div>
+                            <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
                         </group>
                         <div class="oe_clear"/>
                         </page>

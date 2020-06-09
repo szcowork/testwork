@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-
+import time
+from datetime import datetime, timedelta
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -17,24 +18,32 @@ class cowork_purchase_order(models.Model):
     date = fields.Date(default=fields.Date.today(), string="日期")
     qty = fields.Float(string="数量")
     uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
-    line_id = fields.One2many("cowork.purchase.order.line","order_id",string="申购明细")
-    amount = fields.Monetary(string="总计", store=True, compute='_amount_all')
+    line_id = fields.One2many("cowork.purchase.order.line","order_id",string="申购明细",copy=True)
+    amount = fields.Monetary(string="单件总计", store=True, compute='_amount_all')
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
     project_id = fields.Many2one("cowork.project.apply",string="项目编号")
     state = fields.Selection([('draft','草稿'),('confirm','确认'),('purchase','已生成询价单'),('cancel','取消')],string="状态",default='draft')
+    amount_total = fields.Monetary(string="合计", store=True, compute='_amount_all')
 
-    @api.depends('line_id.amount')
+    @api.one
+    @api.depends('line_id.amount','qty')
     def _amount_all(self):
         for order in self:
             amount = 0.0
             for line in order.line_id:
                 amount += line.amount
+            
             order.update({
                 'amount': amount,
+                'amount_total': amount * self.qty
             })
 
     def button_order(self):
         self.state = 'confirm'
+
+    @api.one
+    def button_cancel(self):
+        self.state = 'draft'
 
     def button_to_purchase(self):
         self.state = 'purchase'
@@ -56,16 +65,16 @@ class cowork_purchase_order(models.Model):
                 if line.tax_ids:
                     for taxes in line.tax_ids:
                         tax.append(taxes.id)
-
+                date_planned = fields.Date.today() + timedelta(days=line.delivery)
                 purchase.order_line.create({
                     'order_id':purchase.id,
                     'product_id': line.product_id.id,
                     'name': line.product_id.name,
-                    'product_qty': line.product_qty,
+                    'product_qty': line.product_qty * self.qty,
                     'product_uom': line.uom_id.id,
                     'taxes_id': [(6, 0, tax)],
                     'price_unit': line.list_price,
-                    'date_planned': fields.Datetime.now()
+                    'date_planned': date_planned#fields.Datetime.now()
                 })
 
 class purchase_order(models.Model):
@@ -85,8 +94,8 @@ class cowork_purchase(models.Model):
     _description = "拟询价单"
 
     name = fields.Char(string="名称")
-    line_id = fields.One2many("cowork.purchase.order.line","purchase_id",string="申购明细")
-    pline_id = fields.One2many("cowork.purchase.line","purchase_id",string="申购明细")
+    line_id = fields.One2many("cowork.purchase.order.line","purchase_id",string="申购明细",copy=True)
+    pline_id = fields.One2many("cowork.purchase.line","purchase_id",string="申购明细",copy=True)
     apply_time = fields.Datetime("申请时间")
     user_id = fields.Many2one(comodel_name="res.users", string="采购员")
 

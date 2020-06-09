@@ -39,7 +39,7 @@ class cowork_bom(models.Model):
                             })
 
     @api.one
-    def action_to_requisition(self):
+    def action_to_requisition(self): 
         # pass
         if self.material_cost_details_lines:
             for material in self.material_cost_details_lines:
@@ -59,7 +59,9 @@ class cowork_bom(models.Model):
                             'product_qty': part.count,
                             'uom_id': part.uom_id.id,
                             'brand_id': part.brand_id.id,
-                            'order_id': purchase.id
+                            'order_id': purchase.id,
+                            'class_id': material.class_id.categ_id.id,
+                            'categ_class_id' : material.class_id.id
                         })
         # if self.material_cost_details_lines:
         #     employee = self.env['hr.employee'].search([('user_id','=',self.env.user.id)])
@@ -93,8 +95,18 @@ class cowork_bom(models.Model):
         #     })
         #     _logger.info("ps.purchase.requisition")
 
-class cowork_bom_material(models.Model):
-    _name = 'cowork.bom.material'
+    def action_to_cowork_purchase(self):
+        order_line = self.env['cowork.purchase.order.line'].search([('project_id','=',self.project_id.id),('state','!=','cancel')]).mapped('id')
+        return {
+            'name': "申购明细",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,graph,pivot',
+            'res_model': 'cowork.purchase.order.line',
+            'domain': [('id', 'in', order_line)],
+        }
+
+class cowork_bom_material(models.Model):   #方案设计组件明细
+    _name = 'cowork.bom.material'  
 
     bom_id = fields.Many2one("cowork.bom",string="物料方案")
     preliminary_scheme_id = fields.Many2one(comodel_name="cowork.quote.order",string="项目报价单",related="bom_id.name")
@@ -118,7 +130,7 @@ class cowork_bom_material(models.Model):
             }
         }
 
-class cowork_bom_material_part(models.Model):
+class cowork_bom_material_part(models.Model):  #方案设计组件明细零部件
     _name = "cowork.bom.material.part"
 
     categ_id = fields.Many2one(comodel_name="product.category", string="名称")
@@ -128,6 +140,7 @@ class cowork_bom_material_part(models.Model):
     comments = fields.Text(string="备注")
     uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
     material_id = fields.Many2one("cowork.bom.material",string="物料")
+    # class_id = fields.Many2one("cowork.material.category",string="分类项目",related='material_id.class_id.categ_id',stored=True)
 
     @api.onchange('product_tmpl_id')
     def onchange_product_tmpl_id(self):

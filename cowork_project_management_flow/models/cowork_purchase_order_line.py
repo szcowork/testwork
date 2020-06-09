@@ -26,6 +26,8 @@ class cowork_purchase_order_line(models.Model):
     project_id = fields.Many2one('cowork.project.apply', related='order_id.project_id', string='项目编号', readonly=True, store=True)
     state = fields.Selection([('draft','草稿'),('confirm','确认'),('purchase','已生成询价单'),('cancel','取消')],string="状态",related='order_id.state')
     purchase_id = fields.Many2one("cowork.purchase",string="拟询价")
+    class_id = fields.Many2one("cowork.material.category",string="分类项目")  #,related='order_id.class_id.categ_id',stored=True
+    categ_class_id = fields.Many2one("cowork.material.class",string="分类")   #,related='order_id.class_id',stored=True
 
     @api.depends('product_qty', 'list_price', 'tax_ids')
     def _compute_amount(self):
