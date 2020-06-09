@@ -37,7 +37,7 @@ class cowork_project_estimate(models.Model):
         ('deputy','副总经理'),
         ('general','总经理'),
         ('cancel','无效')
-    ],string="状态",default='technology')
+    ],string="状态",default='technology', track_visibility='onchange')
 
     def create_scheme_preliminary(self):
         preliminary = self.env['cowork.scheme.preliminary'].create({
