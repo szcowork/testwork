@@ -50,7 +50,8 @@ class cowork_project_apply(models.Model):
             'count':self.count,
             'customer_requirement':self.customer_requirement,
             'partner_type':self.partner_type,
-            'date_of_acceptance':self.date_apply
+            'date_of_acceptance':self.date_apply,
+            'user_id': self.user_id.id
         })
         self.estimate_id = e.id
     

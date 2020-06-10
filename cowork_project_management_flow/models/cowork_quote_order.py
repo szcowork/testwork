@@ -26,6 +26,7 @@ class cowork_quote_order(models.Model):
     amount = fields.Monetary(string="合计", store=True, compute='_amount_all')
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
     
+    date_deliver = fields.Date(string="客户预计交期",related='project_id.date_deliver')
     contract_state = fields.Selection([
         ('draft','草稿'),
         ('approving','审批中'),

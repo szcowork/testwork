@@ -32,6 +32,7 @@
                     </h1>
                     <group>
                         <field name="project_id" attrs="{'readonly': [('state', '!=', 'business')]}"/>
+                        <field name="date_deliver"/>
                         <field name="title" attrs="{'readonly': [('state', '!=', 'business')]}"/>
                         <field name="partner_id" attrs="{'readonly': [('state', '!=', 'business')]}"/>
                         <field name="contact_id" attrs="{'readonly': [('state', '!=', 'business')]}" domain="[('parent_id','=',partner_id)]" options="{'no_create_edit':1}"/>

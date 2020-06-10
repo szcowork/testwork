@@ -25,6 +25,7 @@ class cowork_scheme_preliminary(models.Model):
         ('technology','技术部'),
         ('business','商务部'),
     ],string="状态",default='technology', track_visibility='onchange')
+    date_deliver = fields.Date(string="客户预计交期",related='apply_id.date_deliver')
 
     def action_to_business(self):
         self.state = 'business'
