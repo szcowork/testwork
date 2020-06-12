@@ -19,12 +19,20 @@
                         <field name="name" readonly="1"/>
                     </h1>
                     <group>
-                        <field name="apply_id" readonly="1"/>
-                        <field name="date_deliver"/>
-                        <field name="title" readonly="1"/>
-                        <field name="user_id" attrs="{'readonly': [('state', '=', 'business')]}"/>
-                        <field name="date_fill" attrs="{'readonly': [('state', '=', 'business')]}"/>
-                        <field name="quote_id" attrs="{'invisible':[('quote_id','=',False)],'readonly': [('state', '=', 'business')]}"/>
+                        <group>
+                            <field name="apply_id" readonly="1"/>
+                            <field name="date_deliver"/>
+                            <field name="title" readonly="1"/>
+                            <field name="user_id" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                            <field name="date_fill" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                            <field name="quote_id" attrs="{'invisible':[('quote_id','=',False)],'readonly': [('state', '=', 'business')]}"/>
+                        </group>
+                        <group string="预估总成本" readonly="1">
+                            <button type="object" class="oe_highlight" name="summary_all" string="统计合算" attrs="{'invisible': [('state', '=', 'business')]}"/>
+                            <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
+                            <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
+                            <field name="total_taxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
+                        </group>
                     </group>
                     <hr/>
                     <group string="1.人力成本">
@@ -68,14 +76,14 @@
                             </tree>
                         </field>
                     </group>
-                    <hr/>
-                    <button type="object" class="oe_highlight" name="summary_all" string="统计合算" attrs="{'invisible': [('state', '=', 'business')]}"/>
-                    <group string="4.预估总成本">
+                    <!-- <hr/> -->
+                    <!-- <button type="object" class="oe_highlight" name="summary_all" string="统计合算" attrs="{'invisible': [('state', '=', 'business')]}"/> -->
+                    <!-- <group string="4.预估总成本">
                         <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
                         <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
-                        <field name="total_untaxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
+                        <field name="total_taxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}"/>
                         <field name="currency_id" invisible="1"/>
-                    </group>
+                    </group> -->
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
@@ -97,7 +105,7 @@
                 <field name="apply_id"/>
                 <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                <field name="total_untaxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_taxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="currency_id" invisible="1"/>
             </tree>
         </field>

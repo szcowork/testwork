@@ -13,15 +13,35 @@
         <field name="categ_id" ref="cowork_project_management_flow.machine"/>
     </record>
     <record model="cowork.material.class" id="eletronic_control">
-        <field name="name">电控</field>
+        <field name="name">标准件</field>
         <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
     </record>
     <record model="cowork.material.class" id="system_electronic_control">
-        <field name="name">系统</field>
+        <field name="name">加工件</field>
         <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
     </record>
     <record model="cowork.material.class" id="other_electronic_control">
         <field name="name">其他</field>
         <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
+    </record>
+    <record model="cowork.material.class" id="machine_consumable_material">
+        <field name="name">耗材</field>
+        <field name="categ_id" ref="cowork_project_management_flow.machine"/>
+    </record>
+    <record model="cowork.material.class" id="machine_tools">
+        <field name="name">工具</field>
+        <field name="categ_id" ref="cowork_project_management_flow.machine"/>
+    </record>
+    <record model="cowork.material.class" id="electronic_control_consumable_material">
+        <field name="name">耗材</field>
+        <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
+    </record>
+    <record model="cowork.material.class" id="electronic_control_tools">
+        <field name="name">工具</field>
+        <field name="categ_id" ref="cowork_project_management_flow.electronic_control"/>
+    </record>
+    <record model="cowork.material.class" id="software">
+        <field name="name">软件</field>
+        <field name="categ_id" ref="cowork_project_management_flow.software"/>
     </record>
 </odoo>

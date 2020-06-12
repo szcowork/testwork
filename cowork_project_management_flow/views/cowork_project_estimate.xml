@@ -26,43 +26,59 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button type="object" class="oe_stat_button" icon="fa-bars" string="项目初步方案" name="action_to_scheme" attrs="{'invisible':[('preliminary_scheme_id','=',False)]}"/>
+                        <button type="object" class="oe_stat_button" icon="fa-bars" name="action_to_scheme" attrs="{'invisible':[('preliminary_scheme_id','=',False)]}">
+                            <field name="preliminary_scheme_no" widget="statinfo" string="项目初步方案"/>
+                        </button>
                     </div>
                     <group string="基本信息">
-                        <field name="name" readonly="1"/>
-                        <field name="title" readonly="1"/>
-                        <field name="date_of_acceptance" readonly="1"/>
-                        <field name="user_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                        <field name="apply_id" readonly="1"/>
-                        <field name="date_deliver"/>
-                        <field name="preliminary_scheme_id" attrs="{'invisible':[('preliminary_scheme_id','=',False)],'readonly': [('state', '=', 'general')]}"/>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="title" readonly="1"/>
+                            <field name="date_of_acceptance" readonly="1"/>
+                            <field name="user_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        </group>
+                        <group>
+                            <field name="apply_id" readonly="1"/>
+                            <field name="date_deliver"/>
+                            <field name="preliminary_scheme_id" attrs="{'invisible':[('preliminary_scheme_id','=',False)],'readonly': [('state', '=', 'general')]}"/>
+                        </group>
                     </group>
                     <group string="业务信息">
-                        <field name="partner_id" readonly="1"/>
-                        <field name="partner_address" readonly="1"/>
-                        <field name="partner_type" widget="radio" options="{'horizontal': true}" readonly="1"/>
-                        <field name="contact_id" readonly="1"/>
-                        <field name="budget"  widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
-                        <field name="count" readonly="1"/>
-                        <field name="customer_requirement" readonly="1"/>
-                        <field name="currency_id" invisible="1"/>
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="partner_address" readonly="1"/>
+                            <field name="contact_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_type" widget="radio" options="{'horizontal': true}" readonly="1"/>
+                            <field name="budget"  widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                            <field name="count" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="客户需求原始信息">
+                        <field name="customer_requirement" readonly="1" nolabel="1"/>
                     </group>
                     <group string="技术性评估">
-                        <field name="project_type" widget="radio" options="{'horizontal': true}"/>
-                        <field name="project_difficulty_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                        <field name="cost_budget"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                        <field name="priority_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                        <label for="project_period"/>
-                        <div class="o_row">
-                            <field name="project_period" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                            <span>天</span>
-                        </div>
-                        <label for="count_person"/>
-                        <div class="o_row">
-                            <field name="count_person" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                            <span>人</span>
-                        </div>
-                        <field name="if_approval" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        <group>
+                            <field name="project_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="project_difficulty_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                            <field name="cost_budget"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                            <field name="priority_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        </group>
+                        <group>
+                            <label for="project_period"/>
+                            <div class="o_row">
+                                <field name="project_period" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                                <span>天</span>
+                            </div>
+                            <label for="count_person"/>
+                            <div class="o_row">
+                                <field name="count_person" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                                <span>人</span>
+                            </div>
+                            <field name="if_approval" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        </group>
                     </group>
                     <group string="备注">
                         <field name="comments" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}"/>

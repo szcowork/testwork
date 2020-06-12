@@ -7,7 +7,7 @@ class cowork_purchase_order_line(models.Model):
     _name = "cowork.purchase.order.line"
     _description = "柯沃申购明细行"
     
-    order_id = fields.Many2one(comodel_name="cowork.purchase.order", string="设备名称/组件")
+    order_id = fields.Many2one(comodel_name="cowork.purchase.order", ondelete="cascade", string="设备名称/组件")
     categ_id = fields.Many2one(comodel_name="product.category", string="图号/名称")
     product_id = fields.Many2one(comodel_name="product.product", string="名称/型号")
     product_qty = fields.Float(string="数量")
@@ -28,6 +28,7 @@ class cowork_purchase_order_line(models.Model):
     purchase_id = fields.Many2one("cowork.purchase",string="拟询价")
     class_id = fields.Many2one("cowork.material.category",string="分类项目")  #,related='order_id.class_id.categ_id',stored=True
     categ_class_id = fields.Many2one("cowork.material.class",string="分类")   #,related='order_id.class_id',stored=True
+    bom_line_id = fields.Many2one("cowork.bom.material.part",string="方案明细行")
 
     @api.depends('product_qty', 'list_price', 'tax_ids')
     def _compute_amount(self):
@@ -69,7 +70,7 @@ class cowork_purchase_order_line(models.Model):
     @api.multi
     def action_be_purchase(self):
         purchase = self.env['cowork.purchase'].create({
-            'name':"申购询价单:"+str(fields.Datetime.now()) + "-" + "".join([choice("0123456789ABCDEF") for i in range(12)]),
+            'name':"申购询价单:"+str(fields.Datetime.now()) + "-" + "".join([choice("0123456789ABCDEF") for i in range(16)]),
             'user_id': self.env.user.id,
             'apply_time': fields.Datetime.now()
         })

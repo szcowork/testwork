@@ -39,11 +39,14 @@ class cowork_project_estimate(models.Model):
         ('general','总经理'),
         ('cancel','无效')
     ],string="状态",default='technology', track_visibility='onchange')
+    preliminary_scheme_no = fields.Integer("初步方案号", default=0)
 
     def create_scheme_preliminary(self):
+        self.preliminary_scheme_no += 1
         preliminary = self.env['cowork.scheme.preliminary'].create({
             'apply_id': self.id,
-            'title':self.title
+            'title':self.title,
+            'name': "/".join([self.name, "%02d" % self.preliminary_scheme_no])
         })
         self.preliminary_scheme_id = preliminary.id
 

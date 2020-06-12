@@ -17,7 +17,7 @@ class cowork_scheme_preliminary(models.Model):
     material_cost_lines = fields.One2many(comodel_name="cowork.cost.material", inverse_name="preliminary_scheme_id", string="物料成本")
     total_labor_cost = fields.Monetary(string="合计人力成本")
     total_material_cost = fields.Monetary(string="合计物料成本")
-    total_untaxed_cost = fields.Monetary(string="合计未税成本")
+    total_taxed_cost = fields.Monetary(string="合计含税成本")
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
     material_cost_details_lines = fields.One2many(comodel_name="cowork.cost.material.detail.line", inverse_name="preliminary_scheme_id", string="组件物料成本明细")
     quote_id = fields.Many2one(comodel_name="cowork.quote.order", ondelete="cascade", string="项目报价单")
@@ -60,7 +60,7 @@ class cowork_scheme_preliminary(models.Model):
             line.compute_total_price()
             tmp += line.total_price
         self.total_material_cost = tmp
-        self.total_untaxed_cost = self.total_material_cost + self.total_labor_cost
+        self.total_taxed_cost = self.total_material_cost + self.total_labor_cost
 
     def create_quote(self):
         estimate = self.apply_id

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class cowork_project_apply(models.Model):
@@ -8,7 +10,33 @@ class cowork_project_apply(models.Model):
     _description = "立项申请"
     _inherit = ['mail.thread']
 
-    name = fields.Char(string="项目编号", default="New")
+    name = fields.Char(string="项目编号", default="???")  #New
+    rule_id = fields.Many2one('einfo.code.rule',string='编号类型')
+    # product_code_template_widget = fields.Text('编号规则', compute='_get_product_code_template_widget_JSON', default="???")
+    # @api.one
+    # def _get_product_code_template_widget_JSON(self):
+    #     self.product_code_template_widget = json.dumps(False)
+    #     if self.rule_id:
+    #         info = self.rule_id.get_rule_data(self.rule_id.id)
+    #         self.product_code_template_widget = json.dumps(info)
+
+    @api.onchange('rule_id')
+    def rule_onchange(self):
+        self.name = '???'
+
+    @api.multi
+    def button_mark_done(self):
+        self.ensure_one()
+        if self.rule_id:
+            _logger.info("??????????????")
+            return {
+                    'type': 'ir.actions.client',
+                    'name': '编码生成',
+                    'tag': 'action_einfo_code',
+                    'target': 'new',
+                    'context': {'rule_id': self.rule_id.id,'model_name':'cowork.project.apply','model_id':self.id,'field_name':'name'},
+                    }
+
     date_apply = fields.Date(default=fields.Date.today(), string="申请日期")
     user_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user, string="业务申请人")
     location_apply = fields.Char(string="申请地点")
@@ -32,12 +60,12 @@ class cowork_project_apply(models.Model):
         ('project','项目管理部'),
     ],string="状态",default='business')
 
-    @api.model
-    def create(self, vals): 
-         #创建时自动生成单号
-        if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('cowork.project.apply') or '/'
-        return super(cowork_project_apply, self).create(vals)
+    # @api.model
+    # def create(self, vals): 
+    #      #创建时自动生成单号
+    #     if vals.get('name', 'New') == 'New':
+    #         vals['name'] = self.env['ir.sequence'].next_by_code('cowork.project.apply') or '/'
+    #     return super(cowork_project_apply, self).create(vals)
 
     def create_estimate(self):
         e = self.env['cowork.project.estimate'].create({

@@ -6,11 +6,7 @@
         <field name="inherit_id" ref="cowork_project_management_flow.view_form_cowork_scheme_preliminary"/>
         <field name="arch" type="xml">
             <data>
-                <!-- <xpath expr="//button[@name='create_quote']" position="after">
-                    <button name="action_to_bom" string="物料方案" type="object" class="oe_highlight" states="business"/>
-                </xpath> -->
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <!-- <button type="object" class="oe_stat_button" icon="fa-bars" string="物料方案" name="button_material_scheme"/> -->
                     <button type="object" class="oe_stat_button" icon="fa-briefcase" string="项目报价" name="button_to_requisition" attrs="{'invisible':[('quote_id','=',False)]}"/>
                 </xpath>
             </data>
@@ -24,7 +20,7 @@
             <form string="设计方案">
                 <header>
                     <button name="get_material_info" string="获取组件信息" type="object" class="oe_highlight"/>
-                    <button name="action_to_requisition" string="采购申请" type="object" class="oe_highlight"/>
+                    <button name="action_to_requisition" string="新建/更新采购申请" type="object" class="oe_highlight"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -34,13 +30,16 @@
                         <field name="name" readonly="1"/>
                     </h1>
                     <group>
-                        <field name="project_id" readonly="1"/>
+                        <field name="project_id" readonly="1" required="1"/>
                     </group>
-                    <group>
+                    <group string="图纸">
                         <field name="mechaine_pic" widget="url"/>
                         <field name="electric_pic" widget="url"/>
                     </group>
-                    <group>
+                    <!-- <group>
+                        <button type="object" class="oe_highlight" name="cowork_create" string="添加明细"/>
+                    </group> -->
+                    <!-- <group>
                         <field name="material_cost_details_lines">
                             <tree editable="bottom">
                                 <field name="class_id"/>
@@ -49,8 +48,41 @@
                                 <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑组件"/>
                             </tree>
                         </field>
+                    </group> -->
+                    <group string="BOM明细">
+                        <group>
+                            <button type="object" class="oe_highlight" name="cowork_create" string="添加明细"/>
+                        </group>
+                        <field name="spare_parts_lines" nolabel="1" create="0" delete="0">
+                            <tree editable="bottom" limit="10">
+                                <field name="class_id"/>
+                                <field name="class_categ_id"/>
+                                <field name="categ_id"/>
+                                <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id}"/>
+                                <field name="brand_id"/>
+                                <field name="count"/>
+                                <field name="uom_id"/>
+                                <field name="comments"/>
+                                <button type="object" class="oe_highlight" name="cowork_write" string="明细变更"/>
+                                <button type="object" class="oe_highlight" name="cowork_delete" string="删除明细" confirm="是否确认删除"/>
+                            </tree>
+                        </field>
                     </group>
+                    <group string="明细变更操作记录">
+                        <field name="cowork_message_ids" readonly="1" nolabel="1">
+                            <tree editable="bottom" limit="10">
+                                <field name="user_id"/>
+                                <field name="date"/>
+                                <field name="operate"/>
+                            </tree>
+                        </field>
+                    </group>
+                    
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
@@ -94,6 +126,7 @@
         <field name="arch" type="xml">
             <tree string="方案设计" default_order="write_date desc">
                 <field name="name"/>
+                <field name="project_id"/>
             </tree>
         </field>
     </record>

@@ -9,7 +9,7 @@
                     <button name="button_order" states="draft" string="确认" type="object" class="oe_highlight"/>
                     <button name="button_to_purchase" states="confirm" string="转采购订单" type="object" class="oe_highlight"/>
                     <button name="button_draft" states="cancel" string="设为草稿" type="object"/>
-                    <button name="button_cancel" states="confirm" string="取消" type="object" />
+                    <button name="button_cancel" states="draft,confirm" string="取消" type="object" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,purchase" readonly="1"/>
                 </header>
                 <sheet>
@@ -38,35 +38,35 @@
                     </group>
                     <notebook>
                         <page string="采购明细">
-                        <field name="line_id"  attrs="{'readonly': [('state', '!=', 'draft')]}">
-                            <tree editable="bottom">
-                                <field name="categ_id"/>
-                                <field name="product_id"/>
-                                <field name="product_qty"/>
-                                <field name="uom_id"/>
-                                <field name="material"/>
-                                <field name="type_id"/>
-                                <field name="brand_id"/>
-                                <field name="partner_id" doamin="[('supplier','=',True)]"/>
-                                <field name="list_price"/>
-                                <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
-                                <field name="amount"/>
-                                <field name="delivery"/>
-                                <field name="comment"/>
-                                <field name="currency_id" invisible="1"/>
-                            </tree>
-                        </field>
-                        <group class="oe_subtotal_footer oe_right">
-                            <div class="oe_subtotal_footer_separator oe_inline">
-                                <label for="amount"/>
-                            </div>
-                            <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
-                            <div class="oe_subtotal_footer_separator oe_inline">
-                                <label for="amount_total"/>
-                            </div>
-                            <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
-                        </group>
-                        <div class="oe_clear"/>
+                            <field name="line_id"  attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="categ_id"/>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="uom_id"/>
+                                    <field name="material"/>
+                                    <field name="type_id"/>
+                                    <field name="brand_id"/>
+                                    <field name="partner_id" doamin="[('supplier','=',True)]"/>
+                                    <field name="list_price"/>
+                                    <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
+                                    <field name="amount"/>
+                                    <field name="delivery"/>
+                                    <field name="comment"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount"/>
+                                </div>
+                                <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_total"/>
+                                </div>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <div class="oe_clear"/>
                         </page>
                     </notebook>
                 </sheet>

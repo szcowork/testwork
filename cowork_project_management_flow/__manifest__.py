@@ -14,7 +14,7 @@
     'category': 'Tools',
     'version': '1.0',
 
-    'depends': ['base','mail','hr','account','purchase','stock','web_tree_dynamic_colored_field'],  #,'ps_purchase','purchase_requisition'
+    'depends': ['base','mail','hr','account','purchase','stock','web_tree_dynamic_colored_field','einfo_code_manager'],  #,'ps_purchase','purchase_requisition'
 
     'data': [
         "views/cowork_project_priority.xml",
@@ -28,6 +28,11 @@
         "views/cowork_cost_material_detail_line.xml",
         "views/product_brand.xml",
         "views/cowork_quote_order.xml",
+        "views/cowork_bom.xml",
+        "views/work.xml",
+        "views/cowork_purchase_order.xml",
+        "views/cowork_purchase_order_line.xml",
+        "views/wizard.xml",
         "security/groups_config.xml",
         "security/ir.model.access.csv",
         "views/menu.xml",
@@ -35,10 +40,6 @@
         "data/cowork_project_priority.xml",
         "data/cowork_material_category.xml",
         "data/cowork_material_class.xml",
-        "views/cowork_bom.xml",
-        "views/work.xml",
-        "views/cowork_purchase_order.xml",
-        "views/cowork_purchase_order_line.xml"
     ],
 
     'installable':True,

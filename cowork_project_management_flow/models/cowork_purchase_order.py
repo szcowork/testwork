@@ -22,7 +22,7 @@ class cowork_purchase_order(models.Model):
     amount = fields.Monetary(string="单件总计", store=True, compute='_amount_all')
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
     project_id = fields.Many2one("cowork.project.apply",string="项目编号")
-    state = fields.Selection([('draft','草稿'),('confirm','确认'),('purchase','已生成询价单'),('cancel','取消')],string="状态",default='draft')
+    state = fields.Selection([('draft','草稿'),('confirm','确认'),('purchase','已生成采购单'),('cancel','取消')],string="状态",default='draft')
     amount_total = fields.Monetary(string="合计", store=True, compute='_amount_all')
 
     @api.one
@@ -50,6 +50,7 @@ class cowork_purchase_order(models.Model):
         if self.line_id:
             record = {}
             for line in self.line_id:
+                line.bom_line_id.has_purchase = True
                 if not record.__contains__(str(line.partner_id.id)):
                     purchase = self.env['purchase.order'].create({
                         'partner_id':line.partner_id.id,

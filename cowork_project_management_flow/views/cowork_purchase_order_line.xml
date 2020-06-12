@@ -86,8 +86,8 @@
                 <filter name="type_id" string="类型" context="{'group_by':'type_id'}"/>
                 <filter name="brand_id" string="品牌" context="{'group_by':'brand_id'}"/>
                 <filter name="partner_id" string="供应商" context="{'group_by':'partner_id'}"/>
-                <filter name="categ_class_id" string="分类" context="{'group_by':'categ_class_id'}"/>
-                <filter name="class_id" string="分类项目" context="{'group_by':'class_id'}"/>
+                <filter name="categ_class_id_group" string="分类" context="{'group_by':'categ_class_id'}"/>
+                <filter name="class_id_group" string="分类项目" context="{'group_by':'class_id'}"/>
             </search>
         </field>
     </record>
@@ -118,7 +118,7 @@
         <field name="name">申购单明细</field>
         <field name="res_model">cowork.purchase.order.line</field>
         <field name="view_mode">tree,graph,pivot</field>
-        <field name="context">{'search_default_categ_id_group':1}</field>
+        <field name="context">{'search_default_categ_class_id_group':1}</field>
     </record>
 
     <record id="action_ps_purchase_requisition_line_1" model="ir.actions.server">

@@ -25,4 +25,6 @@
     <menuitem id="menu_cowork_material_class" name="物料分类" parent="menu_cowork_settings" action="action_cowork_material_class"/>
     <menuitem id="menu_cowork_material_category" name="物料项目" parent="menu_cowork_settings" action="action_cowork_material_category"/>
     <menuitem id="menu_product_brand" name="品牌" parent="menu_cowork_settings" action="action_product_brand"/>
+    <menuitem name="编号管理" id="menu_code_manager_cowork" parent="menu_cowork_settings" action="einfo_code_manager.action_menu_code_manager" sequence="99" />
+    <menuitem name="编号" id="menu_generate_code_cowork" parent="menu_cowork_settings" action="einfo_code_manager.action_generate_code_line" sequence="100" />
 </odoo>
