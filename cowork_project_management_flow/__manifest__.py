@@ -17,6 +17,7 @@
     'depends': ['base','mail','hr','account','purchase','stock','web_tree_dynamic_colored_field','einfo_code_manager'],  #,'ps_purchase','purchase_requisition'
 
     'data': [
+        "wizard/import_bom.xml"
         "views/cowork_project_priority.xml",
         "views/cowork_project_difficulty.xml",
         "views/cowork_project_apply.xml",
@@ -40,7 +41,6 @@
         "data/cowork_project_priority.xml",
         "data/cowork_material_category.xml",
         "data/cowork_material_class.xml",
-        "wizard/import_bom.xml"
     ],
 
     'installable':True,
