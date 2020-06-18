@@ -16,17 +16,17 @@ class cowork_purchase_order(models.Model):
     code = fields.Char(string="设备编号")
     user_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user, string="编制")
     date = fields.Date(default=fields.Date.today(), string="日期")
-    qty = fields.Float(string="数量")
-    uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
+    # qty = fields.Float(string="数量")
+    # uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
     line_id = fields.One2many("cowork.purchase.order.line","order_id",string="申购明细",copy=True)
-    amount = fields.Monetary(string="单件总计", store=True, compute='_amount_all')
+    # amount = fields.Monetary(string="单件总计", store=True, compute='_amount_all')
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
     project_id = fields.Many2one("cowork.project.apply",string="项目编号")
     state = fields.Selection([('draft','草稿'),('confirm','确认'),('purchase','已生成采购单'),('cancel','取消')],string="状态",default='draft')
     amount_total = fields.Monetary(string="合计", store=True, compute='_amount_all')
 
     @api.one
-    @api.depends('line_id.amount','qty')
+    @api.depends('line_id.amount')
     def _amount_all(self):
         for order in self:
             amount = 0.0
@@ -34,8 +34,8 @@ class cowork_purchase_order(models.Model):
                 amount += line.amount
             
             order.update({
-                'amount': amount,
-                'amount_total': amount * self.qty
+                # 'amount': amount,
+                'amount_total': amount
             })
 
     def button_order(self):
@@ -71,7 +71,7 @@ class cowork_purchase_order(models.Model):
                     'order_id':purchase.id,
                     'product_id': line.product_id.id,
                     'name': line.product_id.name,
-                    'product_qty': line.product_qty * self.qty,
+                    'product_qty': line.product_qty,
                     'product_uom': line.uom_id.id,
                     'taxes_id': [(6, 0, tax)],
                     'price_unit': line.list_price,
@@ -119,7 +119,7 @@ class cowork_purchase(models.Model):
         if self.pline_id:
             self.pline_id.unlink()
         for index in range(length):
-            count = 0
+            product_qty = 0
             lines = []
             tax = []
             for line in line_id:
@@ -127,14 +127,14 @@ class cowork_purchase(models.Model):
                     if line.tax_ids:
                         for t in line.tax_ids:
                             tax.append(t.id)
-                    count += line.product_qty
+                    product_qty += line.product_qty
                     lines.append(line.id)
             rec = self.env['cowork.purchase.order.line'].search([('id','=',lines[0])])
             vals = {
                 'partner_id':rec.partner_id.id,
                 'categ_id':rec.categ_id.id,
                 'product_id':rec.product_id.id,
-                'product_qty': count,
+                'product_qty': product_qty,
                 'uom_id':rec.uom_id.id,
                 'material':rec.material,
                 # 'type_id':rec.type_id.id,
