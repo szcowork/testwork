@@ -47,7 +47,8 @@ class cowork_project_estimate(models.Model):
             'apply_id': self.id,
             'title':self.title,
             'name': "/".join([self.name, "%02d" % self.preliminary_scheme_no]),
-            'user_id': self.user_id.id
+            'user_id': self.user_id.id,
+            'count':self.count
         })
         self.preliminary_scheme_id = preliminary.id
 

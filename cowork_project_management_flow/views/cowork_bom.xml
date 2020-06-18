@@ -30,22 +30,23 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button type="object" class="oe_stat_button" icon="fa-shopping-cart" string="申购明细" name="action_to_cowork_purchase"/>
+                        <button type="object" class="oe_stat_button" icon="fa-shopping-cart" string="申购明细" name="action_to_cowork_purchase" groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow,cowork_project_management_flow.access_group_technique_engineer_in_cowork_project_management_flow"/>
+                        <button type="object" class="oe_stat_button" icon="fa-shopping-cart" string="申购明细" name="action_to_cowork_purchase_fully" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_user_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
                     </div>
                     <h1>
                         <field name="name" readonly="1"/>
                     </h1>
-                    <group>
-                        <field name="project_id" readonly="1" required="1"/>
+                    <group string="项目情况">
+                        <group>
+                            <field name="project_id" readonly="1" required="1"/>
+                        </group>
+                        <group>
+                            <field name="count" readonly="1"/>
+                        </group>
                     </group>
                     <group string="图纸">
                         <field name="mechaine_pic" widget="url"/>
                         <field name="electric_pic" widget="url"/>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="count"/>
-                        </group>
                     </group>
                     <!-- <group>
                         <button type="object" class="oe_highlight" name="cowork_create" string="添加明细"/>

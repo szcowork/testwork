@@ -20,7 +20,8 @@ class cowork_bom(models.Model):
 
     spare_parts_lines = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id", string="零部件", track_visibility='onchange')
     # spare_parts_lines_c = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id_c", string="更新零部件", track_visibility='onchange')
-    count = fields.Float(string="数量")
+    count = fields.Float(string="项目数量")
+    # max_delay = fields.Integer(string="最长货期")
 
     cowork_message_ids = fields.One2many(comodel_name="cowork.message",inverse_name="bom_id",string="更改信息")
 
@@ -47,7 +48,7 @@ class cowork_bom(models.Model):
     @api.one
     def action_to_requisition(self):
         order = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','!=','purchase')])
-        order_t = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','!=','cnacel')])
+        order_t = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','!=','cancel')])
         if order:#只有一张草稿/确认的申购单
             is_add = 'origin'
             if len(order_t) > 1:
@@ -81,7 +82,7 @@ class cowork_bom(models.Model):
                 'name': self.project_id.title,
                 'user_id': self.env.user.id,
                 'date': fields.Date.today(),
-                'qty':1,
+                # 'qty':1,
                 'project_id': self.project_id.id,
             })
             if self.spare_parts_lines:
@@ -106,6 +107,19 @@ class cowork_bom(models.Model):
                             })
 
     def action_to_cowork_purchase(self):
+        order_line = self.env['cowork.purchase.order.line'].search([('project_id','=',self.project_id.id),('state','!=','cancel')]).mapped('id')
+        return {
+            'name': "申购明细",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree',
+            'res_model': 'cowork.purchase.order.line',
+            'views': [
+                (self.env.ref('cowork_project_management_flow.view_tree_cowork_purchase_order_line').id, 'tree'),
+            ],
+            'domain': [('id', 'in', order_line)],
+        }
+
+    def action_to_cowork_purchase_fully(self):
         order_line = self.env['cowork.purchase.order.line'].search([('project_id','=',self.project_id.id),('state','!=','cancel')]).mapped('id')
         return {
             'name': "申购明细",

@@ -11,6 +11,7 @@ class cowork_quote_order(models.Model):
     name = fields.Char(default="New", string="单号")
     project_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
     title = fields.Char(string="项目名称")
+    count = fields.Float(string="项目数量")
     partner_id = fields.Many2one(comodel_name="res.partner", string="客户名称")
     contact_id = fields.Many2one(comodel_name="res.partner", string="联系人")
     material_cost_details_lines = fields.One2many(comodel_name="cowork.cost.material.detail.line.quote", inverse_name="quote_id", string="组件")
@@ -92,7 +93,8 @@ class cowork_quote_order(models.Model):
     def create_project_start(self):
         vals = {
             'name':self.id,
-            'project_id': self.project_id.id
+            'project_id': self.project_id.id,
+            'count':self.count
         }
         self.env['cowork.bom'].create(vals)
 
