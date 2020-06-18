@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <form string="立项申请">
                 <header>
-                    <button name="action_to_project" string="商务部提交" type="object" class="oe_highlight" states='business'/>
-                    <button name="create_estimate" string="转项目评估" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','project'),('estimate_id','!=',False)]}"/>
-                    <button name="button_return_apply" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('estimate_id','!=',False),('state','!=','project')]}"/>
+                    <button name="action_to_project" string="商务部提交" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                    <button name="create_estimate" string="转项目评估" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','project'),('estimate_id','!=',False)]}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_apply" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('estimate_id','!=',False),('state','!=','project')]}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
                     <field name="state" widget="statusbar" statusbar_visible="business,project" readonly="1" />
                 </header>
                 <sheet>
@@ -23,8 +23,8 @@
                         <group>
                             <label for="rule_id" string="编号类型"/>
                             <div class="o_row">
-                                <field name="rule_id"/>
-                                <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight" />
+                                <field name="rule_id" attrs="{'readonly': [('state', '=', 'project')]}"/>
+                                <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight"  attrs="{'invisible':[('state','=','project')]}"/>
                             </div>
                             <field name="title" attrs="{'readonly': [('state', '=', 'project')]}"/>
                             <field name="estimate_id" attrs="{'invisible':[('estimate_id','=',False)],'readonly': [('state', '=', 'project')]}"/>
@@ -52,7 +52,7 @@
                     <group string="客户需求">
                         <field name="customer_requirement" attrs="{'readonly': [('state', '=', 'project')]}" nolabel="1"/>
                     </group>
-                    <group string="项目负责人">
+                    <group string="项目负责人" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow">
                         <field name="charger_lines" nolabel="1">
                             <tree editable="bottom">
                                 <field name="job_id" required="1" options="{'no_create': True}"/>

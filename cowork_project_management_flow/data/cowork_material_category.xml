@@ -4,7 +4,7 @@
         <field name="name">机械</field>
     </record>
     <record model="cowork.material.category" id="electronic_control">
-        <field name="name">电控</field>
+        <field name="name">电气</field>
     </record>
     <record model="cowork.material.category" id="software">
         <field name="name">软件</field>

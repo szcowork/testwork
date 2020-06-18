@@ -13,7 +13,7 @@ class cowork_cost_material_detail_line(models.Model):
     name = fields.Char(string="组件名称")
     count = fields.Float(string="单台数量")
     unit_cost = fields.Monetary(string="单台成本")
-    class_id = fields.Many2one(comodel_name="cowork.material.class", string="分类")
+    class_id = fields.Many2one(comodel_name="cowork.material.class", string="类型")
     spare_parts_lines = fields.One2many(comodel_name="cowork.spare.part.line", inverse_name="material_detail_line", string="零部件")
     total_cost = fields.Monetary(string="成本")
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")

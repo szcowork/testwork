@@ -16,9 +16,11 @@ class cowork_bom(models.Model):
     material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料成本明细")
     mechaine_pic = fields.Char(string="机械3D图")
     electric_pic = fields.Char(string="电气3D图")
+    state = fields.Selection([('draft','草稿'),('approval','审批中'),('confirm','确认')],default='draft',string='状态')
 
     spare_parts_lines = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id", string="零部件", track_visibility='onchange')
     # spare_parts_lines_c = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id_c", string="更新零部件", track_visibility='onchange')
+    count = fields.Float(string="数量")
 
     cowork_message_ids = fields.One2many(comodel_name="cowork.message",inverse_name="bom_id",string="更改信息")
 
@@ -45,26 +47,36 @@ class cowork_bom(models.Model):
     @api.one
     def action_to_requisition(self):
         order = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','!=','purchase')])
+        order_t = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','!=','cnacel')])
         if order:#只有一张草稿/确认的申购单
+            is_add = 'origin'
+            if len(order_t) > 1:
+                is_add = 'change'
             for spare in self.spare_parts_lines:
                 has_record = False
                 for line in order.line_id:
                     if line.bom_line_id.id == spare.id:
                         has_record = True
-                if not has_record:
+                if not has_record and not spare.has_purchase:
                     order.line_id.create({
                         'categ_id': spare.categ_id.id,
                         'product_id': spare.product_tmpl_id.product_variant_id.id,
-                        'product_qty': spare.count,
+                        'product_qty': spare.count * self.count,
                         'uom_id': spare.uom_id.id,
                         'brand_id': spare.brand_id.id,
                         'order_id': order.id,
                         'class_id': spare.class_categ_id.id,
                         'categ_class_id' : spare.class_id.id,
-                        'bom_line_id': spare.id
+                        'bom_line_id': spare.id,
+                        'is_add':is_add,
+                        'material': spare.material
                     })
                     
         else:
+            order = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','=','purchase')])
+            is_add = 'origin'
+            if order:
+                is_add = 'change'
             purchase = self.env['cowork.purchase.order'].create({
                 'name': self.project_id.title,
                 'user_id': self.env.user.id,
@@ -77,16 +89,20 @@ class cowork_bom(models.Model):
                     if part.has_purchase:
                         pass
                     else:
+                        _logger.info("0000000000000")
+                        _logger.info(is_add)
                         purchase.line_id.create({
                                 'categ_id': part.categ_id.id,
                                 'product_id': part.product_tmpl_id.product_variant_id.id,
-                                'product_qty': part.count,
+                                'product_qty': part.count * self.count,
                                 'uom_id': part.uom_id.id,
                                 'brand_id': part.brand_id.id,
                                 'order_id': purchase.id,
                                 'class_id': part.class_categ_id.id,
                                 'categ_class_id' : part.class_id.id,
-                                'bom_line_id': part.id
+                                'bom_line_id': part.id,
+                                'is_add':is_add,
+                                'material': part.material
                             })
 
     def action_to_cowork_purchase(self):
@@ -114,6 +130,18 @@ class cowork_bom(models.Model):
             }
         }
 
+    def button_approval(self):
+        self.state = 'approval'
+
+    def button_return(self):
+        self.state = 'draft'
+
+    def button_confirm(self):
+        self.state = 'confirm'
+    
+    def button_to_return(self):
+        self.state = 'approval'
+
 class cowork_bom_material(models.Model):   #方案设计组件明细
     _name = 'cowork.bom.material'  
 
@@ -121,7 +149,7 @@ class cowork_bom_material(models.Model):   #方案设计组件明细
     preliminary_scheme_id = fields.Many2one(comodel_name="cowork.quote.order",string="项目报价单",related="bom_id.name")
     name = fields.Char(string="组件名称")
     count = fields.Float(string="单台数量")
-    class_id = fields.Many2one(comodel_name="cowork.material.class", string="分类")
+    class_id = fields.Many2one(comodel_name="cowork.material.class", string="类型")
     spare_parts_lines = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="material_id", string="零部件")
 
     def edit_spare_parts(self):
@@ -151,9 +179,11 @@ class cowork_bom_material_part(models.Model):  #方案设计组件明细零部�
     material_id = fields.Many2one("cowork.bom.material",string="物料")
     bom_id = fields.Many2one("cowork.bom",string="方案设计")
     # bom_id_c = fields.Many2one("cowork.bom",string="更新物料方案")
-    class_id = fields.Many2one("cowork.material.class",string="分类")
-    class_categ_id = fields.Many2one("cowork.material.category",string="分类项目")
+    class_id = fields.Many2one("cowork.material.class",string="类型")
+    class_categ_id = fields.Many2one("cowork.material.category",string="部门")
     has_purchase = fields.Boolean(default=False,string="是否转采购")
+    default_code = fields.Char(string="产品编号",related='product_tmpl_id.default_code')
+    material = fields.Char(string="材料")
 
     @api.onchange('product_tmpl_id')
     def onchange_product_tmpl_id(self):
@@ -166,7 +196,15 @@ class cowork_bom_material_part(models.Model):  #方案设计组件明细零部�
             order_line.unlink()
         _logger.info("hashashashashas")
         
-        tmp = self.categ_id.name +  ' ' + self.product_tmpl_id.name +  ' ' + self.brand_id.name +  ' ' + str(self.count) +  ' ' + self.uom_id.name +  ' ' + self.class_id.name +  ' ' + self.class_categ_id.name 
+        tmp = ' '.join([
+            self.categ_id.name if self.categ_id.name else '',
+            self.product_tmpl_id.name if self.product_tmpl_id.name else '',
+            self.brand_id.name if self.brand_id.name else '',
+            str(self.count),
+            self.uom_id.name if self.uom_id.name else '',
+            self.class_id.name if self.class_id.name else '',
+            self.class_categ_id.name if self.class_categ_id.name else ''
+            ]) 
         _logger.info(tmp)
         message = self.bom_id.cowork_message_ids.create({
             'user_id': self.env.user.id,
@@ -223,8 +261,8 @@ class material_wizard(models.TransientModel):
     material_id = fields.Many2one("cowork.bom.material",string="物料")
     material_part_id = fields.Many2one("cowork.bom.material.part",string="物料明细")
     bom_id = fields.Many2one("cowork.bom",string="方案设计")
-    class_id = fields.Many2one("cowork.material.class",string="分类")
-    class_categ_id = fields.Many2one("cowork.material.category",string="分类项目")
+    class_id = fields.Many2one("cowork.material.class",string="类型")
+    class_categ_id = fields.Many2one("cowork.material.category",string="部门")
 
     origin_categ_id= fields.Many2one(comodel_name="product.category", string="名称")
     origin_product_tmpl_id= fields.Many2one(comodel_name="product.template", string="规格")
@@ -232,8 +270,8 @@ class material_wizard(models.TransientModel):
     origin_count= fields.Float(string="数量")
     origin_comments= fields.Text(string="备注")
     origin_uom_id= fields.Many2one(comodel_name="uom.uom", string="单位")
-    origin_class_id= fields.Many2one("cowork.material.class",string="分类")
-    origin_class_categ_id= fields.Many2one("cowork.material.category",string="分类项目")
+    origin_class_id= fields.Many2one("cowork.material.class",string="类型")
+    origin_class_categ_id= fields.Many2one("cowork.material.category",string="部门")
 
     style = fields.Selection([('create','创建'),('write','更改'),('delete','删除')])
 
@@ -251,7 +289,7 @@ class material_wizard(models.TransientModel):
                             'categ_id': self.categ_id.id,
                             'product_tmpl_id': self.product_tmpl_id.product_variant_id.id,
                             'brand_id': self.brand_id.id,
-                            'product_qty': self.count,
+                            'product_qty': self.count * self.bom_id.count,#单台 x 数量
                             'uom_id': self.uom_id.id
                         })
                 #修改bom明细+记录
@@ -267,6 +305,9 @@ class material_wizard(models.TransientModel):
                     ]
                 index = 0
                 for t in tmp:
+                    for i in t:
+                        if not i:
+                            i = ''
                     if t[0] != t[1]:
                         tmp[index] = " -> ".join(t)
                     index += 1
@@ -319,25 +360,25 @@ class material_wizard(models.TransientModel):
             self.bom_id.cowork_message_ids.create({
                 'user_id': self.env.user.id,
                 'date': fields.Datetime.now(),
-                'operate': "新增 "+self.categ_id.name+' '+self.product_tmpl_id.name+' '+self.brand_id.name+' '+str(self.count)+' '+self.uom_id.name+' '+self.class_id.name+' '+self.class_categ_id.name+' '+comments
+                'operate': "新增 " +self.categ_id.name+' '+self.product_tmpl_id.name+' '+self.brand_id.name+' '+str(self.count)+' '+self.uom_id.name+' '+self.class_id.name+' '+self.class_categ_id.name+' '+comments
             })
-            purchase = self.env['cowork.purchase.order'].search([('project_id', '=',self.bom_id.project_id.id)])
-            if purchase:
-                pur_lst = []
-                for p in purchase:
-                    if p.state in ['draft','confirm']:
-                        pur_lst.append(p)
-                if len(pur_lst) == 0:
-                    _logger.info("需另外申购")
-                else:
-                    purchase = pur_lst[-1]
-                    purchase.line_id.create({
-                        'categ_class_id': self.class_id.id,
-                        'class_id': self.class_categ_id.id,
-                        'categ_id': self.categ_id.id,
-                        'product_tmpl_id': self.product_tmpl_id.product_variant_id.id,
-                        'brand_id': self.brand_id.id,
-                        'product_qty': self.count,
-                        'uom_id': self.uom_id.id,
-                        'order_id':purchase.id
-                    })
+            # purchase = self.env['cowork.purchase.order'].search([('project_id', '=',self.bom_id.project_id.id)])
+            # if purchase:
+            #     pur_lst = []
+            #     for p in purchase:
+            #         if p.state in ['draft','confirm']:
+            #             pur_lst.append(p)
+            #     if len(pur_lst) == 0:
+            #         _logger.info("需另外申购")
+            #     else:
+            #         purchase = pur_lst[-1]
+            #         purchase.line_id.create({
+            #             'categ_class_id': self.class_id.id,
+            #             'class_id': self.class_categ_id.id,
+            #             'categ_id': self.categ_id.id,
+            #             'product_tmpl_id': self.product_tmpl_id.product_variant_id.id,
+            #             'brand_id': self.brand_id.id,
+            #             'product_qty': self.count,
+            #             'uom_id': self.uom_id.id,
+            #             'order_id':purchase.id
+            #         })

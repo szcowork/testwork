@@ -17,7 +17,7 @@
                         <field name="product_qty"/>
                         <field name="uom_id"/>
                         <field name="material"/>
-                        <field name="type_id"/>
+                        <!-- <field name="type_id"/> -->
                         <field name="brand_id"/>
                         <field name="partner_id"/>
                         <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -46,11 +46,11 @@
                 <field name="product_qty" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="uom_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="material" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="type_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <!-- <field name="type_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
                 <field name="brand_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
                 <field name="delivery" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="comment" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="currency_id" invisible="1"/>
@@ -71,11 +71,12 @@
                 <field name="product_id"/>
                 <field name="uom_id"/>
                 <field name="material" filter_domain="[('material','ilike',self)]"/>
-                <field name="type_id"/>
+                <!-- <field name="type_id"/> -->
                 <field name="brand_id"/>
                 <field name="partner_id"/>
                 <field name="categ_class_id"/>
                 <field name="class_id"/>
+                <field name="is_add"/>
                 <field name="comment" filter_domain="[('comment','ilike',self)]"/>
                 <filter string="询价中" name="quoteing" domain="[('purchase_id', '!=', False)]"/>
                 <filter string="待询价" name="to_quote" domain="[('purchase_id', '=', False)]"/>
@@ -83,11 +84,12 @@
                 <filter name="categ_id_group" string="图号/名称" context="{'group_by':'categ_id'}"/>
                 <filter name="product_id" string="名称/型号" context="{'group_by':'product_id'}"/>
                 <filter name="uom_id" string="单位" context="{'group_by':'uom_id'}"/>
-                <filter name="type_id" string="类型" context="{'group_by':'type_id'}"/>
+                <!-- <filter name="type_id" string="类型" context="{'group_by':'type_id'}"/> -->
                 <filter name="brand_id" string="品牌" context="{'group_by':'brand_id'}"/>
                 <filter name="partner_id" string="供应商" context="{'group_by':'partner_id'}"/>
-                <filter name="categ_class_id_group" string="分类" context="{'group_by':'categ_class_id'}"/>
-                <filter name="class_id_group" string="分类项目" context="{'group_by':'class_id'}"/>
+                <filter name="categ_class_id_group" string="类型" context="{'group_by':'categ_class_id'}"/>
+                <filter name="class_id_group" string="部门" context="{'group_by':'class_id'}"/>
+                <filter name="is_add_group" string="申购性质" context="{'group_by':'is_add'}"/>
             </search>
         </field>
     </record>
@@ -157,7 +159,7 @@
                                 <field name="product_qty"/>
                                 <field name="uom_id"/>
                                 <field name="material"/>
-                                <field name="type_id"/>
+                                <!-- <field name="type_id"/> -->
                                 <field name="brand_id"/>
                                 <field name="list_price"/>
                                 <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
@@ -173,6 +175,12 @@
                     -
                     <button string="2.下载询价列表" type="object" class="oe_highlight" name="return_purchase"/>
                     -
+                    <button name="%(import_purchase_line_action)d" 
+                    string="更新询价明细"
+                    icon="fa-upload"
+                    type="action" 
+                    class="oe_stat_button"/>
+                    -
                     <button string="3.更新申购列表↑↑" type="object" class="oe_highlight" name="update_purchase"/>
                     <group string="询价列表">
                         <field name="pline_id" nolabel="1">
@@ -183,7 +191,7 @@
                                 <field name="product_qty"/>
                                 <field name="uom_id" readonly="1"/>
                                 <field name="material" readonly="1"/>
-                                <field name="type_id" readonly="1"/>
+                                <!-- <field name="type_id" readonly="1"/> -->
                                 <field name="brand_id" readonly="1"/>
                                 <field name="list_price"/>
                                 <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>

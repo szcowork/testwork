@@ -20,7 +20,7 @@
         <field name="name">项目优先级</field>
         <field name="model">cowork.project.priority</field>
         <field name="arch" type="xml">
-            <tree string="项目优先级" default_order="write_date desc">
+            <tree string="项目优先级" default_order="write_date desc" editable="bottom">
                 <field name="name"/>
             </tree>
         </field>

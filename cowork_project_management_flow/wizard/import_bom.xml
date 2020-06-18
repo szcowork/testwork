@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+
+		<record id="bom_line_wizard_view" model="ir.ui.view">
+			<field name="name">Import Bom Lines</field>
+			<field name="model">import.bom.line.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+					    <field name="import_option" widget="radio"/>
+						<field name="bom_file"/>
+					</group>
+					<footer>
+						<button string="导入" name="import_bom" class="oe_highlight" type="object"/>
+						<button string="取消" class="btn-default" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="import_bom_line_action" model="ir.actions.act_window">
+			<field name="name">导入BOM明细</field>
+			<field name="res_model">import.bom.line.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		<record id="purchase_line_wizard_view" model="ir.ui.view">
+			<field name="name">Update Purchase Lines</field>
+			<field name="model">import.purchase.line.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+					    <field name="import_option" widget="radio"/>
+						<field name="purchase_file"/>
+					</group>
+					<footer>
+						<button string="更新" name="import_bom" class="oe_highlight" type="object"/>
+						<button string="取消" class="btn-default" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="import_purchase_line_action" model="ir.actions.act_window">
+			<field name="name">更新询价明细</field>
+			<field name="res_model">import.purchase.line.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+	</data>
+</odoo>

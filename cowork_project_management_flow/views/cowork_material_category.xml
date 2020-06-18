@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record model="ir.ui.view" id="view_form_cowork_material_category">
-        <field name="name">物料项目</field>
+        <field name="name">物料部门</field>
         <field name="model">cowork.material.category</field>
         <field name="arch" type="xml">
-            <form string="物料项目">
+            <form string="物料部门">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                     </div>
@@ -17,27 +17,27 @@
     </record>
 
     <record model="ir.ui.view" id="view_tree_cowork_material_category">
-        <field name="name">物料项目</field>
+        <field name="name">物料部门</field>
         <field name="model">cowork.material.category</field>
         <field name="arch" type="xml">
-            <tree string="物料项目" default_order="write_date desc">
+            <tree string="物料部门" default_order="write_date desc" editable="bottom">
                 <field name="name"/>
             </tree>
         </field>
     </record>
 
     <record model="ir.ui.view" id="view_search_cowork_material_category">
-        <field name="name">物料项目</field>
+        <field name="name">物料部门</field>
         <field name="model">cowork.material.category</field>
         <field name="arch" type="xml">
-            <search string="物料项目">
+            <search string="物料部门">
                 <field name="name" filter_domain="[('name','ilike',self)]"/>
             </search>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="action_cowork_material_category">
-        <field name="name">物料项目</field>
+        <field name="name">物料部门</field>
         <field name="res_model">cowork.material.category</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

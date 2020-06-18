@@ -22,6 +22,7 @@ class cowork_spare_part_line(models.Model):
     
     uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
     premium_no = fields.Float("溢价系数")
+    default_code = fields.Char(string="产品编号",related='product_tmpl_id.default_code')
 
     @api.onchange('unit_price','count')
     def _onchange_total_price(self):
@@ -54,6 +55,7 @@ class cowork_spare_part_line_quote(models.Model):
     
     uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
     premium_no = fields.Float("溢价系数")
+    default_code = fields.Char(string="产品编号",related='product_tmpl_id.default_code')
 
     @api.onchange('unit_price','count')
     def _onchange_total_price(self):

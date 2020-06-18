@@ -14,7 +14,7 @@ class cowork_cost_material_detail_line(models.Model):
     total_cost = fields.Monetary(string="成本")
     unit_quote = fields.Monetary(string='单台报价')
     total_quote = fields.Monetary(string='总报价')
-    class_id = fields.Many2one(comodel_name="cowork.material.class", string="分类")
+    class_id = fields.Many2one(comodel_name="cowork.material.class", string="类型")
     # spare_parts_lines = fields.One2many(comodel_name="cowork.spare.part.line", inverse_name="material_detail_line_quote", string="零部件")
     spare_parts_lines = fields.One2many(comodel_name="cowork.spare.part.line.quote", inverse_name="material_detail_line_quote", string="零部件")
     quote_id = fields.Many2one(comodel_name="cowork.quote.order", ondelete="cascade", string="项目报价单")

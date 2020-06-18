@@ -6,19 +6,19 @@
         <field name="arch" type="xml">
             <form string="项目报价单">
                 <header>
-                    <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business'/>
-                    <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business'/>
+                    <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
 
-                    <button name="button_estimate_t" string="技术部确认" type="object" class="oe_highlight" states='technology'/>
-                    <button name="button_return_estimate_t" string="驳回" type="object" class="oe_highlight" states='technology'/>
+                    <button name="button_estimate_t" string="技术部确认" type="object" class="oe_highlight" states='technology' groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_t" string="驳回" type="object" class="oe_highlight" states='technology' groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
 
-                    <button name="button_estimate_p" string="项目管理部确认" type="object" class="oe_highlight" states='project'/>
-                    <button name="button_return_estimate_p" string="驳回" type="object" class="oe_highlight" states='project'/>
+                    <button name="button_estimate_p" string="项目管理部确认" type="object" class="oe_highlight" states='project' groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_p" string="驳回" type="object" class="oe_highlight" states='project' groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
 
-                    <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy'/>
-                    <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy'/>
-                    <button name="create_project_start" string="总经理审批，转物料方案" type="object" class="oe_highlight" states="general"/>
-                    <button name="button_return_estimate_g" string="驳回" type="object" class="oe_highlight" states='general'/>
+                    <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="create_project_start" string="总经理审批，转物料方案" type="object" class="oe_highlight" states="general" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_g" string="驳回" type="object" class="oe_highlight" states='general' groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                     <button name="action_to_draft" string="设为草稿" type="object" states='cancel'/>
                     <field name="state" widget="statusbar" statusbar_visible="business,technology,project,deputy,general" readonly="1"/>
                 </header>
@@ -44,7 +44,7 @@
                         </group>
                     </group>
                     <group string="物料成本">
-                        <field name="material_cost_details_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}" options="{'no_create_edit':1}">
+                        <field name="material_cost_details_lines" nolabel="1" attrs="{'readonly': [('state', '!=', 'technology')]}" options="{'no_create_edit':1}">
                             <tree editable="bottom">
                                 <field name="name" readonly="1"/>
                                 <field name="count" readonly="1"/>
@@ -53,12 +53,12 @@
                                 <field name="currency_id" invisible="1"/>
                                 <field name="sale_cost" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
                                 <field name="state" invisible="1"/>
-                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑组件" attrs="{'invisible': [('state', '=', 'general')]}"/>
+                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑组件" attrs="{'invisible': [('state', '!=', 'technology')]}"/>
                             </tree>
                         </field>
                     </group>
                     <group string="人力成本">
-                        <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}" options="{'no_create_edit':1}">
+                        <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '!=', 'project')]}" options="{'no_create_edit':1}">
                             <tree editable="bottom">
                                 <field name="job_id" readonly="1"/>
                                 <field name="count" readonly="1"/>
@@ -69,7 +69,7 @@
                                 <field name="total_quote" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="state" invisible="1"/>
-                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑人力信息" attrs="{'invisible': [('state', '=', 'general')]}"/>
+                                <button type="object" class="oe_highlight" name="edit_spare_parts" string="编辑人力信息" attrs="{'invisible': [('state', '!=', 'project')]}"/>
                             </tree>
                         </field>
                     </group>

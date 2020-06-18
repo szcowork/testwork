@@ -40,6 +40,7 @@
         "data/cowork_project_priority.xml",
         "data/cowork_material_category.xml",
         "data/cowork_material_class.xml",
+        "wizard/import_bom.xml"
     ],
 
     'installable':True,

@@ -21,7 +21,7 @@
         <field name="name">物料分类</field>
         <field name="model">cowork.material.class</field>
         <field name="arch" type="xml">
-            <tree string="物料分类" default_order="write_date desc">
+            <tree string="物料分类" default_order="write_date desc" editable="bottom">
                 <field name="name"/>
                 <field name="categ_id"/>
             </tree>

@@ -6,21 +6,20 @@
         <field name="arch" type="xml">
             <form string="项目评估">
                 <header>
-                    <button name="button_estimate_t" string="技术部确认" type="object" class="oe_highlight" states='technology'/>
+                    <button name="button_estimate_t" string="技术部确认" type="object" class="oe_highlight" states='technology' groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
                     <!-- <button name="button_return_estimate_t" string="驳回" type="object" class="oe_highlight" states='technology'/> -->
+                    <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
 
-                    <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business'/>
-                    <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business'/>
+                    <button name="button_estimate_p" string="项目管理部确认" type="object" class="oe_highlight" states='project' groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_p" string="驳回" type="object" class="oe_highlight" states='project' groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
 
-                    <button name="button_estimate_p" string="项目管理部确认" type="object" class="oe_highlight" states='project'/>
-                    <button name="button_return_estimate_p" string="驳回" type="object" class="oe_highlight" states='project'/>
+                    <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
 
-                    <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy'/>
-                    <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy'/>
+                    <button name="create_scheme_preliminary" string="转初步方案" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','general'),('preliminary_scheme_id','!=',False)]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
 
-                    <button name="create_scheme_preliminary" string="转初步方案" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','general'),('preliminary_scheme_id','!=',False)]}"/>
-
-                    <button name="button_back_estimate" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','general')]}"/>
+                    <button name="button_back_estimate" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="technology,business,project,deputy,general" readonly="1"/>
                 </header>
@@ -35,7 +34,8 @@
                             <field name="name" readonly="1"/>
                             <field name="title" readonly="1"/>
                             <field name="date_of_acceptance" readonly="1"/>
-                            <field name="user_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                            <field name="user_id" readonly="1"/>
+                             <!-- attrs="{'readonly': [('state', '=', 'general')]}" -->
                         </group>
                         <group>
                             <field name="apply_id" readonly="1"/>
@@ -61,27 +61,27 @@
                     </group>
                     <group string="技术性评估">
                         <group>
-                            <field name="project_type" widget="radio" options="{'horizontal': true}"/>
-                            <field name="project_difficulty_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                            <field name="cost_budget"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'general')]}"/>
-                            <field name="priority_id" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                            <field name="project_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
+                            <field name="project_difficulty_id" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
+                            <field name="cost_budget"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
+                            <field name="priority_id" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                         </group>
                         <group>
                             <label for="project_period"/>
                             <div class="o_row">
-                                <field name="project_period" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                                <field name="project_period" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                                 <span>天</span>
                             </div>
                             <label for="count_person"/>
                             <div class="o_row">
-                                <field name="count_person" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                                <field name="count_person" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                                 <span>人</span>
                             </div>
-                            <field name="if_approval" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                            <field name="if_approval" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                         </group>
                     </group>
                     <group string="备注">
-                        <field name="comments" nolabel="1" attrs="{'readonly': [('state', '=', 'general')]}"/>
+                        <field name="comments" nolabel="1" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">

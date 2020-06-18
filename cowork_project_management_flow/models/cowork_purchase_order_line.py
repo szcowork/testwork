@@ -13,7 +13,7 @@ class cowork_purchase_order_line(models.Model):
     product_qty = fields.Float(string="数量")
     uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
     material = fields.Char(string="材料")
-    type_id = fields.Many2one(comodel_name="purchase.type", string="类型")
+    # type_id = fields.Many2one(comodel_name="purchase.type", string="类型")
     brand_id = fields.Many2one(comodel_name="product.brand", string="品牌")
     partner_id = fields.Many2one(comodel_name="res.partner", string="供应商")
     list_price = fields.Monetary(string="含税单价")
@@ -26,9 +26,11 @@ class cowork_purchase_order_line(models.Model):
     project_id = fields.Many2one('cowork.project.apply', related='order_id.project_id', string='项目编号', readonly=True, store=True)
     state = fields.Selection([('draft','草稿'),('confirm','确认'),('purchase','已生成询价单'),('cancel','取消')],string="状态",related='order_id.state')
     purchase_id = fields.Many2one("cowork.purchase",string="拟询价")
-    class_id = fields.Many2one("cowork.material.category",string="分类项目")  #,related='order_id.class_id.categ_id',stored=True
-    categ_class_id = fields.Many2one("cowork.material.class",string="分类")   #,related='order_id.class_id',stored=True
+    class_id = fields.Many2one("cowork.material.category",string="部门")  #,related='order_id.class_id.categ_id',stored=True
+    categ_class_id = fields.Many2one("cowork.material.class",string="类型")   #,related='order_id.class_id',stored=True
     bom_line_id = fields.Many2one("cowork.bom.material.part",string="方案明细行")
+    is_add = fields.Selection([('origin','原始'),('change','更改')],default='origin',string="申购性质")
+    # is_add = fields.Boolean(default=False,string="是否为更改型")
 
     @api.depends('product_qty', 'list_price', 'tax_ids')
     def _compute_amount(self):

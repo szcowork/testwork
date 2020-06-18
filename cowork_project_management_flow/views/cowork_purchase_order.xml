@@ -45,7 +45,7 @@
                                     <field name="product_qty"/>
                                     <field name="uom_id"/>
                                     <field name="material"/>
-                                    <field name="type_id"/>
+                                    <!-- <field name="type_id"/> -->
                                     <field name="brand_id"/>
                                     <field name="partner_id" doamin="[('supplier','=',True)]"/>
                                     <field name="list_price"/>

@@ -26,6 +26,7 @@
                             <tree editable="bottom">
                                 <field name="categ_id" required="1"/>
                                 <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id,'default_type': 'product'}" required="1"/>
+                                <field name="default_code"/>
                                 <field name="brand_id" required="1"/>
                                 <field name="count"/>
                                 <field name="uom_id"/>
@@ -66,7 +67,7 @@
                 <field name="class_id"/>
                 <field name="currency_id" invisible="1"/>
                 <filter name="cost_material_line" string="物料成本行" context="{'group_by':'cost_material_line'}"/>
-                <filter name="class_id" string="分类" context="{'group_by':'class_id'}"/>                
+                <filter name="class_id" string="类型" context="{'group_by':'class_id'}"/>                
             </search>
         </field>
     </record>
@@ -104,6 +105,7 @@
                             <tree editable="bottom">
                                 <field name="categ_id"/>
                                 <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id}"/>
+                                <field name="default_code"/>
                                 <field name="brand_id"/>
                                 <field name="count"/>
                                 <field name="uom_id"/>

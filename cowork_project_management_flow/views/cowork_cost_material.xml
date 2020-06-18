@@ -58,7 +58,7 @@
                 <field name="material_categ_id"/>
                 <field name="currency_id" invisible="1"/>
                 <filter name="preliminary_scheme_id" string="项目初步方案" context="{'group_by':'preliminary_scheme_id'}"/>
-                <filter name="material_categ_id" string="分类" context="{'group_by':'material_categ_id'}"/>
+                <filter name="material_categ_id" string="类型" context="{'group_by':'material_categ_id'}"/>
                 
             </search>
         </field>

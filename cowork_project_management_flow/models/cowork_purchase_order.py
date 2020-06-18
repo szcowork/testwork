@@ -12,7 +12,7 @@ class cowork_purchase_order(models.Model):
     _inherit = ['mail.thread']
 
     name = fields.Char(string="设备名称/组件名称")
-    class_id = fields.Many2one("cowork.material.class",string="分类")
+    class_id = fields.Many2one("cowork.material.class",string="类型")
     code = fields.Char(string="设备编号")
     user_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user, string="编制")
     date = fields.Date(default=fields.Date.today(), string="日期")
@@ -137,7 +137,7 @@ class cowork_purchase(models.Model):
                 'product_qty': count,
                 'uom_id':rec.uom_id.id,
                 'material':rec.material,
-                'type_id':rec.type_id.id,
+                # 'type_id':rec.type_id.id,
                 'brand_id':rec.brand_id.id,
                 'list_price':0,
                 'tax_ids':[(6, 0, tax)],

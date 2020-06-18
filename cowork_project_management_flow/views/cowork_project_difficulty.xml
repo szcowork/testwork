@@ -20,7 +20,7 @@
         <field name="name">项目难度</field>
         <field name="model">cowork.project.difficulty</field>
         <field name="arch" type="xml">
-            <tree string="项目难度" default_order="write_date desc">
+            <tree string="项目难度" default_order="write_date desc" editable="bottom">
                 <field name="name"/>
             </tree>
         </field>
