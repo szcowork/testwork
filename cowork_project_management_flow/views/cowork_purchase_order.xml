@@ -27,11 +27,11 @@
                         <group>
                             <field name="class_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="code"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <label for="qty" string="数量"/>
-                            <div>
+                            <!-- <label for="qty" string="数量"/> -->
+                            <!-- <div>
                                 <field  name="qty" class="oe_inline"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="uom_id" force_save="1" class="oe_inline oe_no_button"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            </div>
+                            </div> -->
                             <!-- <field name="qty"/>
                             <field name="uom_id"/> -->
                         </group>
@@ -57,10 +57,10 @@
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
-                                <div class="oe_subtotal_footer_separator oe_inline">
+                                <!-- <div class="oe_subtotal_footer_separator oe_inline">
                                     <label for="amount"/>
                                 </div>
-                                <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/> -->
                                 <div class="oe_subtotal_footer_separator oe_inline">
                                     <label for="amount_total"/>
                                 </div>
@@ -88,8 +88,8 @@
                 <field name="name"/>
                 <field name="user_id"/>
                 <field name="date"/>
-                <field name="qty"/>
-                <field name="uom_id"/>
+                <!-- <field name="qty"/> -->
+                <!-- <field name="uom_id"/> -->
             </tree>
         </field>
     </record>
@@ -101,10 +101,10 @@
             <search string="申购单">
                 <field name="name" filter_domain="[('name','ilike',self)]"/>
                 <field name="user_id"/>
-                <field name="uom_id"/>
+                <!-- <field name="uom_id"/> -->
                 <filter name="user_id" string="编制" context="{'group_by':'user_id'}"/>
                 <filter name="date" string="日期" context="{'group_by':'date'}"/>
-                <filter name="uom_id" string="单位" context="{'group_by':'uom_id'}"/>
+                <!-- <filter name="uom_id" string="单位" context="{'group_by':'uom_id'}"/> -->
             </search>
         </field>
     </record>

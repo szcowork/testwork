@@ -3,7 +3,7 @@
 	<data>
 
 		<record id="bom_line_wizard_view" model="ir.ui.view">
-			<field name="name">Import Bom Lines</field>
+			<field name="name">导入BOM明细</field>
 			<field name="model">import.bom.line.wizard</field>
 			<field name="arch" type="xml">
 				<form>
@@ -28,7 +28,7 @@
 		</record>
 
 		<record id="purchase_line_wizard_view" model="ir.ui.view">
-			<field name="name">Update Purchase Lines</field>
+			<field name="name">更新询价明细</field>
 			<field name="model">import.purchase.line.wizard</field>
 			<field name="arch" type="xml">
 				<form>

@@ -48,9 +48,9 @@
                 <field name="material" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <!-- <field name="type_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
                 <field name="brand_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                <field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_user_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
+                <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '!=', 'draft')]}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_user_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
+                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="总计" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_user_in_cowork_project_management_flow,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
                 <field name="delivery" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="comment" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="currency_id" invisible="1"/>
@@ -163,7 +163,7 @@
                                 <field name="brand_id"/>
                                 <field name="list_price"/>
                                 <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
-                                <field name="amount"/>
+                                <field name="amount" sum="总计"/>
                                 <field name="delivery"/>
                                 <field name="comment"/>
                                 <field name="currency_id" invisible="1"/>
@@ -181,7 +181,7 @@
                     type="action" 
                     class="oe_stat_button"/>
                     -
-                    <button string="3.更新申购列表↑↑" type="object" class="oe_highlight" name="update_purchase"/>
+                    <button string="3.更新申购列表↑↑" type="object" class="oe_highlight" groups="cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow" name="update_purchase"/>
                     <group string="询价列表">
                         <field name="pline_id" nolabel="1">
                             <tree editable="bottom">
@@ -195,7 +195,7 @@
                                 <field name="brand_id" readonly="1"/>
                                 <field name="list_price"/>
                                 <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
-                                <field name="amount"/>
+                                <field name="amount" sum="总计"/>
                                 <field name="delivery"/>
                                 <field name="comment"/>
                                 <field name="currency_id" invisible="1"/>
