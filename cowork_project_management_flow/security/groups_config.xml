@@ -28,7 +28,13 @@
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
 <!-- nope -->
-    <record model="res.groups" id="access_group_technique_manager_in_cowork_project_management_flow">
+    <record model="res.groups" id="access_group_purchase_manager_in_cowork_project_management_flow">
+        <field name="name">采购经理</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="access_group_purchase_user_in_cowork_project_management_flow">
         <field name="name">采购员</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
