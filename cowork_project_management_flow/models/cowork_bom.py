@@ -20,7 +20,7 @@ class cowork_bom(models.Model):
 
     spare_parts_lines = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id", string="零部件", track_visibility='onchange')
     # spare_parts_lines_c = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id_c", string="更新零部件", track_visibility='onchange')
-    count = fields.Float(string="项目数量")
+    count = fields.Float(string="项目数量",default=1.0)
     # max_delay = fields.Integer(string="最长货期")
 
     cowork_message_ids = fields.One2many(comodel_name="cowork.message",inverse_name="bom_id",string="更改信息")
@@ -79,7 +79,7 @@ class cowork_bom(models.Model):
             if order:
                 is_add = 'change'
             purchase = self.env['cowork.purchase.order'].create({
-                'name': self.project_id.title,
+                'name': self.project_id.name + self.project_id.title,
                 'user_id': self.env.user.id,
                 'date': fields.Date.today(),
                 # 'qty':1,
@@ -195,9 +195,18 @@ class cowork_bom_material_part(models.Model):  #方案设计组件明细零部�
     # bom_id_c = fields.Many2one("cowork.bom",string="更新物料方案")
     class_id = fields.Many2one("cowork.material.class",string="类型")
     class_categ_id = fields.Many2one("cowork.material.category",string="部门")
-    has_purchase = fields.Boolean(default=False,string="是否转采购")
+    has_purchase = fields.Boolean(string="是否转采购",compute="_compute_has_purchase")
     default_code = fields.Char(string="产品编号",related='product_tmpl_id.default_code')
     material = fields.Char(string="材料")
+
+    @api.one
+    def _compute_has_purchase(self):
+        if self.id:
+            record = self.env['cowork.purchase.order.line'].search([('bom_line_id','=',self.id),('state','!=','cancel')])
+        if record:
+            self.has_purchase = True
+        else:
+            self.has_record = False
 
     @api.onchange('product_tmpl_id')
     def onchange_product_tmpl_id(self):

@@ -10,7 +10,7 @@ class cowork_scheme_preliminary(models.Model):
 
     name = fields.Char(string="单号", default="New")
     title = fields.Char(string="项目名称")
-    count = fields.Float(string="项目数量")
+    count = fields.Char(string="项目数量")
     user_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user, string="填单人")
     date_fill = fields.Date(default=fields.Date.today(), string="填单时间")
     apply_id = fields.Many2one(comodel_name="cowork.project.estimate", string="项目编号")

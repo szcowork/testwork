@@ -244,17 +244,21 @@ class import_purchase_line_wizard(models.TransientModel):
                 if product_search:
                     if line.product_id.id == product_search[0].id:
                         val_tax = values['tax']
-                        val_tax = str(float(val_tax)*100)
-                        _logger.info(type(val_tax))
-                        val_tax = val_tax.split('.')[0] + '%'
-                        tax = self.env['account.tax'].search([('type_tax_use','=','purchase'),('name','=',val_tax)])
+                        _logger.info(val_tax)
+                        if val_tax:
+                            val_tax = str(float(val_tax)*100)
+                            val_tax = val_tax.split('.')[0] + '%'
+                            tax = self.env['account.tax'].search([('type_tax_use','=','purchase'),('name','=',val_tax)])
+                            tax = [(6, 0, [tax.id])]
+                        else:
+                            tax = False
                         _logger.info("888888888888888")  
                         _logger.info(tax)
                         line.write({
                             'partner_id': partner_id.id,
                             'list_price': values.get('price'),
                             'delivery': values.get('days'),
-                            'tax_ids': [(6, 0, [tax.id])]
+                            'tax_ids': tax
                         })
                 else:
                     raise UserError("无法查询产品\"%s\"!"%values['product'])

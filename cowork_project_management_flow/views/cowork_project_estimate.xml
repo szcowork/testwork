@@ -77,7 +77,14 @@
                                 <field name="count_person" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                                 <span>人</span>
                             </div>
-                            <field name="if_approval" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
+                            <field name="if_approval" attrs="{'readonly': [('state', '!=', 'project')]}"/>
+
+                            <label for="rule_id" string="编号类型"/>
+                            <div class="o_row">
+                                <field name="rule_id" attrs="{'readonly': [('state', '!=', 'project')]}"/>
+                                <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight"  attrs="{'invisible':[('state','!=','project')]}"/>
+                            </div>
+
                         </group>
                     </group>
                     <group string="备注">
@@ -116,6 +123,7 @@
                 <field name="if_approval"/>
                 <field name="comments"/>
                 <field name="currency_id" invisible="1"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -135,6 +143,7 @@
                 <field name="contact_id"/>
                 <field name="project_difficulty_id"/>
                 <field name="priority_id"/>
+                <field name="state"/>
                 <field name="comments" filter_domain="[('comments','ilike',self)]"/>
                 <field name="currency_id" invisible="1"/>
                 <filter name="project_type" string="项目类型" context="{'group_by':'project_type'}"/>
@@ -146,7 +155,7 @@
                 <filter name="project_difficulty_id" string="项目难度" context="{'group_by':'project_difficulty_id'}"/>
                 <filter name="priority_id" string="优先级" context="{'group_by':'priority_id'}"/>
                 <filter name="if_approval" string="是否立项" context="{'group_by':'if_approval'}"/>
-                
+                <filter name="state" string="状态" context="{'group_by':'state'}"/>
             </search>
         </field>
     </record>

@@ -18,6 +18,7 @@
 
     'data': [
         "wizard/import_bom.xml",
+        "wizard/import_picking.xml",
         "views/cowork_project_priority.xml",
         "views/cowork_project_difficulty.xml",
         "views/cowork_project_apply.xml",

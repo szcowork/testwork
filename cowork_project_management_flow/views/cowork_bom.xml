@@ -41,7 +41,7 @@
                             <field name="project_id" readonly="1" required="1"/>
                         </group>
                         <group>
-                            <field name="count" readonly="1"/>
+                            <field name="count" attrs="{'readonly':[('state','!=','draft')]}"/>
                         </group>
                     </group>
                     <group string="图纸">
@@ -147,6 +147,7 @@
             <tree string="方案设计" default_order="write_date desc">
                 <field name="name"/>
                 <field name="project_id"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -220,10 +221,17 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='origin']" position="after">
-                <field name="project_id" options="{'no_create_edit':True,'no_open':True}"/>
+                <field name="project_id" options="{'no_create_edit':True,'no_open':True}" required="1"/>
             </xpath>
             <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before">
                 <field name="project_id"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <button name="%(cowork_project_management_flow.import_picking_line_action)d" 
+                    string="导入调拨清单"
+                    icon="fa-upload"
+                    type="action" 
+                    class="oe_stat_button"  attrs="{'invisible':[('show_mark_as_todo','!=',False)]}" groups="base.group_user"/>
             </xpath>
         </field>
     </record>

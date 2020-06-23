@@ -10,8 +10,9 @@ class cowork_project_apply(models.Model):
     _description = "立项申请"
     _inherit = ['mail.thread']
 
-    name = fields.Char(string="项目编号", default="???")  #New
+    name = fields.Char(string="项目编号", default="New")  #???
     rule_id = fields.Many2one('einfo.code.rule',string='编号类型')
+    active = fields.Boolean(default=True)
     # product_code_template_widget = fields.Text('编号规则', compute='_get_product_code_template_widget_JSON', default="???")
     # @api.one
     # def _get_product_code_template_widget_JSON(self):
@@ -45,7 +46,8 @@ class cowork_project_apply(models.Model):
     partner_type = fields.Selection(selection=[('new', '新客户'), ('old', '老客户')], default="new", string="客户类型")
     partner_address = fields.Text(string="客户地址")
     budget = fields.Monetary(string="客户项目预算")
-    count = fields.Float(string="项目预计数量")
+    # count = fields.Float(string="项目预计数量")
+    count = fields.Char(string="项目预计数量")
     date_deliver = fields.Date(string="客户预计交期")
     customer_comment = fields.Text(string="客户信息备注")
     charger_lines = fields.One2many(comodel_name="cowork.project.charger", inverse_name="apply_id", track_visibility="onchange", string="项目负责人")

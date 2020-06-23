@@ -24,10 +24,10 @@
                     <group string="单件零部件明细">
                         <field name="spare_parts_lines" nolabel="1">
                             <tree editable="bottom">
-                                <field name="categ_id" required="1"/>
-                                <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id,'default_type': 'product'}" required="1"/>
+                                <field name="categ_id" required="0"/>
+                                <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id,'default_type': 'product'}" required="0"/>
                                 <field name="default_code"/>
-                                <field name="brand_id" required="1"/>
+                                <field name="brand_id" required="0"/>
                                 <field name="count"/>
                                 <field name="uom_id"/>
                                 <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>

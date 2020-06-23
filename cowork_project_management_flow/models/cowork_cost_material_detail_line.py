@@ -60,13 +60,13 @@ class cowork_cost_material_detail_line(models.Model):
         if self.spare_parts_lines:
             for spare in self.spare_parts_lines:
                 q.spare_parts_lines.create({
-                    'categ_id': spare.categ_id.id,
-                    'product_tmpl_id':spare.product_tmpl_id.id,
-                    'brand_id':spare.brand_id.id,
+                    'categ_id': spare.categ_id.id if spare.categ_id else False,
+                    'product_tmpl_id':spare.product_tmpl_id.id if spare.product_tmpl_id else False,
+                    'brand_id':spare.brand_id.id if spare.brand_id else False,
                     'count':spare.count,
                     'unit_price':spare.unit_price,
                     'total_price':spare.total_price,
                     'comments':spare.comments,
-                    'uom_id':spare.uom_id.id,
+                    'uom_id':spare.uom_id.id if spare.uom_id else False,
                     'material_detail_line_quote':q.id
                 })

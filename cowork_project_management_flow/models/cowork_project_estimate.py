@@ -1,14 +1,36 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class cowork_project_estimate(models.Model):
     _name = "cowork.project.estimate"
     _description = "项目评估"
     _inherit = ['mail.thread']
 
-    name = fields.Char(string="项目编号")
+    # name = fields.Char(string="项目编号")
+
+    name = fields.Char(string="项目编号", default="???")  
+    rule_id = fields.Many2one('einfo.code.rule',string='编号类型')
+
+    @api.onchange('rule_id')
+    def rule_onchange(self):
+        self.name = '???'
+
+    @api.multi
+    def button_mark_done(self):
+        self.ensure_one()
+        if self.rule_id:
+            _logger.info("??????????????")
+            return {
+                    'type': 'ir.actions.client',
+                    'name': '编码生成',
+                    'tag': 'action_einfo_code',
+                    'target': 'new',
+                    'context': {'rule_id': self.rule_id.id,'model_name':'cowork.project.estimate','model_id':self.id,'field_name':'name'},
+                    }
+
     title = fields.Char(string="项目名称")
     project_type = fields.Selection(selection=[('standard', '标准流程'), ('nonstandard', '非标流程')], default="nonstandard", string="项目类型", track_visibility='onchange')
     user_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user, string="填单人")
@@ -18,7 +40,8 @@ class cowork_project_estimate(models.Model):
     date_of_acceptance = fields.Date(string="接案日期")
     contact_id = fields.Many2one(comodel_name="res.partner", string="联系人")
     budget = fields.Monetary(string="客户预算")
-    count = fields.Float(string="预计数量")
+    # count = fields.Float(string="预计数量")
+    count = fields.Char(string="预计数量")
     customer_requirement = fields.Html(string="客户需求原始信息")
     project_difficulty_id = fields.Many2one(comodel_name="cowork.project.difficulty", string="项目难度", track_visibility='onchange')
     cost_budget = fields.Monetary(string="成本预算", track_visibility='onchange')
@@ -62,6 +85,11 @@ class cowork_project_estimate(models.Model):
         self.state = 'cancel'
     def button_estimate_p(self):
         self.state = 'deputy'
+        if self.if_approval:
+            self.apply_id.name = self.name
+        else:
+            self.apply_id.active = False
+            
     def button_return_estimate_p(self):
         self.state = 'business'
     def button_estimate_d(self):

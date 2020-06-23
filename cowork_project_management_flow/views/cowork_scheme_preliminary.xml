@@ -32,6 +32,7 @@
                             <field name="quote_id" attrs="{'invisible':[('quote_id','=',False)],'readonly': [('state', '=', 'business')]}"/>
                         </group>
                         <group string="预估总成本" readonly="1">
+                            <field name="currency_id" invisible="1"/>
                             <button type="object" class="oe_highlight" name="summary_all" string="统计合算" attrs="{'invisible': [('state', '=', 'business')]}"/>
                             <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
                             <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
@@ -40,7 +41,7 @@
                     </group>
                     <hr/>
                     <group string="1.人力成本">
-                        <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '!=', 'product')]}">
+                        <field name="labor_cost_lines" nolabel="1" attrs="{'readonly': [('state', '!=', 'technology')]}">
                             <tree editable="bottom">
                                 <field name="job_id" required="1" options="{'no_create_edit': True}"/>
                                 <field name="count"/>
@@ -111,6 +112,7 @@
                 <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="total_taxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="currency_id" invisible="1"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -124,9 +126,11 @@
                 <field name="user_id"/>
                 <field name="apply_id"/>
                 <field name="currency_id" invisible="1"/>
+                <field name="state"/>
                 <filter name="user_id" string="填单人" context="{'group_by':'user_id'}"/>
                 <filter name="date_fill" string="填单时间" context="{'group_by':'date_fill'}"/>
                 <filter name="apply_id" string="项目编号" context="{'group_by':'apply_id'}"/>
+                <filter name="state" string="状态" context="{'group_by':'state'}"/>
             </search>
         </field>
     </record>
