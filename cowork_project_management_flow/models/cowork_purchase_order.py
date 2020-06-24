@@ -61,7 +61,6 @@ class cowork_purchase_order(models.Model):
                     record[str(line.partner_id.id)] = purchase
                 else:
                     purchase = record[str(line.partner_id.id)]
-
                 # tax = []
                 # if line.tax_ids:
                 #     for taxes in line.tax_ids:
