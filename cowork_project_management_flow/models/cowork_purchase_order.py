@@ -91,6 +91,12 @@ class purchase_order(models.Model):
         if picking:
             picking[0].project_id = self.project_id.id
 
+    @api.multi
+    @api.constrains('order_line', 'partner_id')
+    def check_order_line(self):
+        _logger.info("passpass")
+        
+
 class cowork_purchase(models.Model):
     _name = 'cowork.purchase'
     _description = "拟询价单"
