@@ -46,7 +46,7 @@ class cowork_purchase_order(models.Model):
         self.state = 'draft'
 
     def button_to_purchase(self):
-        self.state = 'purchase'
+        # self.state = 'purchase'
         if self.line_id:
             record = {}
             for line in self.line_id:
@@ -62,21 +62,21 @@ class cowork_purchase_order(models.Model):
                 else:
                     purchase = record[str(line.partner_id.id)]
 
-                tax = []
-                if line.tax_ids:
-                    for taxes in line.tax_ids:
-                        tax.append(taxes.id)
-                date_planned = fields.Date.today() + timedelta(days=line.delivery)
-                purchase.order_line.create({
-                    'order_id':purchase.id,
-                    'product_id': line.product_id.id,
-                    'name': line.product_id.name,
-                    'product_qty': line.product_qty,
-                    'product_uom': line.uom_id.id,
-                    'taxes_id': [(6, 0, tax)],
-                    'price_unit': line.list_price,
-                    'date_planned': date_planned#fields.Datetime.now()
-                })
+                # tax = []
+                # if line.tax_ids:
+                #     for taxes in line.tax_ids:
+                #         tax.append(taxes.id)
+                # date_planned = fields.Date.today() + timedelta(days=line.delivery)
+                # purchase.order_line.create({
+                #     'order_id':purchase.id,
+                #     'product_id': line.product_id.id,
+                #     'name': line.product_id.name,
+                #     'product_qty': line.product_qty,
+                #     'product_uom': line.uom_id.id,
+                #     'taxes_id': [(6, 0, tax)],
+                #     'price_unit': line.list_price,
+                #     'date_planned': date_planned#fields.Datetime.now()
+                # })
 
 class purchase_order(models.Model):
     _inherit = 'purchase.order'
