@@ -115,7 +115,8 @@ class import_bom_line_wizard(models.TransientModel):
         else: #raise UserError("第%d行 产品\"%s\"不存在"%(row_no, values['categ_id']))
             categ_tmp = self.env['product.category'].create({
                 'name': values['categ_id'],
-                'property_cost_method': 'standard'
+                # 'property_cost_method': 'standard'
+                'property_cost_method': 'onemonth'
             })
             categ_tmp = categ_tmp.id
 
