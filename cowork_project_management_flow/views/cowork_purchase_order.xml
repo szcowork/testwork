@@ -6,8 +6,8 @@
         <field name="arch" type="xml">
             <form string="申购单">
                 <header>
-                    <button name="button_order" states="draft" string="确认" type="object" class="oe_highlight"/>
-                    <button name="button_to_purchase" states="confirm" string="转采购订单" type="object" class="oe_highlight"/>
+                    <button name="button_order" states="draft" string="确认" type="object" class="oe_highlight" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_to_purchase" states="confirm" string="转采购订单" type="object" class="oe_highlight" groups="cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
                     <button name="button_draft" states="cancel" string="设为草稿" type="object"/>
                     <button name="button_cancel" states="draft,confirm" string="取消" type="object" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,purchase" readonly="1"/>
@@ -88,6 +88,7 @@
                 <field name="name"/>
                 <field name="user_id"/>
                 <field name="date"/>
+                <field name="state"/>
                 <!-- <field name="qty"/> -->
                 <!-- <field name="uom_id"/> -->
             </tree>

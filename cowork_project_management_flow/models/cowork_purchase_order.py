@@ -56,8 +56,7 @@ class cowork_purchase_order(models.Model):
                         'partner_id':line.partner_id.id,
                         'date_order': fields.Datetime.now(),
                         'user_id': self.env.user.id,
-                        'project_id': line.order_id.project_id.id,
-                        'company_id': self.env.user.company_id.id
+                        'project_id': line.order_id.project_id.id
                     })
                     record[str(line.partner_id.id)] = purchase
                 else:
@@ -90,12 +89,6 @@ class purchase_order(models.Model):
         picking = self.env['stock.picking'].search([('origin','=',self.name)])
         if picking:
             picking[0].project_id = self.project_id.id
-
-    @api.multi
-    @api.constrains('order_line', 'partner_id')
-    def check_order_line(self):
-        _logger.info("passpass")
-        
 
 class cowork_purchase(models.Model):
     _name = 'cowork.purchase'

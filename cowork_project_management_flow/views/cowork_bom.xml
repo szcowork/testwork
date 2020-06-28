@@ -231,7 +231,7 @@
                     string="导入调拨清单"
                     icon="fa-upload"
                     type="action" 
-                    class="oe_stat_button"  attrs="{'invisible':[('show_mark_as_todo','!=',False)]}" groups="base.group_user"/>
+                    class="oe_stat_button"  attrs="{'invisible':[('show_mark_as_todo','!=',False)]}" groups="stock.group_stock_user,stock.group_stock_manager"/>
             </xpath>
         </field>
     </record>
