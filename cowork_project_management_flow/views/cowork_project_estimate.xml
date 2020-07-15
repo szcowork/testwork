@@ -7,21 +7,21 @@
             <form string="项目评估">
                 <header>
                     <button name="button_estimate_t" string="技术部确认" type="object" class="oe_highlight" states='technology' groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
-                    <!-- <button name="button_return_estimate_t" string="驳回" type="object" class="oe_highlight" states='technology'/> -->
-                    <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
-                    <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                    
+                    <!-- <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/> -->
 
-                    <button name="button_estimate_p" string="项目管理部确认" type="object" class="oe_highlight" states='project' groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
-                    <button name="button_return_estimate_p" string="驳回" type="object" class="oe_highlight" states='project' groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
+                    <button name="button_estimate_p" string="项目管理部确认" type="object" class="oe_highlight"  groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"  attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','project')]}"/>
+                    <button name="button_return_estimate_p" string="驳回" type="object" class="oe_highlight"  groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"  attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','project')]}"/>
 
-                    <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
-                    <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <!-- <button name="button_estimate_d" string="副总经理确认" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_estimate_d" string="驳回" type="object" class="oe_highlight" states='deputy' groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/> -->
 
-                    <button name="create_scheme_preliminary" string="转初步方案" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','general'),('preliminary_scheme_id','!=',False)]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+                    <!-- <button name="create_scheme_preliminary" string="转初步方案" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','general'),('preliminary_scheme_id','!=',False)]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
 
-                    <button name="button_back_estimate" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_back_estimate" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/> -->
 
-                    <field name="state" widget="statusbar" statusbar_visible="technology,business,project,deputy,general" readonly="1"/>
+                    <field name="state" widget="statusbar" statusbar_visible="technology,project" readonly="1"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -59,7 +59,7 @@
                     <group string="客户需求原始信息">
                         <field name="customer_requirement" readonly="1" nolabel="1"/>
                     </group>
-                    <group string="技术性评估">
+                    <group string="机械部技术性评估">
                         <group>
                             <field name="project_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                             <field name="project_difficulty_id" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
@@ -77,12 +77,12 @@
                                 <field name="count_person" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                                 <span>人</span>
                             </div>
-                            <field name="if_approval" attrs="{'readonly': [('state', '!=', 'project')]}"/>
+                            <field name="if_approval" attrs="{'readonly': ['|',('preliminary_scheme_id','!=',False),('state', '!=', 'project')]}"/>
 
                             <label for="rule_id" string="编号类型"/>
                             <div class="o_row">
-                                <field name="rule_id" attrs="{'readonly': [('state', '!=', 'project')]}"/>
-                                <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight"  attrs="{'invisible':[('state','!=','project')]}"/>
+                                <field name="rule_id" attrs="{'readonly': ['|',('preliminary_scheme_id','!=',False),('state', '!=', 'project')]}"/>
+                                <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight"  attrs="{'invisible':['|',('preliminary_scheme_id','!=',False),('state','!=','project')]}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
                             </div>
 
                         </group>

@@ -20,3 +20,6 @@ from . import cowork_purchase_order
 from . import cowork_purchase_order_line
 from . import stock
 from . import cowork_message
+from . import res_partner
+from . import supplier_approval
+# from . import cowork_contract

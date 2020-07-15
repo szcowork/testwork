@@ -11,3 +11,4 @@ class cowork_project_charger(models.Model):
     apply_id = fields.Many2one(comodel_name="cowork.project.apply", ondelete="cascade", string="立项申请")
     job_id = fields.Many2one(comodel_name="hr.job", string="岗位")
     employee_id = fields.Many2one(comodel_name="hr.employee", string="员工")
+    comment = fields.Char(string="备注")

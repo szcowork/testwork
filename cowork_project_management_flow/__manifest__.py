@@ -14,7 +14,7 @@
     'category': 'Tools',
     'version': '1.0',
 
-    'depends': ['base','mail','hr','account','purchase','stock','web_tree_dynamic_colored_field','einfo_code_manager'],  #,'ps_purchase','purchase_requisition'
+    'depends': ['base','mail','hr','account','purchase','stock','einfo_code_manager'],  #'purchase_requisition'  'web_tree_dynamic_colored_field',
 
     'data': [
         "wizard/import_bom.xml",
@@ -42,6 +42,10 @@
         "data/cowork_project_priority.xml",
         "data/cowork_material_category.xml",
         "data/cowork_material_class.xml",
+        "views/res_partner.xml",
+        "views/supplier_approval.xml",
+        "views/account.xml",
+        # "views/cowork_contract.xml"
     ],
 
     'installable':True,

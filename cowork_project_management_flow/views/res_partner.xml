@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="cowork_res_partner_inherit">
+        <field name="name">cowork.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <button name="toggle_active" position="before">
+                    <button type="object" class="oe_stat_button" icon="fa-bandcamp" name="action_view_project" attrs="{'invisible': [('project_no', '=', 0)]}">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="project_no"/>
+                            </span>
+                            <span class="o_stat_text">立项记录</span>
+                        </div>
+                    </button>
+                </button>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="material_class_id" widget="many2many_tags"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="coworkview_job_form">
+        <field name="name">cowork.view_job.form</field>
+        <field name="model">hr.job</field>
+        <field name="arch" type="xml">
+            <form string="岗位信息">
+                <group>
+                    <field name="name"/>
+                    <field name="department_id"/>
+                    <field name="description"/>
+                </group>
+                <group>
+                    <field name="no_of_employee" widget="monetary"/>
+                    <field name="unit_price" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tree_hr_job">
+        <field name="name">工作岗位</field>
+        <field name="model">hr.job</field>
+        <field name="arch" type="xml">
+            <tree string="工作岗位">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_hr_job">
+        <field name="name">工作岗位</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+            action="action_hr_job"
+            id="menu_hr_job_tree"
+            parent="hr.menu_hr_root"
+            sequence="95"
+            groups="hr.group_hr_user"/>
+</odoo>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-
+from odoo.exceptions import UserError, ValidationError
 
 class cowork_cost_labor(models.Model):
     _name = "cowork.cost.labor"
@@ -18,10 +18,16 @@ class cowork_cost_labor(models.Model):
     total_price = fields.Monetary(string="总价")
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
 
-    @api.onchange('count','hours_per_day','count_day','unit_price')
+    @api.onchange('count','hours_per_day','count_day','job_id')  #,'unit_price'
     def _compute_cost(self):
-        self.total_hours = self.count * self.hours_per_day * self.count_day
-        self.total_price = self.total_hours * self.unit_price
+        if self.job_id:
+            if self.job_id.unit_price > 0.0:
+                self.unit_price = self.job_id.unit_price
+
+                self.total_hours = self.count * self.hours_per_day * self.count_day
+                self.total_price = self.total_hours * self.job_id.unit_price   #self.unit_price
+            else:
+                raise UserError("请配置该岗位人员人力成本单价信息！")
 
     def trans_quote(self, quote):
         self.env['cowork.cost.labor.quote'].create({

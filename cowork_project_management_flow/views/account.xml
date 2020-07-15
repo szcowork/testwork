@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="invoice_supplier_form_inherit_account_cowork" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.inherit.account.cowork</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>  
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="after">
+                    <header>
+                        <button name="button_to_approval" attrs="{'invisible': [('approval_state', '!=', 'draft')]}" string="提交" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
+
+                        <button name="button_to_pass" string="审批通过" type="object" class="oe_highlight" groups="account.group_account_manager" attrs="{'invisible': [('approval_state', '!=', 'approval')]}"/>
+                        <button name="button_to_draft" string="驳回" type="object" attrs="{'invisible': [('approval_state', '!=', 'approval')]}" groups="account.group_account_manager"/>
+
+                        <field name="approval_state" widget="statusbar" statusbar_visible="draft,approval,pass" readonly="1"/>
+                    </header>
+                </xpath>
+                <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+                    <!-- <attribute name="groups">account.group_account_user,account.group_account_manager</attribute> -->
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="invoice_supplier_form_inherit_account_tree_cowork" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.inherit.account.tree.cowork</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_tree"/>  
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="approval_state"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

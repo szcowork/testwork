@@ -59,15 +59,15 @@ class cowork_project_apply(models.Model):
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
     state = fields.Selection([
         ('business','商务部'),
-        ('project','项目管理部'),
+        ('project','进入评估'),  #项目管理部
     ],string="状态",default='business')
 
-    # @api.model
-    # def create(self, vals): 
-    #      #创建时自动生成单号
-    #     if vals.get('name', 'New') == 'New':
-    #         vals['name'] = self.env['ir.sequence'].next_by_code('cowork.project.apply') or '/'
-    #     return super(cowork_project_apply, self).create(vals)
+    delivery_paper = fields.Binary(string="送货回执单")
+    delivery_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="送货回单状态")
+    invoice_paper = fields.Binary(string="开票回执单")
+    invoice_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="开票回单状态")
+    check_paper = fields.Binary(string="验收回单")
+    check_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="验收回单状态")
 
     def create_estimate(self):
         e = self.env['cowork.project.estimate'].create({
@@ -102,6 +102,7 @@ class cowork_project_apply(models.Model):
 
     def action_to_project(self):
         self.state = 'project'
+        self.create_estimate()
 
     def action_to_estimate(self):
         # self.env['cowork.project.estimate'].search([('apply_id','=',self.id)])
@@ -129,3 +130,35 @@ class cowork_project_apply(models.Model):
             'res_model': 'purchase.order',
             'domain': [('id','in',tc_ids)]
         }
+
+    @api.multi
+    def toggle_active(self):
+        for record in self:
+            record.active = not record.active
+
+    def d_plan_to_approval(self):
+        self.delivery_paper_state = 'approval'
+
+    def d_approval_to_pass(self):
+        self.delivery_paper_state = 'pass'
+
+    def d_approval_to_draft(self):
+        self.delivery_paper_state = 'draft'
+
+    def i_plan_to_approval(self):
+        self.invoice_paper_state = 'approval'
+
+    def i_approval_to_pass(self):
+        self.invoice_paper_state = 'pass'
+
+    def i_approval_to_draft(self):
+        self.invoice_paper_state = 'draft'
+
+    def c_plan_to_approval(self):
+        self.check_paper_state = 'approval'
+
+    def c_approval_to_pass(self):
+        self.check_paper_state = 'pass'
+
+    def c_approval_to_draft(self):
+        self.check_paper_state = 'draft'

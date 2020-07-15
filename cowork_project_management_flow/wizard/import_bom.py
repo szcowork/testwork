@@ -2,6 +2,7 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models, _ ,exceptions
+import time
 from datetime import datetime
 from odoo.exceptions import Warning
 import binascii
@@ -34,12 +35,13 @@ class import_bom_line_wizard(models.TransientModel):
 
     bom_file = fields.Binary(string="选择文件")
     import_option = fields.Selection([('xls', 'XLS'),('csv', 'CSV')],string='选择格式',default='xls')
+    user_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user, string="编制")
 
     @api.multi
     def import_bom(self):
         if self.import_option == 'csv':
             # keys = ['class_id','class_categ_id','categ_id','product_tmpl_id','brand_id','count','uom_id','material','comments']
-            keys = ['class_categ_id','categ_id','product_tmpl_id','count','uom_id','material','class_id','brand_id','comments']
+            keys = ['class_categ_id','categ_id','product_tmpl_id','count','uom_id','material','class_id','brand_id','comments','code']
             csv_data = base64.b64decode(self.bom_file)
             data_file = io.StringIO(csv_data.decode("utf-8"))
             data_file.seek(0)
@@ -71,25 +73,37 @@ class import_bom_line_wizard(models.TransientModel):
             # sheet = workbook.sheet_by_index(0)
             for i in range(sheet_no):
                 sheet = workbook.sheet_by_index(i)
+                sheetname = sheet.name
                 for row_no in range(sheet.nrows):
                     val = {}
-                    if row_no <= 0:
+                    if row_no <= 4:      #0:
                         fields = map(lambda row:row.value.encode('utf-8'), sheet.row(row_no))
                     else:
                         line = list(map(lambda row:isinstance(row.value, bytes) and row.value.encode('utf-8') or ustr(row.value), sheet.row(row_no)))
                         # keys = ['class_categ_id','categ_id','product_tmpl_id','count','uom_id','material','class_id','brand_id','comments']
+                        _logger.info("?????????????/")
+                        _logger.info(line[10])
+                        t1 = False
+                        if line[10]:
+                            t1 = xlrd.xldate.xldate_as_datetime(float(line[10]), 0)
+                            t1 = t1.strftime('%Y-%m-%d')
+                        code = False
+                        if line[2]:  #判断是否含有条码
+                            code = line[2].split('.')[0]
                         values.update({
-                                'class_categ_id' : line[0],
-                                'categ_id' : line[1],
-                                'product_tmpl_id' : line[2].split('.')[0],
-                                'count' : line[3],
-                                'uom_id' : line[4],
-                                'material' : line[5],
-                                'class_id' : line[6],
-                                'brand_id' : line[7],
-                                'comments' : line[8]
+                                'class_categ_id' : sheetname,#line[0],
+                                'categ_id' : line[3],
+                                'product_tmpl_id' : line[4].split('.')[0],
+                                'count' : line[5],
+                                'uom_id' : line[7],
+                                'material' : line[9],
+                                'buy_no': line[6],
+                                'class_id' : line[1],
+                                'brand_id' : line[8],
+                                'comments' : line[11],
+                                'date': t1,
+                                'code': code
                         })
-                        _logger.info(line[0])
                         res = self.create_bom_line(values, row_no+1)
         return res
 
@@ -123,6 +137,8 @@ class import_bom_line_wizard(models.TransientModel):
         brand_id = self.env['product.brand'].search([('name','=',values['brand_id'])])
         if brand_id:
             brand_tmp = brand_id[0].id
+        else:
+            brand_tmp = self.env['product.brand'].create({'name':values['brand_id']}).id
         # else: raise UserError("第%d行 品牌\"%s\"不存在"%(row_no, values['brand_id']))
         
         uom_tmp = False
@@ -137,7 +153,7 @@ class import_bom_line_wizard(models.TransientModel):
                 'rounding': 1.0
             })
             uom_tmp = uom_tmp.id
-        product_obj_search=self.env['product.template'].search([('name', '=',values['product_tmpl_id'])])
+        product_obj_search=self.env['product.template'].search([('name', '=',values['product_tmpl_id']),('barcode','=',values['code'])])
         product_id = False
         if product_obj_search:
             product_id=product_obj_search[0].id
@@ -149,7 +165,8 @@ class import_bom_line_wizard(models.TransientModel):
                 'type': 'product',
                 'categ_id': categ_tmp,
                 'uom_id': uom_tmp,
-                'uom_po_id': uom_tmp
+                'uom_po_id': uom_tmp,
+                'barcode': values['code']
             })
             product_id = product_id.id
 
@@ -158,13 +175,17 @@ class import_bom_line_wizard(models.TransientModel):
                                             'product_tmpl_id': product_id,
                                             'count':values.get('count'),
                                             'comments':values.get('comments'),
-                                            'class_id': class_tmp,
+                                            # 'class_id': class_tmp,
                                             'class_categ_id': class_categ_tmp,
                                             'categ_id': categ_tmp,
                                             'brand_id': brand_tmp,
                                             'uom_id': uom_tmp,
-                                            'material': values.get('material')
+                                            'material': values.get('material'),
+                                            'purchase_buy': values.get('buy_no'),
+                                            'plan_date': values.get('date')
                                             })
+
+        bom_id.user_id = self.user_id.id
         return True
     
 class import_purchase_line_wizard(models.TransientModel):
@@ -248,8 +269,12 @@ class import_purchase_line_wizard(models.TransientModel):
                         if val_tax:
                             val_tax = str(float(val_tax)*100)
                             val_tax = val_tax.split('.')[0] + '%'
+                            _logger.info(val_tax)
                             tax = self.env['account.tax'].search([('type_tax_use','=','purchase'),('name','=',val_tax)])
-                            tax = [(6, 0, [tax.id])]
+                            if tax:
+                                tax = [(6, 0, [tax.id])]
+                            else:
+                                tax = False
                         else:
                             tax = False
                         _logger.info("888888888888888")  

@@ -5,6 +5,7 @@ import time
 from datetime import datetime, timedelta
 import logging
 _logger = logging.getLogger(__name__)
+from odoo.exceptions import UserError, ValidationError
 
 class cowork_purchase_order(models.Model):
     _name = "cowork.purchase.order"
@@ -24,6 +25,8 @@ class cowork_purchase_order(models.Model):
     project_id = fields.Many2one("cowork.project.apply",string="项目编号")
     state = fields.Selection([('draft','草稿'),('confirm','确认'),('purchase','已生成采购单'),('cancel','取消')],string="状态",default='draft')
     amount_total = fields.Monetary(string="合计", store=True, compute='_amount_all')
+    count = fields.Float(string="项目数量",default=1.0)
+    this_count = fields.Float(string="本次采购数量",default=1.0)
 
     @api.one
     @api.depends('line_id.amount')
@@ -78,10 +81,145 @@ class cowork_purchase_order(models.Model):
                     'date_planned': date_planned#fields.Datetime.now()
                 })
 
+                purchase.button_confirm()
+
 class purchase_order(models.Model):
     _inherit = 'purchase.order'
 
     project_id = fields.Many2one("cowork.project.apply",string="项目编号")
+    invoice_type = fields.Selection([('no','未收到票'),('part','已收部分票据'),('all','已收全部票据')],default='no', track_visibility='onchange',string="发票状态",copy=False)
+    payment_state = fields.Selection([('no','未申请'),('draft','申请'),('leader','组长审批'),('manager','采购总监审批'),('general','总经理审批'),('done','完成')],string="付款状态审批流",default='no',copy=False)
+    payment_type = fields.Selection([('no','未付款'),('part','已付部分款'),('all','已支付全款')],default='no', track_visibility='onchange',string="付款状态",compute='_compute_payment_type')
+
+    pay_type = fields.Selection([('prepay','预付'),('final','全款/尾款')],string="付款方式",default='final')
+    payment_amount = fields.Float(string="支付金额",default=100.0)
+    prepay_method = fields.Selection([('percentage','预付百分比'),('fixed','预付固定金额')],string="预付方式")
+
+    purchase_approval_state = fields.Selection([('draft','申请'),('leader','组长审批'),('manager','总监审批'),('general','总经理审批'),('pass','通过')],default='draft',string="采购审批",track_visibility='onchange',copy=False)
+
+    def test_test(self):
+        self.payment_state = 'general'
+
+    def plan_to_payment(self):
+        self.payment_state = 'draft'
+
+    def approval_to_payment(self):
+        if self.payment_amount > self.amount_total:
+            raise UserError('支付金额不能大于采购总额！')
+        # if self.payment_amount < self.amount_total and self.pay_type != 'prepay':
+        #     raise UserError('请选择预付付款方式！')
+        
+        self.payment_state = 'leader'
+        _logger.info("hahahahahahah")
+
+    def approval_to_payment_to_draft(self):
+        self.payment_state = 'no'
+
+    def lead_pass_payment(self):
+        self.payment_state = 'manager'
+
+    def lead_refuse_payment(self):
+        self.payment_state = 'draft'
+
+    def manager_pass_payment(self):
+        self.payment_state = 'general'
+
+    def mamager_refuse_payment(self):
+        self.payment_state = 'manager'
+
+    def general_pass_payment(self):
+        if self.pay_type == 'prepay':
+            if self.prepay_method == 'percentage':
+                amount = self.amount_total * self.payment_amount / 100.0
+            if self.prepay_method == 'fixed':
+                amount = self.payment_amount
+            journal = self.env['account.journal'].search([('type','=','bank')])
+            self.env['account.payment'].sudo().create({
+                'payment_type': 'outbound',
+                'partner_id': self.partner_id.id,
+                'amount': amount,
+                'purchase_id': self.id,
+                'payment_method_id':1,
+                'journal_id': journal[0].id,
+                'partner_type': 'supplier'
+            })
+            self.payment_state = 'no'
+            self.payment_type = 'part'
+            self.pay_type = 'final'
+
+        elif self.pay_type == 'final':
+            # self.action_view_invoice()
+            self.payment_state = 'done'
+            action = self.env.ref('account.action_vendor_bill_template')
+            result = action.read()[0]
+            create_bill = self.env.context.get('create_bill', False)
+            result['context'] = {
+                'type': 'in_invoice',
+                'default_purchase_id': self.id,
+                'default_currency_id': self.currency_id.id,
+                'default_company_id': self.company_id.id,
+                'company_id': self.company_id.id
+            }
+            if len(self.invoice_ids) > 1 and not create_bill:
+                result['domain'] = "[('id', 'in', " + str(self.invoice_ids.ids) + ")]"
+            else:
+                res = self.env.ref('account.invoice_supplier_form', False)
+                result['views'] = [(res and res.id or False, 'form')]
+                if not create_bill:
+                    result['res_id'] = self.invoice_ids.id or False
+            result['context']['default_origin'] = self.name
+            result['context']['default_reference'] = self.partner_ref
+            result['state'] = 'draft'
+            return result
+            # _logger.info("000000000000")
+            # return {
+            #         'name': "供应商付款",
+            #         'type': 'ir.actions.act_window',
+            #         'view_type': 'form',
+            #         'view_mode': 'form',
+            #         'res_model': 'account.payment',
+            #         'view_id': self.env.ref('account.view_account_payment_form').id,
+            #         'target': 'new',
+            #         'context': {
+            #                 'default_payment_type': 'outbound',
+            #                 'default_partner_id': self.partner_id.id,
+            #                 'search_default_outbound_filter': 1,
+            #                 'default_amount': amount,
+            #                 'default_communication': str(amount),
+            #                 'default_currency_id': self.currency_id.id
+            #         }
+            # }
+    @api.one
+    def _compute_payment_type(self):
+        invoice = self.env['account.invoice'].search([('type','=','in_invoice'),('origin','=',self.name),('state','=','paid')])
+        if invoice:
+            self.payment_type = 'all'
+        else:
+            payment = self.env['account.payment'].search([('purchase_id','=',self.id),('state','=','posted')])
+            if payment:
+                self.payment_type = 'part'
+
+    def button_to_approval(self):
+        self.purchase_approval_state = 'leader'
+
+    def button_to_leader(self):
+        self.purchase_approval_state = 'manager'
+    
+    def back_to_draft(self):
+        self.purchase_approval_state = 'draft'
+
+    def button_to_manager(self):
+        self.purchase_approval_state = 'general'
+
+    def back_to_lead(self):
+        self.purchase_approval_state = 'leader'
+
+    def button_to_general(self):
+        self.purchase_approval_state = 'pass'
+        self.button_confirm()
+
+    def back_to_manager(self):
+        self.purchase_approval_state = 'general'
 
     @api.multi
     def button_confirm(self):
@@ -89,6 +227,18 @@ class purchase_order(models.Model):
         picking = self.env['stock.picking'].search([('origin','=',self.name)])
         if picking:
             picking[0].project_id = self.project_id.id
+
+    @api.multi
+    def action_view_payment(self):
+        action = self.env.ref('account.action_account_payments_payable')
+        result = action.read()[0]
+        result['context'] = {}
+        payment = self.env['account.payment'].search([('purchase_id','=',self.id)])
+        _logger.info(payment)
+        res = self.env.ref('account.view_account_payment_form', False)
+        result['views'] = [(res and res.id or False, 'form')]
+        result['res_id'] = payment.id
+        return result
 
 class cowork_purchase(models.Model):
     _name = 'cowork.purchase'
@@ -209,3 +359,35 @@ class cowork_purchase_line(models.Model):
             'product_qty': self.product_qty,
             'product': self.product_id,
         }
+
+class account_payment(models.Model):
+    _inherit = 'account.payment'
+
+    purchase_id = fields.Many2one("purchase.order",string="采购订单")
+    payment_state = fields.Selection([('draft','草稿'),('approval','总监审批'),('pass','通过')],default='draft',copy=False,string="付款审批")
+
+    def button_to_approval(self):
+        self.payment_state = 'approval'
+
+    def back_to_draft(self):
+        self.payment_state = 'draft'
+
+    def button_to_pass(self):
+        self.payment_state = 'pass'
+        self.post()
+
+class account_invoice(models.Model):
+    _inherit = 'account.invoice'
+
+    approval_state = fields.Selection([('draft','草稿'),('approval','总监审批'),('pass','通过')],string="审批状态",default='draft')
+
+    def button_to_approval(self):
+        self.approval_state = 'approval'
+
+    def button_to_pass(self):
+        self.approval_state = 'pass'
+        self.action_invoice_open()
+
+    def button_to_draft(self):
+        self.approval_state = 'draft'
+    

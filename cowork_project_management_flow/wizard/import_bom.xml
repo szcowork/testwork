@@ -10,6 +10,7 @@
 					<group>
 					    <field name="import_option" widget="radio"/>
 						<field name="bom_file"/>
+						<field name="user_id" invisible="1"/>
 					</group>
 					<footer>
 						<button string="导入" name="import_bom" class="oe_highlight" type="object"/>

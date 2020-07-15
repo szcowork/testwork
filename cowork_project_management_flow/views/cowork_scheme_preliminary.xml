@@ -34,9 +34,9 @@
                         <group string="预估总成本" readonly="1">
                             <field name="currency_id" invisible="1"/>
                             <button type="object" class="oe_highlight" name="summary_all" string="统计合算" attrs="{'invisible': [('state', '=', 'business')]}"/>
-                            <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
+                            <field name="total_labor_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                             <field name="total_material_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
-                            <field name="total_taxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1"/>
+                            <field name="total_taxed_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'business')]}" readonly="1" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                         </group>
                     </group>
                     <hr/>
@@ -47,9 +47,9 @@
                                 <field name="count"/>
                                 <field name="hours_per_day"/>
                                 <field name="count_day"/>
-                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                                 <field name="total_hours"/>
-                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}" sum="总计"/>
+                                <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}" sum="总计" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                                 <field name="currency_id" invisible="1"/>
                             </tree>
                         </field>

@@ -35,7 +35,7 @@ class import_picking_line_wizard(models.TransientModel):
     @api.multi
     def import_picking(self):
         if self.import_option == 'csv':
-            keys = ['product_id','want_count','uom_id']
+            keys = ['product_id','want_count','uom_id','code']
             csv_data = base64.b64decode(self.picking_file)
             data_file = io.StringIO(csv_data.decode("utf-8"))
             data_file.seek(0)
@@ -75,8 +75,9 @@ class import_picking_line_wizard(models.TransientModel):
                         line = list(map(lambda row:isinstance(row.value, bytes) and row.value.encode('utf-8') or ustr(row.value), sheet.row(row_no)))
                         values.update({
                                 'product_id' : line[0].split('.')[0],
-                                'want_count' : line[1],
-                                'uom_id' : line[2]
+                                'want_count' : line[2],
+                                'uom_id' : line[3],
+                                'code': line[1].split('.')[0]
                         })
                         res = self.create_move_line(values, row_no+1)
         return res
@@ -96,7 +97,7 @@ class import_picking_line_wizard(models.TransientModel):
                 'rounding': 1.0
             })
             uom_tmp = uom_tmp.id
-        product_obj_search=self.env['product.product'].search([('name', '=',values['product_id'])])
+        product_obj_search=self.env['product.product'].search([('name', '=',values['product_id']),('barcode','=',values['code'])])
         product_id = False
         if product_obj_search:
             product_id=product_obj_search[0]

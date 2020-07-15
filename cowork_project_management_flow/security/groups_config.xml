@@ -11,7 +11,7 @@
     </record>
 
     <record model="res.groups" id="access_group_merchant_assistant_in_cowork_project_management_flow">
-        <field name="name">商务助理</field>
+        <field name="name">商务部职员</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
@@ -23,7 +23,7 @@
     </record>
 
     <record model="res.groups" id="access_group_technique_director_in_cowork_project_management_flow">
-        <field name="name">技术总监</field>
+        <field name="name">技术主管</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
@@ -38,6 +38,11 @@
         <field name="name">采购员</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="res.groups" id="group_purchase_team_leader">
+        <field name="name">采购部组长</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
     </record>
 
     <record model="res.groups" id="access_group_technique_engineer_in_cowork_project_management_flow">
@@ -58,4 +63,9 @@
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
 
+    <!-- <record model="res.groups" id="general_managerment_director">
+        <field name="name">综合事业部总经理</field>
+        <field name="category_id" ref="module_category_cowork_project_management_flow"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record> -->
 </odoo>

@@ -31,6 +31,7 @@ class cowork_purchase_order_line(models.Model):
     bom_line_id = fields.Many2one("cowork.bom.material.part",string="方案明细行")
     is_add = fields.Selection([('origin','原始'),('change','更改')],default='origin',string="申购性质")
     # is_add = fields.Boolean(default=False,string="是否为更改型")
+    plan_date = fields.Date(string="需求日期")
 
     @api.depends('product_qty', 'list_price', 'tax_ids')
     def _compute_amount(self):

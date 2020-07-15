@@ -56,10 +56,10 @@ class cowork_project_estimate(models.Model):
     date_deliver = fields.Date(string="客户预计交期",related='apply_id.date_deliver')
     state = fields.Selection([
         ('technology','技术部'),
-        ('business','商务部'),
+        # ('business','商务部'),
         ('project','项目管理部'),
-        ('deputy','副总经理'),
-        ('general','总经理'),
+        # ('deputy','副总经理'),
+        # ('general','总经理'),
         ('cancel','无效')
     ],string="状态",default='technology', track_visibility='onchange')
     preliminary_scheme_no = fields.Integer("初步方案号", default=0)
@@ -75,27 +75,30 @@ class cowork_project_estimate(models.Model):
         })
         self.preliminary_scheme_id = preliminary.id
 
-    def button_return_estimate_b(self):
-        self.state = 'technology'
-    def button_estimate_b(self):
-        self.state = 'project'
+    # def button_return_estimate_b(self):
+    #     self.state = 'technology'
+    # def button_estimate_b(self):
+    #     self.state = 'project'
     def button_estimate_t(self):
-        self.state = 'business'
+        # self.state = 'business'
+        self.state = 'project'
     def button_return_estimate_t(self):
         self.state = 'cancel'
     def button_estimate_p(self):
-        self.state = 'deputy'
+        # self.state = 'deputy'
         if self.if_approval:
             self.apply_id.name = self.name
+            self.create_scheme_preliminary()
         else:
             self.apply_id.active = False
             
     def button_return_estimate_p(self):
-        self.state = 'business'
-    def button_estimate_d(self):
-        self.state = 'general'
-    def button_return_estimate_d(self):
-        self.state = 'project'
+        self.state = 'technology'   #'business'
+
+    # def button_estimate_d(self):
+    #     self.state = 'general'
+    # def button_return_estimate_d(self):
+    #     self.state = 'project'
 
     def action_to_scheme(self):
         return {
@@ -108,5 +111,5 @@ class cowork_project_estimate(models.Model):
             'domain': [('id','=',self.preliminary_scheme_id.id)]
         }
 
-    def button_back_estimate(self):
-        self.state = 'deputy'
+    # def button_back_estimate(self):
+    #     self.state = 'deputy'

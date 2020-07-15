@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="申购单">
                 <header>
-                    <button name="button_order" states="draft" string="确认" type="object" class="oe_highlight" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_order" states="draft" string="确认" type="object" class="oe_highlight" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                     <button name="button_to_purchase" states="confirm" string="转采购订单" type="object" class="oe_highlight" groups="cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
                     <button name="button_draft" states="cancel" string="设为草稿" type="object"/>
                     <button name="button_cancel" states="draft,confirm" string="取消" type="object" />
@@ -23,10 +23,12 @@
                             <field name="user_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="currency_id" invisible="1"/>
+                            <field name="count" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
                         <group>
                             <field name="class_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="code"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="this_count" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <!-- <label for="qty" string="数量"/> -->
                             <!-- <div>
                                 <field  name="qty" class="oe_inline"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
@@ -52,6 +54,7 @@
                                     <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','purchase')]"/>
                                     <field name="amount"/>
                                     <field name="delivery"/>
+                                    <field name="plan_date" readonly="1"/>
                                     <field name="comment"/>
                                     <field name="currency_id" invisible="1"/>
                                 </tree>
@@ -125,6 +128,128 @@
           <xpath expr="//field[@name='date_order']" position="after">
             <field name="project_id"/>
           </xpath>
+          <!-- <xpath expr="//page[@name='purchase_delivery_invoice']" position="after"> -->
+          <xpath expr="//notebook" position="after">
+            <notebook>
+            <page name="invoice_payment_info" string="票据与付款信息">
+                <header>
+                    <!-- <button name="test_test" string="取消" type="object" class="oe_highlight" groups="base.user_admin"/> -->
+                    <button name="plan_to_payment" string="付款申请" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'no')]}"  groups="purchase.group_purchase_user"/>
+
+                    <button name="approval_to_payment" string="提交付款申请" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'draft')]}" groups="purchase.group_purchase_user"/>
+                    <button name="approval_to_payment_to_draft" string="取消" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'draft')]}" groups="purchase.group_purchase_user"/>
+
+                    <button name="lead_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
+                    <button name="lead_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
+
+                    <button name="manager_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager"/>
+                    <button name="mamager_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager"/>
+
+                    <button name="general_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+                    <button name="general_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+
+                    <field name="payment_state" widget="statusbar" readonly="1"/>
+                </header>
+                <group>
+                    <group>
+                        <field name="invoice_type" attrs="{'readonly':[('payment_state','=','no')]}"/>
+                        <field name="pay_type"  attrs="{'readonly':['|',('payment_state','=','no'),'|',('payment_type','=','part'),('payment_state','=','done')]}"/>
+                    </group>
+                    <group>
+                        <field name="payment_type" readonly="1"/>
+                        <field name="prepay_method" attrs="{'invisible':[('pay_type','!=','prepay')]}"/>
+                        <!-- <field name="payment_amount" attrs="{'invisible':[('pay_type','=','prepay')],'readonly':[('payment_state','=','no')]}"/> -->
+                    </group>
+                </group>
+                <group>
+                    <label for="payment_amount" attrs="{'invisible':[('pay_type','!=','prepay')]}"/>
+                    <div attrs="{'invisible': [('prepay_method', 'not in', ('fixed','percentage'))]}">
+                        <field name="payment_amount"
+                            class="oe_inline" attrs="{'invisible':[('pay_type','!=','prepay')]}"/>
+                        <span
+                            attrs="{'invisible': [('prepay_method', '!=', 'percentage')]}" class="oe_inline">%</span>
+                    </div>
+                    <!-- <group>
+                        <field name="prepay_money" attrs="{'invisible':[('pay_type','!=','prepay')]}"/>
+                    </group> -->
+                </group>
+            </page>
+            </notebook>
+          </xpath>
+          <xpath expr="//button[@name='action_view_invoice'][1]" position="attributes">
+                <attribute name="invisible">True</attribute>
+          </xpath>
+          <xpath expr="//button[@name='action_view_invoice'][2]" position="attributes">
+                <attribute name="invisible">True</attribute>
+          </xpath>
+          
+          <xpath expr="//button[@name='button_confirm'][1]" position="attributes">
+                <attribute name="invisible">True</attribute>
+          </xpath>
+          <xpath expr="//button[@name='button_confirm'][2]" position="attributes">
+                <attribute name="invisible">True</attribute>
+          </xpath>
+
+          <xpath expr="//header" position="after">
+                <header>
+                    <button name="button_to_approval" attrs="{'invisible': [('purchase_approval_state', '!=', 'draft')]}" string="提交" type="object" class="oe_highlight" groups="purchase.group_purchase_user"/>
+
+                    <button name="button_to_leader" string="审批通过" type="object" class="oe_highlight" groups="cowork_project_management_flow.group_purchase_team_leader" attrs="{'invisible': [('purchase_approval_state', '!=', 'leader')]}"/>
+                    <button name="back_to_draft" string="驳回" type="object" attrs="{'invisible': [('purchase_approval_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
+
+                    <button name="button_to_manager" string="审批通过" type="object" class="oe_highlight" groups="purchase.group_purchase_manager" attrs="{'invisible': [('purchase_approval_state', '!=', 'manager')]}"/>
+                    <button name="back_to_lead" string="驳回" type="object" attrs="{'invisible': [('purchase_approval_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager"/>
+
+                    <button name="button_to_general" string="审批通过" type="object" class="oe_highlight" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow" attrs="{'invisible': [('purchase_approval_state', '!=', 'general')]}"/>
+                    <button name="back_to_manager" string="驳回" type="object" attrs="{'invisible': [('purchase_approval_state', '!=', 'general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+
+                    <field name="purchase_approval_state" widget="statusbar" statusbar_visible="draft,leader,manager,general,pass" readonly="1"/>
+                </header>
+            </xpath>
+        
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object" name="action_view_payment" class="oe_stat_button" icon="fa-quora" string="预付款">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_payment_view_form_cowork" model="ir.ui.view">
+        <field name="name">account.payment.form.cowork</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_transaction_id']" position="after">
+                <field name="purchase_id" readonly="1" attrs="{'invisible':[('payment_type','!=','outbound')]}"/>
+            </xpath>
+            <xpath expr="//header" position="after">
+                <header>
+                    <button name="button_to_approval" attrs="{'invisible': [('payment_state', '!=', 'draft')]}" string="提交" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
+
+                    <button name="button_to_pass" string="审批通过" type="object" class="oe_highlight" groups="account.group_account_manager" attrs="{'invisible': [('payment_state', '!=', 'approval')]}"/>
+                    <button name="back_to_draft" string="驳回" type="object" attrs="{'invisible': [('payment_state', '!=', 'approval')]}" groups="account.group_account_manager"/>
+
+                    <field name="payment_state" widget="statusbar" statusbar_visible="draft,approval,pass" readonly="1"/>
+                </header>
+            </xpath>
+            <xpath expr="//button[@name='post']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_tree_cowork" model="ir.ui.view">
+        <field name="name">purchase.order.tree.cowork</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>  
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="purchase_approval_state"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="invoice_type"/>
+                <field name="payment_type"/>
+            </xpath>
         </field>
     </record>
 

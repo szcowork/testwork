@@ -16,6 +16,7 @@
                     <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id}"/>
                     <field name="brand_id"/>
                     <field name="count"/>
+                    <field name="purchase_buy"/>
                     <field name="uom_id"/>
                     <field name="comments"/>
                 </group>

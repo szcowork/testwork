@@ -21,9 +21,11 @@ class cowork_bom(models.Model):
     spare_parts_lines = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id", string="零部件", track_visibility='onchange')
     # spare_parts_lines_c = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id_c", string="更新零部件", track_visibility='onchange')
     count = fields.Float(string="项目数量",default=1.0)
+    this_count = fields.Float(string="本次采购数量",default=1.0)
     # max_delay = fields.Integer(string="最长货期")
 
     cowork_message_ids = fields.One2many(comodel_name="cowork.message",inverse_name="bom_id",string="更改信息")
+    user_id = fields.Many2one("res.users",string="编制")
 
     def get_material_info(self):
         if self.name:
@@ -62,7 +64,7 @@ class cowork_bom(models.Model):
                     order.line_id.create({
                         'categ_id': spare.categ_id.id,
                         'product_id': spare.product_tmpl_id.product_variant_id.id,
-                        'product_qty': spare.count * self.count,
+                        'product_qty': spare.purchase_buy,       #spare.count * self.count,
                         'uom_id': spare.uom_id.id,
                         'brand_id': spare.brand_id.id,
                         'order_id': order.id,
@@ -70,7 +72,8 @@ class cowork_bom(models.Model):
                         'categ_class_id' : spare.class_id.id,
                         'bom_line_id': spare.id,
                         'is_add':is_add,
-                        'material': spare.material
+                        'material': spare.material,
+                        'plan_date':spare.plan_date
                     })
                     
         else:
@@ -80,9 +83,9 @@ class cowork_bom(models.Model):
                 is_add = 'change'
             purchase = self.env['cowork.purchase.order'].create({
                 'name': self.project_id.name + self.project_id.title,
-                'user_id': self.env.user.id,
+                'count': self.count,
                 'date': fields.Date.today(),
-                # 'qty':1,
+                'this_count': self.this_count,
                 'project_id': self.project_id.id,
             })
             if self.spare_parts_lines:
@@ -95,7 +98,7 @@ class cowork_bom(models.Model):
                         purchase.line_id.create({
                                 'categ_id': part.categ_id.id,
                                 'product_id': part.product_tmpl_id.product_variant_id.id,
-                                'product_qty': part.count * self.count,
+                                'product_qty': part.purchase_buy,     #part.count * self.count,
                                 'uom_id': part.uom_id.id,
                                 'brand_id': part.brand_id.id,
                                 'order_id': purchase.id,
@@ -103,7 +106,8 @@ class cowork_bom(models.Model):
                                 'categ_class_id' : part.class_id.id,
                                 'bom_line_id': part.id,
                                 'is_add':is_add,
-                                'material': part.material
+                                'material': part.material,
+                                'plan_date': part.plan_date
                             })
 
     def action_to_cowork_purchase(self):
@@ -156,6 +160,11 @@ class cowork_bom(models.Model):
     def button_to_return(self):
         self.state = 'approval'
 
+    def compute_buy_count(self):
+        if self.spare_parts_lines:
+            for spare in self.spare_parts_lines:
+                spare.onchange_purchase_buy()
+
 class cowork_bom_material(models.Model):   #方案设计组件明细
     _name = 'cowork.bom.material'  
 
@@ -198,6 +207,13 @@ class cowork_bom_material_part(models.Model):  #方案设计组件明细零部�
     has_purchase = fields.Boolean(string="是否转采购",compute="_compute_has_purchase")
     default_code = fields.Char(string="产品编号",related='product_tmpl_id.default_code')
     material = fields.Char(string="材料")
+    purchase_buy = fields.Float(string="本次采购数量")
+    plan_date = fields.Date(string="需求日期")
+
+    @api.onchange('count','bom_id.count')
+    def onchange_purchase_buy(self):
+        if self.bom_id and self.count:
+            self.purchase_buy = self.bom_id.count * self.count
 
     @api.one
     def _compute_has_purchase(self):
@@ -217,7 +233,6 @@ class cowork_bom_material_part(models.Model):  #方案设计组件明细零部�
         order_line = self.env['cowork.purchase.order.line'].search([('bom_line_id','=',self.id),('state','in',('draft','confirm'))])
         if order_line:
             order_line.unlink()
-        _logger.info("hashashashashas")
         
         tmp = ' '.join([
             self.categ_id.name if self.categ_id.name else '',
@@ -286,6 +301,7 @@ class material_wizard(models.TransientModel):
     bom_id = fields.Many2one("cowork.bom",string="方案设计")
     class_id = fields.Many2one("cowork.material.class",string="类型")
     class_categ_id = fields.Many2one("cowork.material.category",string="部门")
+    purchase_buy = fields.Float(string="本次购买数量")
 
     origin_categ_id= fields.Many2one(comodel_name="product.category", string="名称")
     origin_product_tmpl_id= fields.Many2one(comodel_name="product.template", string="规格")
@@ -313,7 +329,8 @@ class material_wizard(models.TransientModel):
                             'product_tmpl_id': self.product_tmpl_id.product_variant_id.id,
                             'brand_id': self.brand_id.id,
                             'product_qty': self.count * self.bom_id.count,#单台 x 数量
-                            'uom_id': self.uom_id.id
+                            'uom_id': self.uom_id.id,
+                            'purchase_buy': self.purchase_buy
                         })
                 #修改bom明细+记录
                 tmp = [
@@ -358,7 +375,8 @@ class material_wizard(models.TransientModel):
                     'brand_id': self.brand_id.id,
                     'count': self.count,
                     'comments': self.comments,
-                    'uom_id': self.uom_id.id
+                    'uom_id': self.uom_id.id,
+                    'purchase_buy':self.purchase_buy
                 })
 
         if self.style == 'create':
@@ -374,7 +392,8 @@ class material_wizard(models.TransientModel):
                 'count': self.count,
                 'comments': self.comments,
                 'uom_id': self.uom_id.id,
-                'bom_id': self.bom_id.id
+                'bom_id': self.bom_id.id,
+                'purchase_buy':self.purchase_buy
             })
             #记录新增信息
             comments = ''

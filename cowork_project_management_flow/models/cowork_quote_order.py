@@ -54,7 +54,8 @@ class cowork_quote_order(models.Model):
     def button_return_estimate_b(self):
         self.state = 'cancel'
     def button_estimate_b(self):
-        self.state = 'technology'
+        self.state = 'deputy'    #'technology'
+
     def button_estimate_t(self):
         self.state = 'project'
     def button_return_estimate_t(self):
@@ -66,7 +67,7 @@ class cowork_quote_order(models.Model):
     def button_estimate_d(self):
         self.state = 'general'
     def button_return_estimate_d(self):
-        self.state = 'project'
+        self.state = 'business'#       'project'
     def button_return_estimate_g(self):
         self.state = 'deputy'
     def action_to_draft(self):
