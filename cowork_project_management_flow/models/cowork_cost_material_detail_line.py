@@ -30,7 +30,8 @@ class cowork_cost_material_detail_line(models.Model):
             'view_mode': 'form',
             'res_model': 'cowork.cost.material.detail.line',
             'type': 'ir.actions.act_window',
-            'target': 'current',
+            # 'target': 'current',
+            'target': 'new',
             'res_id': self.id,
             'view_id':self.env.ref('cowork_project_management_flow.view_form_cowork_cost_material_detail_line').id,
             'context':{

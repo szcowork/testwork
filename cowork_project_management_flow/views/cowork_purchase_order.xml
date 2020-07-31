@@ -141,6 +141,7 @@
 
                     <button name="lead_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
                     <button name="lead_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
+                    <button name="payment_user_refuse" string="撤回" type="object" groups="purchase.group_purchase_user" attrs="{'invisible': [('payment_state', '!=', 'leader')]}"/>
 
                     <button name="manager_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
                     <button name="mamager_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
@@ -198,6 +199,8 @@
                     <button name="button_to_leader" string="审批通过" type="object" class="oe_highlight" groups="cowork_project_management_flow.group_purchase_team_leader" attrs="{'invisible': [('purchase_approval_state', '!=', 'leader')]}"/>
                     <button name="back_to_draft" string="驳回" type="object" attrs="{'invisible': [('purchase_approval_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
 
+                    <button name="purchase_user_refuse" string="撤回" type="object" groups="purchase.group_purchase_user" attrs="{'invisible': [('purchase_approval_state', '!=', 'leader')]}"/>
+
                     <button name="button_to_manager" string="审批通过" type="object" class="oe_highlight" groups="purchase.group_purchase_manager" attrs="{'invisible': [('purchase_approval_state', '!=', 'manager')]}"/>
                     <button name="back_to_lead" string="驳回" type="object" attrs="{'invisible': [('purchase_approval_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager"/>
 
@@ -215,7 +218,7 @@
         </field>
     </record>
 
-    <record id="account_payment_view_form_cowork" model="ir.ui.view">
+    <!-- <record id="account_payment_view_form_cowork" model="ir.ui.view">
         <field name="name">account.payment.form.cowork</field>
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_form"/>
@@ -237,7 +240,7 @@
                 <attribute name="invisible">True</attribute>
             </xpath>
         </field>
-    </record>
+    </record> -->
 
     <record id="purchase_order_tree_cowork" model="ir.ui.view">
         <field name="name">purchase.order.tree.cowork</field>

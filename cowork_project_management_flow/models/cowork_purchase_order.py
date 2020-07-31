@@ -97,6 +97,12 @@ class purchase_order(models.Model):
 
     purchase_approval_state = fields.Selection([('draft','申请'),('leader','组长审批'),('manager','总监审批'),('general','总经理审批'),('pass','通过')],default='draft',string="采购审批",track_visibility='onchange',copy=False)
 
+    def purchase_user_refuse(self):
+        self.purchase_approval_state = 'draft'
+
+    def payment_user_refuse(self):
+        self.payment_state = 'draft'
+        
     def test_test(self):
         self.payment_state = 'general'
 

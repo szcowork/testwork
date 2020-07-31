@@ -48,7 +48,7 @@
     <record model="res.groups" id="access_group_technique_engineer_in_cowork_project_management_flow">
         <field name="name">技术工程师</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
-        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <!-- <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/> -->
     </record>
 
     <record model="res.groups" id="access_group_vice_general_manager_in_cowork_project_management_flow">

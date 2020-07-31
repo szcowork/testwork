@@ -25,7 +25,8 @@ class cowork_cost_material(models.Model):
             'view_mode': 'form',
             'res_model': 'cowork.cost.material',
             'type': 'ir.actions.act_window',
-            'target': 'current',
+            # 'target': 'current',
+            'target': 'new',
             'res_id': self.id,
             'view_id':self.env.ref('cowork_project_management_flow.view_form_cowork_cost_material').id,
             'context':{

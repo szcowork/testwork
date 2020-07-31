@@ -45,7 +45,8 @@
         "views/res_partner.xml",
         "views/supplier_approval.xml",
         "views/account.xml",
-        "views/cowork_contract.xml"
+        "views/cowork_contract.xml",
+        "security/rules.xml"
     ],
 
     'installable':True,
