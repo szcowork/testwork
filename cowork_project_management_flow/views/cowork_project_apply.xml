@@ -30,7 +30,7 @@
                                 <field name="rule_id" attrs="{'readonly': [('state', '=', 'project')]}"/>
                                 <button  name="button_mark_done"  string="生成" type="object" class="oe_highlight"  attrs="{'invisible':[('state','=','project')]}"/>
                             </div> -->
-                            <field name="title" attrs="{'readonly': [('state', '=', 'project')]}" required="1"/>
+                            <field name="title" attrs="{'readonly': [('state', '=', 'project')]}" required="1" string="*项目名称"/>
                             <field name="estimate_id" attrs="{'invisible':[('estimate_id','=',False)],'readonly': [('state', '=', 'project')]}"/>
                         </group>
                         <group>
@@ -41,25 +41,25 @@
                     </group>
                     <group string="商务信息">
                         <group>
-                            <field name="partner_id" attrs="{'readonly': [('state', '=', 'project')]}" required="1" context="{'search_default_customer':1}" domain="[('customer','=',True)]"/>
+                            <field name="partner_id" attrs="{'readonly': [('state', '=', 'project')]}" required="1" context="{'search_default_customer':1}" domain="[('customer','=',True)]" string="*客户名称"/>
                             <field name="partner_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'project')]}"/>
                             <field name="partner_address" attrs="{'readonly': [('state', '=', 'project')]}"/>
                         </group>
                         <group>
                             <field name="budget" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '=', 'project')]}"/>
-                            <field name="count" attrs="{'readonly': [('state', '=', 'project')]}" required="1"/>
+                            <field name="count" attrs="{'readonly': [('state', '=', 'project')]}" required="1" string="*项目预计数量"/>
                             <field name="date_deliver" attrs="{'readonly': [('state', '=', 'project')]}"/>
                             <field name="customer_comment" attrs="{'readonly': [('state', '=', 'project')]}"/>
                             <field name="currency_id" invisible="1"/>
                         </group>
                     </group>
-                    <group string="客户需求">
+                    <group string="*客户需求">
                         <field name="customer_requirement" attrs="{'readonly': [('state', '=', 'project')]}" nolabel="1" required="1"/>
                     </group>
                     <group string="项目负责人" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow">
                         <field name="charger_lines" nolabel="1">
                             <tree editable="bottom">
-                                <field name="job_id" required="1" options="{'no_create': True}"/>
+                                <field name="job_id" required="1" options="{'no_create': True}" string="*岗位"/>
                                 <field name="employee_id" domain="[('job_id','=',job_id)]" options="{'no_create': True}"/>
                                 <field name="comment"/>
                             </tree>

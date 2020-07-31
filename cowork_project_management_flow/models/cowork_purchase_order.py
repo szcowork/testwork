@@ -243,6 +243,7 @@ class purchase_order(models.Model):
 class cowork_purchase(models.Model):
     _name = 'cowork.purchase'
     _description = "拟询价单"
+    _inherit = ['mail.thread']
 
     name = fields.Char(string="名称")
     line_id = fields.One2many("cowork.purchase.order.line","purchase_id",string="申购明细",copy=True)

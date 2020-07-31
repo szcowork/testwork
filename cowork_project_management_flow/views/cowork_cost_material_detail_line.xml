@@ -28,9 +28,9 @@
                                 <field name="product_tmpl_id" domain="[('categ_id','=',categ_id)]" context="{'default_categ_id':categ_id,'default_type': 'product'}" required="0"/>
                                 <field name="default_code"/>
                                 <field name="brand_id" required="0"/>
-                                <field name="count"/>
+                                <field name="count" required="1" string="*数量"/>
                                 <field name="uom_id"/>
-                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}" required="1" string="*单价"/>
                                 <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="comments"/>
                                 <field name="currency_id" invisible="1"/>

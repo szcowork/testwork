@@ -86,25 +86,25 @@
                         <page string="设备合同">
                             <header>
                                 <button name="contract_state_to_approving" string="提交" type="object" class="oe_highlight" attrs="{'invisible': [('contract_state', '!=', 'draft')]}"/>
-                                <button name="contract_state_to_draft" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('contract_state', '!=', 'approving')]}"/>
-                                <button name="contract_state_to_done" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('contract_state', '!=', 'approving')]}"/>
-                                <button name="contract_state_to_cancel" string="无效" type="object" class="oe_highlight" attrs="{'invisible': [('contract_state', '!=', 'approving')]}"/>
+                                <button name="contract_state_to_draft" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('contract_state', '!=', 'approving')]}" groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                                <button name="contract_state_to_done" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('contract_state', '!=', 'approving')]}" groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                                <button name="contract_state_to_cancel" string="无效" type="object" class="oe_highlight" attrs="{'invisible': [('contract_state', '!=', 'approving')]}" groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
                                 <field name="contract_state" widget="statusbar" readonly="1"/>
                             </header>
                             <group>
-                                <field name="contract_url" widget="url"/>
+                                <field name="contract_url" widget="url" attrs="{'readonly':[('contract_state','!=','draft')]}"/>
                             </group>
                         </page>
                         <page string="技术协议">
                             <header>
                                 <button name="agreement_state_to_approving" string="提交" type="object" class="oe_highlight" attrs="{'invisible': [('agreement_state', '!=', 'draft')]}"/>
-                                <button name="agreement_state_to_draft" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('agreement_state', '!=', 'approving')]}"/>
-                                <button name="agreement_state_to_done" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('agreement_state', '!=', 'approving')]}"/>
-                                <button name="agreement_state_to_cancel" string="无效" type="object" class="oe_highlight" attrs="{'invisible': [('agreement_state', '!=', 'approving')]}"/>
+                                <button name="agreement_state_to_draft" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('agreement_state', '!=', 'approving')]}" groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                                <button name="agreement_state_to_done" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('agreement_state', '!=', 'approving')]}" groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                                <button name="agreement_state_to_cancel" string="无效" type="object" class="oe_highlight" attrs="{'invisible': [('agreement_state', '!=', 'approving')]}" groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
                                 <field name="agreement_state" widget="statusbar" readonly="1"/>
                             </header>
                             <group>
-                                <field name="tech_agreement_url" widget="url"/>
+                                <field name="tech_agreement_url" widget="url" attrs="{'readonly':[('agreement_state','!=','draft')]}"/>
                             </group>
                         </page>
                     </notebook>
@@ -145,6 +145,7 @@
                 <filter name="project_id" string="项目编号" context="{'group_by':'project_id'}"/>
                 <filter name="partner_id" string="客户名称" context="{'group_by':'partner_id'}"/>
                 <filter name="contact_id" string="联系人" context="{'group_by':'contact_id'}"/>
+                <filter name="state" string="状态" context="{'group_by':'state'}"/>                
             </search>
         </field>
     </record>

@@ -16,7 +16,7 @@ class cowork_bom(models.Model):
     material_cost_details_lines = fields.One2many(comodel_name="cowork.bom.material", inverse_name="bom_id", string="组件物料成本明细")
     mechaine_pic = fields.Char(string="机械3D图")
     electric_pic = fields.Char(string="电气3D图")
-    state = fields.Selection([('draft','草稿'),('approval','审批中'),('confirm','确认')],default='draft',string='状态')
+    state = fields.Selection([('draft','草稿'),('approval','技术部审批'),('project','项目部审批'),('confirm','确认')],default='draft',string='状态',track_visibility="onchange")
 
     spare_parts_lines = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id", string="零部件", track_visibility='onchange')
     # spare_parts_lines_c = fields.One2many(comodel_name="cowork.bom.material.part", inverse_name="bom_id_c", string="更新零部件", track_visibility='onchange')
@@ -155,10 +155,16 @@ class cowork_bom(models.Model):
         self.state = 'draft'
 
     def button_confirm(self):
+        self.state = 'project'#'confirm'
+
+    def button_confirm_2(self):
         self.state = 'confirm'
+
+    def button_return_2(self):
+        self.state = 'approval'
     
     def button_to_return(self):
-        self.state = 'approval'
+        self.state = 'project'#'approval'
 
     def compute_buy_count(self):
         if self.spare_parts_lines:

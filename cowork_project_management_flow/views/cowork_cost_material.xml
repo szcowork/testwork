@@ -20,9 +20,9 @@
                     <group string="组件">
                         <field name="material_cost_details_lines" context="{'default_preliminary_scheme_id':preliminary_scheme_id}" nolabel="1">
                             <tree editable="bottom">
-                                <field name="name" required="1"/>
-                                <field name="class_id" domain="[('categ_id','=',parent.material_categ_id)]" options="{'no_create_edit': True}" required="1"/>
-                                <field name="count"/>
+                                <field name="name" required="1" string="*组件名称"/>
+                                <field name="class_id" domain="[('categ_id','=',parent.material_categ_id)]" options="{'no_create_edit': True}" required="1" string="*类型"/>
+                                <field name="count" required="1" string="*单台数量"/>
                                 <!-- <field name="unit_cost"/>
                                 <field name="total_cost"/> -->
                                 <field name="preliminary_scheme_id" invisible="1"/>

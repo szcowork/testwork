@@ -63,11 +63,11 @@ class cowork_project_apply(models.Model):
     ],string="状态",default='business')
 
     delivery_paper = fields.Binary(string="送货回执单")
-    delivery_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="送货回单状态")
+    delivery_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="送货回单状态",track_visibility="onchange")
     invoice_paper = fields.Binary(string="开票回执单")
-    invoice_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="开票回单状态")
+    invoice_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="开票回单状态",track_visibility="onchange")
     check_paper = fields.Binary(string="验收回单")
-    check_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="验收回单状态")
+    check_paper_state = fields.Selection([('draft','未提交'),('approval','审核中'),('pass','通过')],default='draft',string="验收回单状态",track_visibility="onchange")
 
     def create_estimate(self):
         e = self.env['cowork.project.estimate'].create({

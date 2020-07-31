@@ -23,10 +23,15 @@
                     <button name="button_approval" string="提交" type="object" class="oe_highlight"  states="draft"/>
                     <button name="button_confirm" string="确认" type="object" class="oe_highlight"  states="approval" groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
                     <button name="button_return" string="驳回" type="object" class="oe_highlight"  states="approval" groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
+
+                    <button name="button_confirm_2" string="确认" type="object" class="oe_highlight"  states="project" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_2" string="驳回" type="object" class="oe_highlight"  states="project" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
+
+
                     <button name="action_to_requisition" string="新建/更新采购申请" type="object" class="oe_highlight"  states="confirm" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                     <button name="button_to_return" string="驳回" type="object" class="oe_highlight"  states="confirm" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
 
-                    <field name="state" widget="statusbar" statusbar_visible="draft,approval,confirm" readonly="1"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approval,project,confirm" readonly="1"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -39,7 +44,7 @@
                     <group string="项目情况">
                         <group>
                             <field name="project_id" readonly="1" required="1"/>
-                            <field name="user_id" readonly="1"/>
+                            <field name="user_id" readonly="0"/>
                         </group>
                         <group>
                             <field name="count" attrs="{'readonly':[('state','!=','draft')]}"/>
@@ -156,6 +161,19 @@
             </tree>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="view_search_cowork_bom">
+        <field name="name">方案设计</field>
+        <field name="model">cowork.bom</field>
+        <field name="arch" type="xml">
+            <search string="方案设计">
+                <field name="project_id"/>
+                <field name="user_id"/>
+                <filter name="project_id" string="项目编号" context="{'group_by':'project_id'}"/>
+                <filter name="user_id" string="编制" context="{'group_by':'user_id'}"/>
+            </search>
+        </field>
+    </record>
     <record model="ir.actions.act_window" id="action_cowork_bom">
         <field name="name">方案设计</field>
         <field name="res_model">cowork.bom</field>
@@ -227,7 +245,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="project_id" options="{'no_create_edit':True,'no_open':True}" required="0"/>
-                <field name="employee_id" attrs="{'readonly':[('state','!=','draft')]}" options="{'no_create_edit':True,'no_open':True}"/>
+                <field name="user_id" attrs="{'readonly':[('state','!=','draft')]}" options="{'no_create_edit':True,'no_open':True}"/>
             </xpath>
             <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before">
                 <field name="project_id"/>

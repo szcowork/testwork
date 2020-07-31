@@ -26,7 +26,7 @@
                             <field name="count" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
                         <group>
-                            <field name="class_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <!-- <field name="class_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
                             <field name="code"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="this_count" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <!-- <label for="qty" string="数量"/> -->
@@ -142,8 +142,8 @@
                     <button name="lead_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
                     <button name="lead_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'leader')]}" groups="cowork_project_management_flow.group_purchase_team_leader"/>
 
-                    <button name="manager_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager"/>
-                    <button name="mamager_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager"/>
+                    <button name="manager_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
+                    <button name="mamager_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'manager')]}" groups="purchase.group_purchase_manager,cowork_project_management_flow.access_group_purchase_manager_in_cowork_project_management_flow"/>
 
                     <button name="general_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                     <button name="general_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
@@ -152,7 +152,8 @@
                 </header>
                 <group>
                     <group>
-                        <field name="invoice_type" attrs="{'readonly':[('payment_state','=','no')]}"/>
+                        <field name="invoice_type"/>
+                         <!-- attrs="{'readonly':[('payment_state','=','no')]}" -->
                         <field name="pay_type"  attrs="{'readonly':['|',('payment_state','=','no'),'|',('payment_type','=','part'),('payment_state','=','done')]}"/>
                     </group>
                     <group>

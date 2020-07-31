@@ -22,4 +22,4 @@ from . import stock
 from . import cowork_message
 from . import res_partner
 from . import supplier_approval
-# from . import cowork_contract
+from . import cowork_contract

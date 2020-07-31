@@ -63,9 +63,9 @@
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
 
-    <!-- <record model="res.groups" id="general_managerment_director">
+    <record model="res.groups" id="general_managerment_director">
         <field name="name">综合事业部总经理</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
-    </record> -->
+    </record>
 </odoo>
