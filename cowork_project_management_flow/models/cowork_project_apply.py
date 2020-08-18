@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 class cowork_project_apply(models.Model):
     _name = "cowork.project.apply"
     _description = "立项申请"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
 
     name = fields.Char(string="项目编号", default="New")  #???
     rule_id = fields.Many2one('einfo.code.rule',string='编号类型')

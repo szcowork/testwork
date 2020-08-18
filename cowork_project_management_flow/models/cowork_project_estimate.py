@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 class cowork_project_estimate(models.Model):
     _name = "cowork.project.estimate"
     _description = "项目评估"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
 
     # name = fields.Char(string="项目编号")
 

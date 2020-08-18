@@ -8,7 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 class cowork_bom(models.Model):
     _name = 'cowork.bom'
     _description = '物料方案'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
 
     material_details_ids = fields.One2many('cowork.cost.material.detail.line','cowork_bom_id',string="组件信息")
     name = fields.Many2one("cowork.quote.order",string="项目报价单")
@@ -49,17 +49,21 @@ class cowork_bom(models.Model):
 
     @api.one
     def action_to_requisition(self):
-        order = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','!=','purchase')])
+        order = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','not in',('purchase','cancel'))])
         order_t = self.env['cowork.purchase.order'].search([('project_id','=',self.project_id.id),('state','!=','cancel')])
+        _logger.info("$$$$$$$$$$$$$$$$$$$$")
+        _logger.info(order)
+        _logger.info(order_t)
         if order:#只有一张草稿/确认的申购单
             is_add = 'origin'
             if len(order_t) > 1:
                 is_add = 'change'
             for spare in self.spare_parts_lines:
                 has_record = False
-                for line in order.line_id:
+                for line in order.line_id:  #查看每条bom明细是否有申购明细
                     if line.bom_line_id.id == spare.id:
                         has_record = True
+
                 if not has_record and not spare.has_purchase:
                     order.line_id.create({
                         'categ_id': spare.categ_id.id,
@@ -210,7 +214,7 @@ class cowork_bom_material_part(models.Model):  #方案设计组件明细零部�
     # bom_id_c = fields.Many2one("cowork.bom",string="更新物料方案")
     class_id = fields.Many2one("cowork.material.class",string="类型")
     class_categ_id = fields.Many2one("cowork.material.category",string="部门")
-    has_purchase = fields.Boolean(string="是否转采购",compute="_compute_has_purchase")
+    has_purchase = fields.Boolean(string="是否转采购",compute="_compute_has_purchase")  #
     default_code = fields.Char(string="产品编号",related='product_tmpl_id.default_code')
     material = fields.Char(string="材料")
     purchase_buy = fields.Float(string="本次采购数量")
@@ -225,10 +229,10 @@ class cowork_bom_material_part(models.Model):  #方案设计组件明细零部�
     def _compute_has_purchase(self):
         if self.id:
             record = self.env['cowork.purchase.order.line'].search([('bom_line_id','=',self.id),('state','!=','cancel')])
-        if record:
-            self.has_purchase = True
-        else:
-            self.has_record = False
+            if record:
+                self.has_purchase = True
+            else:
+                self.has_purchase = False
 
     @api.onchange('product_tmpl_id')
     def onchange_product_tmpl_id(self):
@@ -308,6 +312,7 @@ class material_wizard(models.TransientModel):
     class_id = fields.Many2one("cowork.material.class",string="类型")
     class_categ_id = fields.Many2one("cowork.material.category",string="部门")
     purchase_buy = fields.Float(string="本次购买数量")
+    plan_date = fields.Date(string="需求日期")
 
     origin_categ_id= fields.Many2one(comodel_name="product.category", string="名称")
     origin_product_tmpl_id= fields.Many2one(comodel_name="product.template", string="规格")
@@ -325,18 +330,24 @@ class material_wizard(models.TransientModel):
             if self.material_part_id:
                 order_line = self.env['cowork.purchase.order.line'].search([('bom_line_id','=',self.material_part_id.id)])
                 if order_line:  #修改申购明细
-                    if order_line.state == 'purchase':
+                    if order_line[-1].state == 'purchase':
                         raise UserError('已生成采购，请添加方案设计行')
                     else:
-                        order_line.write({
+                        _logger.info(order_line)
+                        order_line[-1].write({
                             'categ_class_id': self.class_id.id,
                             'class_id': self.class_categ_id.id,
                             'categ_id': self.categ_id.id,
-                            'product_tmpl_id': self.product_tmpl_id.product_variant_id.id,
+                            'product_id': self.product_tmpl_id.product_variant_id.id,
                             'brand_id': self.brand_id.id,
-                            'product_qty': self.count * self.bom_id.count,#单台 x 数量
+                            'product_qty': self.purchase_buy, #self.count * self.bom_id.count,#单台 x 数量
                             'uom_id': self.uom_id.id,
-                            'purchase_buy': self.purchase_buy
+                            'purchase_buy': self.purchase_buy,
+                            'plan_date': self.plan_date,
+                            'partner_id': False,
+                            'list_price': 0.0,
+                            'tax_ids': [],
+                            'delivery': False
                         })
                 #修改bom明细+记录
                 tmp = [
@@ -382,7 +393,8 @@ class material_wizard(models.TransientModel):
                     'count': self.count,
                     'comments': self.comments,
                     'uom_id': self.uom_id.id,
-                    'purchase_buy':self.purchase_buy
+                    'purchase_buy':self.purchase_buy,
+                    'plan_date': self.plan_date
                 })
 
         if self.style == 'create':
@@ -399,34 +411,18 @@ class material_wizard(models.TransientModel):
                 'comments': self.comments,
                 'uom_id': self.uom_id.id,
                 'bom_id': self.bom_id.id,
-                'purchase_buy':self.purchase_buy
+                'purchase_buy':self.purchase_buy,
+                'plan_date':self.plan_date
             })
             #记录新增信息
             comments = ''
             if self.comments:
                 comments = self.comments
+            brand_id = ''
+            if self.brand_id:
+                brand_id = self.brand_id.name
             self.bom_id.cowork_message_ids.create({
                 'user_id': self.env.user.id,
                 'date': fields.Datetime.now(),
-                'operate': "新增 " +self.categ_id.name+' '+self.product_tmpl_id.name+' '+self.brand_id.name+' '+str(self.count)+' '+self.uom_id.name+' '+self.class_id.name+' '+self.class_categ_id.name+' '+comments
+                'operate': "新增 " +self.categ_id.name+' '+self.product_tmpl_id.name+' '+brand_id+' '+str(self.count)+' '+self.uom_id.name+' '+self.class_id.name+' '+self.class_categ_id.name+' '+comments
             })
-            # purchase = self.env['cowork.purchase.order'].search([('project_id', '=',self.bom_id.project_id.id)])
-            # if purchase:
-            #     pur_lst = []
-            #     for p in purchase:
-            #         if p.state in ['draft','confirm']:
-            #             pur_lst.append(p)
-            #     if len(pur_lst) == 0:
-            #         _logger.info("需另外申购")
-            #     else:
-            #         purchase = pur_lst[-1]
-            #         purchase.line_id.create({
-            #             'categ_class_id': self.class_id.id,
-            #             'class_id': self.class_categ_id.id,
-            #             'categ_id': self.categ_id.id,
-            #             'product_tmpl_id': self.product_tmpl_id.product_variant_id.id,
-            #             'brand_id': self.brand_id.id,
-            #             'product_qty': self.count,
-            #             'uom_id': self.uom_id.id,
-            #             'order_id':purchase.id
-            #         })

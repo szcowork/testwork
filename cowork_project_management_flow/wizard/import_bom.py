@@ -175,7 +175,7 @@ class import_bom_line_wizard(models.TransientModel):
                                             'product_tmpl_id': product_id,
                                             'count':values.get('count'),
                                             'comments':values.get('comments'),
-                                            # 'class_id': class_tmp,
+                                            'class_id': class_tmp,
                                             'class_categ_id': class_categ_tmp,
                                             'categ_id': categ_tmp,
                                             'brand_id': brand_tmp,

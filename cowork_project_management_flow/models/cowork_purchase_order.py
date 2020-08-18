@@ -10,7 +10,7 @@ from odoo.exceptions import UserError, ValidationError
 class cowork_purchase_order(models.Model):
     _name = "cowork.purchase.order"
     _description = "柯沃申购"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
 
     name = fields.Char(string="设备名称/组件名称")
     class_id = fields.Many2one("cowork.material.class",string="类型")
@@ -46,7 +46,7 @@ class cowork_purchase_order(models.Model):
 
     @api.one
     def button_cancel(self):
-        self.state = 'draft'
+        self.state = 'cancel'
 
     def button_to_purchase(self):
         self.state = 'purchase'
@@ -83,6 +83,19 @@ class cowork_purchase_order(models.Model):
 
                 purchase.button_confirm()
 
+    def action_to_change_info(self):
+        order_line = self.env['cowork.material.change'].search([('purchase_id','=',self.id)]).mapped('id')
+        return {
+            'name': "柯沃申购物料更改",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'res_model': 'cowork.material.change',
+            # 'views': [
+            #     (self.env.ref('cowork_project_management_flow.view_tree_cowork_purchase_order_line').id, 'tree'),
+            # ],
+            'domain': [('id', 'in', order_line)],
+        }
+
 class purchase_order(models.Model):
     _inherit = 'purchase.order'
 
@@ -96,6 +109,7 @@ class purchase_order(models.Model):
     prepay_method = fields.Selection([('percentage','预付百分比'),('fixed','预付固定金额')],string="预付方式")
 
     purchase_approval_state = fields.Selection([('draft','申请'),('leader','组长审批'),('manager','总监审批'),('general','总经理审批'),('pass','通过')],default='draft',string="采购审批",track_visibility='onchange',copy=False)
+    purchase_contact = fields.Many2one("contract.approval",string="合同")
 
     def purchase_user_refuse(self):
         self.purchase_approval_state = 'draft'
@@ -112,11 +126,10 @@ class purchase_order(models.Model):
     def approval_to_payment(self):
         if self.payment_amount > self.amount_total:
             raise UserError('支付金额不能大于采购总额！')
-        # if self.payment_amount < self.amount_total and self.pay_type != 'prepay':
-        #     raise UserError('请选择预付付款方式！')
-        
-        self.payment_state = 'leader'
-        _logger.info("hahahahahahah")
+        if self.purchase_contact:
+            self.payment_state = 'leader'
+        else:
+            raise UserError('请关联合同!')
 
     def approval_to_payment_to_draft(self):
         self.payment_state = 'no'
@@ -154,7 +167,6 @@ class purchase_order(models.Model):
             self.pay_type = 'final'
 
         elif self.pay_type == 'final':
-            # self.action_view_invoice()
             self.payment_state = 'done'
             action = self.env.ref('account.action_vendor_bill_template')
             result = action.read()[0]
@@ -177,24 +189,7 @@ class purchase_order(models.Model):
             result['context']['default_reference'] = self.partner_ref
             result['state'] = 'draft'
             return result
-            # _logger.info("000000000000")
-            # return {
-            #         'name': "供应商付款",
-            #         'type': 'ir.actions.act_window',
-            #         'view_type': 'form',
-            #         'view_mode': 'form',
-            #         'res_model': 'account.payment',
-            #         'view_id': self.env.ref('account.view_account_payment_form').id,
-            #         'target': 'new',
-            #         'context': {
-            #                 'default_payment_type': 'outbound',
-            #                 'default_partner_id': self.partner_id.id,
-            #                 'search_default_outbound_filter': 1,
-            #                 'default_amount': amount,
-            #                 'default_communication': str(amount),
-            #                 'default_currency_id': self.currency_id.id
-            #         }
-            # }
+
     @api.one
     def _compute_payment_type(self):
         invoice = self.env['account.invoice'].search([('type','=','in_invoice'),('origin','=',self.name),('state','=','paid')])
@@ -249,7 +244,7 @@ class purchase_order(models.Model):
 class cowork_purchase(models.Model):
     _name = 'cowork.purchase'
     _description = "拟询价单"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
 
     name = fields.Char(string="名称")
     line_id = fields.One2many("cowork.purchase.order.line","purchase_id",string="申购明细",copy=True)
@@ -371,7 +366,7 @@ class account_payment(models.Model):
     _inherit = 'account.payment'
 
     purchase_id = fields.Many2one("purchase.order",string="采购订单")
-    payment_state = fields.Selection([('draft','草稿'),('approval','总监审批'),('pass','通过')],default='draft',copy=False,string="付款审批")
+    payment_state = fields.Selection([('draft','草稿'),('approval','总监审批'),('pass','通过'),('cancel','取消')],default='draft',copy=False,string="付款审批")
 
     def button_to_approval(self):
         self.payment_state = 'approval'
@@ -383,10 +378,24 @@ class account_payment(models.Model):
         self.payment_state = 'pass'
         self.post()
 
+    def account_user_refuse(self):
+        self.payment_state = 'cancel'
+        self.state = 'cancelled'
+
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
 
-    approval_state = fields.Selection([('draft','草稿'),('approval','总监审批'),('pass','通过')],string="审批状态",default='draft')
+    approval_state = fields.Selection([('draft','草稿'),('approval','总监审批'),('pass','通过'),('cancel','取消')],string="审批状态",default='draft')
+
+    def account_user_refuse(self):
+        self.approval_state = 'cancel'
+        self.state = 'cancel'
+        if self.origin:
+            purchase = self.env['purchase.order'].search([('name','=',self.origin)])
+            if purchase:
+                purchase.payment_state = 'no'
+                for line in purchase.order_line:
+                    line.invoice_lines = False
 
     def button_to_approval(self):
         self.approval_state = 'approval'

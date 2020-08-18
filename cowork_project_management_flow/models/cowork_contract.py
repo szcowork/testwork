@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 class contract_approval(models.Model):
     _name = "contract.approval"
     _description = "合同"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
 
     name = fields.Char(string="合同名称")
     date = fields.Date(string="申请日期",default=fields.Date.context_today)

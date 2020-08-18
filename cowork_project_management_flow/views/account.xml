@@ -9,6 +9,7 @@
                 <xpath expr="//header" position="after">
                     <header>
                         <button name="button_to_approval" attrs="{'invisible': [('approval_state', '!=', 'draft')]}" string="提交" type="object" class="oe_highlight" groups="account.group_account_invoice"/>
+                        <button name="account_user_refuse" attrs="{'invisible': [('approval_state', '!=', 'draft')]}" string="驳回" type="object" groups="account.group_account_invoice"/>
 
                         <button name="button_to_pass" string="审批通过" type="object" class="oe_highlight" groups="account.group_account_manager" attrs="{'invisible': [('approval_state', '!=', 'approval')]}"/>
                         <button name="button_to_draft" string="驳回" type="object" attrs="{'invisible': [('approval_state', '!=', 'approval')]}" groups="account.group_account_manager"/>
@@ -18,6 +19,9 @@
                 </xpath>
                 <xpath expr="//button[@name='action_invoice_open']" position="attributes">
                     <!-- <attribute name="groups">account.group_account_user,account.group_account_manager</attribute> -->
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_invoice_draft']" position="attributes">
                     <attribute name="invisible">True</attribute>
                 </xpath>
             </field>

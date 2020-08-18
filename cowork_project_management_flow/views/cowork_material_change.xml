@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_cowork_material_change">
+        <field name="name">柯沃申购物料更改</field>
+        <field name="model">cowork.material.change</field>
+        <field name="arch" type="xml">
+            <form string="柯沃申购物料更改">
+                <header>
+                    <button name="button_technical" string="提交" type="object" class="oe_highlight" states="draft" groups="purchase.group_purchase_user,purchase.group_purchase_manager"/>
+
+                    <button name="button_deputy" string="确认" type="object" class="oe_highlight"  states="technical" groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
+                    <button name="button_return_draft" string="驳回" type="object" class="oe_highlight"  states="technical" groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
+
+                    <button name="button_pass" string="确认" type="object" class="oe_highlight"  states="deputy" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_tech" string="驳回" type="object" class="oe_highlight"  states="deputy" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+
+                    <button name="button_to_draft" string="设为草稿" type="object" states='cancel'/>
+                    <button name="button_cancel" string="取消" type="object" attrs="{'invisible':[('state','=','pass')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,technical,deputy,pass" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <h1>
+                        <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    </h1>
+                    <group string="变更说明">
+                        <field name="change_reason" require="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    </group>
+                    <group string="需更换物料详情">
+                        <group>
+                            <field name="categ_id" readonly="1"/>
+                            <field name="product_id" readonly="1"/>
+                            <field name="product_qty" readonly="1"/>
+                            <field name="uom_id" readonly="1"/>
+                            <field name="list_price" readonly="1"/>
+                            <field name="amount" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="brand_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="material" readonly="1"/>
+                            <field name="delivery" readonly="1"/>
+                            <field name="plan_date" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <field name="comment" readonly="1"/>
+                    </group>
+                    <group string="更换物料">
+                        <group>
+                            <field name="new_categ_id" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_product_id" domain="[('categ_id','=',new_categ_id)]" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_product_qty" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_uom_id" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                        </group>
+                        <group>
+                            <field name="new_material" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_brand_id" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_partner_id" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_list_price" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                        </group>
+                        <group>
+                            <field name="new_amount" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_delivery" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                            <field name="new_plan_date" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                        </group>                        
+                        <field name="new_comment" attrs="{'readonly':[('state','not in',('draft','technical'))]}"/>
+                        <group>
+                            <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="user_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="bom_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="purchase_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_tree_cowork_material_change">
+        <field name="name">柯沃申购物料更改</field>
+        <field name="model">cowork.material.change</field>
+        <field name="arch" type="xml">
+            <tree string="柯沃申购物料更改" default_order="write_date desc">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_cowork_material_change">
+        <field name="name">柯沃申购物料更改</field>
+        <field name="res_model">cowork.material.change</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_form_cowork_material_change_target">
+        <field name="name">柯沃申购物料更改</field>
+        <field name="model">cowork.material.change</field>
+        <field name="arch" type="xml">
+            <form string="柯沃申购物料更改">
+            <header>
+                    <button name="button_technical" string="提交" type="object" class="oe_highlight" states="draft" groups="purchase.group_purchase_user,purchase.group_purchase_manager"/>
+
+                    <button name="button_deputy" string="确认" type="object" class="oe_highlight"  states="technical" groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
+                    <button name="button_return_draft" string="驳回" type="object" class="oe_highlight"  states="technical" groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>
+
+                    <button name="button_pass" string="确认" type="object" class="oe_highlight"  states="technical" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+                    <button name="button_return_tech" string="驳回" type="object" class="oe_highlight"  states="technical" groups="cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow"/>
+
+                    <button name="button_cancel" string="取消" type="object" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,technical,deputy,pass" readonly="1"/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" placeholder="变更标题"/>
+                    </h1>
+                    <group string="变更说明">
+                        <field name="change_reason" require="1"/>
+                    </group>
+                    <group string="更换物料">
+                        <group>
+                            <field name="new_categ_id"/>
+                            <field name="new_product_id" domain="[('categ_id','=',new_categ_id)]"/>
+                            <field name="new_product_qty"/>
+                            <field name="new_uom_id"/>
+                        </group>
+                        <group>
+                            <field name="new_material"/>
+                            <field name="new_brand_id"/>
+                            <field name="new_partner_id"/>
+                            <field name="new_list_price"/>
+                        </group>
+                        <group>
+                            <field name="new_amount"/>
+                            <field name="new_delivery"/>
+                        </group>
+                        <group>
+                            <field name="new_plan_date"/>
+                        </group>
+                        <group>  
+                            <field name="new_comment"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <field name="purchase_id" invisible="1"/>
+                            <field name="bom_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_cowork_material_change" name="物料变更" parent="menu_cowork_project_management_flow_root" sequence="6" action="action_cowork_material_change" groups="purchase.group_purchase_user,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow,purchase.group_purchase_manager,cowork_project_management_flow.access_group_technique_engineer_in_cowork_project_management_flow,cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,base.user_admin"/>
+
+</odoo>

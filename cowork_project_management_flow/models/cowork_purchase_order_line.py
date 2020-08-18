@@ -2,6 +2,9 @@
 
 from odoo import models, fields, api
 from random import *
+import logging
+_logger = logging.getLogger(__name__)
+from odoo.exceptions import UserError, ValidationError
 
 class cowork_purchase_order_line(models.Model):
     _name = "cowork.purchase.order.line"
@@ -81,8 +84,110 @@ class cowork_purchase_order_line(models.Model):
             if not order.purchase_id:
                 order.purchase_id = purchase.id
 
+    def button_change(self):
+        _logger.info(">>>>>>>>>>>>>>>>>>>>>>")
+        _logger.info(self.bom_line_id)
+        _logger.info(self.bom_line_id.bom_id)
+        return {
+            'name': "柯沃申购物料更改",
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'cowork.material.change',
+            'view_id': self.env.ref('cowork_project_management_flow.view_form_cowork_material_change_target').id,
+            'target': 'new',
+            'context': {
+                    'default_categ_id': self.categ_id.id,
+                    'default_product_id': self.product_id.id,
+                    'default_product_qty': self.product_qty,
+                    'default_uom_id': self.uom_id.id,
+                    'default_material': self.material,
+                    'default_brand_id': self.brand_id.id,
+                    'default_partner_id': self.partner_id.id,
+                    'default_list_price': self.list_price,
+                    'default_amount': self.amount,
+                    'default_delivery': self.delivery,
+                    'default_comment': self.comment,
+                    'default_currency_id': self.currency_id.id,
+                    'default_project_id': self.project_id.id,
+                    'default_plan_date': self.plan_date,
+                    'default_purchase_id': self.order_id.id,
+                    'default_bom_id': self.bom_line_id.bom_id.id
+            }
+        }
+
 class purchase_type(models.Model):
     _name = 'purchase.type'
     _description = '采购类型'
 
     name = fields.Char(string="类型名称")
+
+class cowork_material_change(models.Model):
+    _name = "cowork.material.change"
+    _description = "柯沃申购物料更改"
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
+
+    categ_id = fields.Many2one(comodel_name="product.category", string="图号/名称")
+    product_id = fields.Many2one(comodel_name="product.product", string="名称/型号")
+    product_qty = fields.Float(string="数量", group_operator=False)
+    uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
+    material = fields.Char(string="材料")
+    brand_id = fields.Many2one(comodel_name="product.brand", string="品牌")
+    partner_id = fields.Many2one(comodel_name="res.partner", string="供应商")
+    list_price = fields.Monetary(string="含税单价", group_operator=False)
+    amount = fields.Monetary(string="含税金额")
+    delivery = fields.Integer(string="货期(天)", group_operator=False)
+    comment = fields.Text(string="备注")
+    currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
+    project_id = fields.Many2one('cowork.project.apply', string='项目编号', readonly=True)
+    plan_date = fields.Date(string="需求日期")
+
+    # product_id_new = fields.Many2one("product.product",string="替换物料")
+    user_id = fields.Many2one("res.users",string="申请人", default=lambda self: self.env.user)
+    date = fields.Date(string="申请日期",default=fields.Date.today())
+    name = fields.Char(string="变更名称")
+    change_reason = fields.Text(string="*变更说明")
+    purchase_id = fields.Many2one("cowork.purchase.order",string="申购单")
+    state = fields.Selection([('draft','草稿'),('technical','技术部审核'),('deputy','副总审核'),('pass','通过'),('cancel','取消')],string="状态",default='draft', track_visibility='onchange')
+    bom_id = fields.Many2one("cowork.bom",string="方案设计")
+
+    new_categ_id = fields.Many2one(comodel_name="product.category", string="替换图号/名称")
+    new_product_id = fields.Many2one(comodel_name="product.product", string="替换名称/型号", track_visibility='onchange')
+    new_product_qty = fields.Float(string="数量", group_operator=False)
+    new_uom_id = fields.Many2one(comodel_name="uom.uom", string="单位")
+    new_material = fields.Char(string="材料")
+    new_brand_id = fields.Many2one(comodel_name="product.brand", string="替换品牌")
+    new_partner_id = fields.Many2one(comodel_name="res.partner", string="替换供应商")
+    new_list_price = fields.Monetary(string="含税单价", group_operator=False)
+    new_amount = fields.Monetary(string="含税金额")
+    new_delivery = fields.Integer(string="货期(天)", group_operator=False)
+    new_comment = fields.Text(string="备注")
+    new_plan_date = fields.Date(string="需求日期")
+
+    def button_cancel(self):
+        self.state = 'cancel'
+
+    def button_technical(self):
+        self.state = 'technical'
+
+    def button_deputy(self):
+        self.state = 'deputy'
+
+    def button_return_draft(self):
+        self.state = 'draft'
+
+    def button_pass(self):
+        self.state = 'pass'
+
+    def button_return_tech(self):
+        self.state = 'technical'
+
+    @api.model
+    def create(self,vals):
+        if not vals.get('change_reason'):
+            raise UserError("请填写变更说明")
+
+        return super(cowork_material_change, self).create(vals)
+
+    def button_to_draft(self):
+        self.state = 'draft'

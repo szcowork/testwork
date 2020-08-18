@@ -6,7 +6,7 @@ from odoo import models, fields, api
 class cowork_scheme_preliminary(models.Model):
     _name = "cowork.scheme.preliminary"
     _description = "项目初步方案"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
 
     name = fields.Char(string="单号", default="New")
     title = fields.Char(string="项目名称")

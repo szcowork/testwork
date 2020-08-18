@@ -5,7 +5,7 @@ from odoo import models, fields, api
 class supplier_approval(models.Model):
     _name = "supplier.approval"
     _description = "供应商审批"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
     
     name = fields.Char(required=True, string="名称")
     vat = fields.Char(string="税号")

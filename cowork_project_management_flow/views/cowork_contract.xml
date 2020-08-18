@@ -55,6 +55,7 @@
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread"/>
                 </div>
             </form>
@@ -100,7 +101,7 @@
         <field name="view_mode">tree,form</field>
     </record>
     
-    <menuitem id="menu_contract_approval_flow_root" name="合同审批" web_icon="cowork_project_management_flow,static/description/contract.png"/>
+    <menuitem id="menu_contract_approval_flow_root" name="合同审批" web_icon="cowork_project_management_flow,static/description/contact.png"/>
     <menuitem id="menu_cowork_contract" name="合同审批" parent="menu_contract_approval_flow_root" sequence="10" action="action_contract_approval"/>
 
 </odoo>

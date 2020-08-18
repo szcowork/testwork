@@ -18,6 +18,7 @@
                     <field name="count"/>
                     <field name="purchase_buy"/>
                     <field name="uom_id"/>
+                    <field name="plan_date"/>
                     <field name="comments"/>
                 </group>
                 <group invisible="1">

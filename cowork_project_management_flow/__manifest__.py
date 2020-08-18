@@ -46,7 +46,9 @@
         "views/supplier_approval.xml",
         "views/account.xml",
         "views/cowork_contract.xml",
-        "security/rules.xml"
+        "security/rules.xml",
+        "views/cowork_material_change.xml",
+        "views/mail_activity.xml"
     ],
 
     'installable':True,

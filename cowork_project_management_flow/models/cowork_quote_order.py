@@ -6,7 +6,7 @@ from odoo import models, fields, api
 class cowork_quote_order(models.Model):
     _name = "cowork.quote.order"
     _description = "项目报价单"
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin','portal.mixin']
     
     name = fields.Char(default="New", string="单号")
     project_id = fields.Many2one(comodel_name="cowork.project.apply", string="项目编号")
@@ -43,6 +43,7 @@ class cowork_quote_order(models.Model):
         ('cancel','取消')
     ],string="状态",default='draft', track_visibility='onchange')
     tech_agreement_url = fields.Char("技术协议附件")
+    bom_count = fields.Integer(string="物料方案数", compute='_compute_bom_count')
 
     @api.model
     def create(self, vals): 
@@ -164,3 +165,10 @@ class cowork_quote_order(models.Model):
             order.update({
                 'amount': amount,
             })
+
+    @api.one
+    def _compute_bom_count(self):
+        for rec in self:
+            bom = rec.env['cowork.bom'].sudo().search([('name', '=', self.id)])
+            if bom:
+                self.bom_count = len(bom)
