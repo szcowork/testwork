@@ -14,6 +14,11 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" class="oe_stat_button" icon="fa-bookmark-o" string="项目评估" name="action_to_estimate" attrs="{'invisible':[('estimate_id','=',False)]}"/>
+                        
+                        <button type="object" class="oe_stat_button" icon="fa-bookmark-o" string="项目初步方案" name="action_to_plan" attrs="{'invisible':[('state','=','business')]}"/>
+                        <button type="object" class="oe_stat_button" icon="fa-calculator" string="项目报价单" name="action_to_qoutation" attrs="{'invisible':[('state','=','business')]}"/>
+                        <button type="object" class="oe_stat_button" icon="fa-pencil" string="方案设计" name="action_to_design" attrs="{'invisible':[('state','=','business')]}"/>
+
                         <button type="object" class="oe_stat_button" icon="fa-cart-plus" string="询价单" name="action_to_purchase" attrs="{'invisible':[('state','=','business')]}"/>
                         
                         <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" groups="base.user_admin" >

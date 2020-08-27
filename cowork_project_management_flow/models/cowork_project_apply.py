@@ -162,3 +162,36 @@ class cowork_project_apply(models.Model):
 
     def c_approval_to_draft(self):
         self.check_paper_state = 'draft'
+
+    def action_to_qoutation(self):
+        # tc_ids = self.env['cowork.quote.order'].search([
+            # ('project_id', '=', self.id),
+        # ]).mapped('id')
+        return {
+            'name': "项目报价单",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'res_model': 'cowork.quote.order',
+            'domain': [('project_id','=',self.id)]
+        }
+
+    def action_to_plan(self):
+        return {
+            'name': "项目初步方案",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'res_model': 'cowork.scheme.preliminary',
+            'domain': [('product_apply_id','=',self.id)]
+        }
+
+    def action_to_design(self):
+        return {
+            'name': "方案设计",
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'res_model': 'cowork.bom',
+            'domain': [('project_id','=',self.id)]
+        }

@@ -135,6 +135,7 @@
                 <field name="title"/>
                 <field name="partner_id"/>
                 <field name="contact_id"/>
+                <field name="amount"/>
                 <field name="state"/>
             </tree>
         </field>
