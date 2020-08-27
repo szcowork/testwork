@@ -19,6 +19,7 @@ class contract_approval(models.Model):
     comments = fields.Text(string="备注")
     state = fields.Selection([('draft','草稿'),('director','商务总监审批'),('general','综合管理部审批'),('managerment','总经理审批'),('pass','通过')],default='draft',string="状态",track_visibility="onchange")
     need_mark = fields.Boolean(string="是否用印")
+    user_id = fields.Many2one("res.users",string="申请人",default=lambda self: self.env.user)
 
     def action_to_director(self):
         self.state = 'director'
