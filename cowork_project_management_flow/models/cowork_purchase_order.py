@@ -48,6 +48,9 @@ class cowork_purchase_order(models.Model):
     def button_cancel(self):
         self.state = 'cancel'
 
+    def button_draft(self):
+        self.state = 'draft'
+
     def button_to_purchase(self):
         self.state = 'purchase'
         if self.line_id:
