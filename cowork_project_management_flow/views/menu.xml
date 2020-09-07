@@ -20,12 +20,21 @@
             <menuitem action="action_cowork_purchase" id="menu_action_cowork_ni" parent="menu_cowork_plan_design_purchase" sequence="3" name="4.2.3 拟询价单"/>
             <menuitem action="purchase.purchase_rfq" id="menu_purchase_form_action_cowork" parent="menu_cowork_plan_design_purchase" sequence="4" name="4.2.4 采购订单"/>
 
+
+
     <menuitem id="menu_cowork_settings" name="#配置" parent="menu_cowork_project_management_flow_root" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
-    <menuitem id="menu_cowork_project_priority" name="项目优先级" parent="menu_cowork_settings" action="action_cowork_project_priority"/>
-    <menuitem id="menu_cowork_project_difficulty" name="项目难度" parent="menu_cowork_settings" action="action_cowork_project_difficulty"/>
-    <menuitem id="menu_cowork_material_class" name="物料分类" parent="menu_cowork_settings" action="action_cowork_material_class"/>
-    <menuitem id="menu_cowork_material_category" name="物料部门" parent="menu_cowork_settings" action="action_cowork_material_category"/>
-    <menuitem id="menu_product_brand" name="品牌" parent="menu_cowork_settings" action="action_product_brand"/>
-    <menuitem name="编号管理" id="menu_code_manager_cowork" parent="menu_cowork_settings" action="einfo_code_manager.action_menu_code_manager" sequence="99" />
-    <menuitem name="编号" id="menu_generate_code_cowork" parent="menu_cowork_settings" action="einfo_code_manager.action_generate_code_line" sequence="100" />
+        <menuitem id="menu_cowork_project_priority" name="项目优先级" parent="menu_cowork_settings" action="action_cowork_project_priority"/>
+        <menuitem id="menu_cowork_project_difficulty" name="项目难度" parent="menu_cowork_settings" action="action_cowork_project_difficulty"/>
+        <menuitem id="menu_cowork_material_class" name="物料分类" parent="menu_cowork_settings" action="action_cowork_material_class"/>
+        <menuitem id="menu_cowork_material_category" name="物料部门" parent="menu_cowork_settings" action="action_cowork_material_category"/>
+        <menuitem id="menu_product_brand" name="品牌" parent="menu_cowork_settings" action="action_product_brand"/>
+        <menuitem name="编号管理" id="menu_code_manager_cowork" parent="menu_cowork_settings" action="einfo_code_manager.action_menu_code_manager" sequence="99" />
+        <menuitem name="编号" id="menu_generate_code_cowork" parent="menu_cowork_settings" action="einfo_code_manager.action_generate_code_line" sequence="100" />
+
+    
+    <menuitem id="menu_cowork_summary" name="报价以及成本汇总" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_vice_general_manager_in_cowork_project_management_flow,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow" sequence="17" web_icon="cowork_project_management_flow,static/description/cowork.png"/>
+        <menuitem id="menu_cowork_project_apply_s" name="立项申请" parent="menu_cowork_summary" sequence="1" action="action_cowork_project_apply"/>
+        <menuitem id="menu_cowork_quote_order_s" name="项目报价单" parent="menu_cowork_summary" sequence="2" action="action_cowork_quote_order"/>
+        <menuitem id="menu_cowork_purchase_order_s" name="申购单" parent="menu_cowork_summary" sequence="3" action="action_cowork_purchase_order"/>
+        <menuitem id="menu_cowork_purchase_order_line_s" name="申购单明细" parent="menu_cowork_summary" sequence="4" action="action_cowork_purchase_order_line"/>
 </odoo>

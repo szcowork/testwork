@@ -96,6 +96,7 @@
                 <field name="user_id"/>
                 <field name="date"/>
                 <field name="state"/>
+                <field name="amount_total"/>
                 <!-- <field name="qty"/> -->
                 <!-- <field name="uom_id"/> -->
             </tree>
