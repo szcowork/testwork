@@ -153,6 +153,7 @@
 
                     <button name="general_pass_payment" string="审核通过" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
                     <button name="general_refuse_payment" string="驳回" type="object" class="oe_highlight" attrs="{'invisible': [('payment_state', '!=', 'general')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
+                    <button name="cancel_action" string="返回" type="object" attrs="{'invisible':[('payment_state','!=','done')]}" groups="cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
 
                     <field name="payment_state" widget="statusbar" readonly="1"/>
                 </header>
