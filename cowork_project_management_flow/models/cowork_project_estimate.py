@@ -22,7 +22,6 @@ class cowork_project_estimate(models.Model):
     def button_mark_done(self):
         self.ensure_one()
         if self.rule_id:
-            _logger.info("??????????????")
             return {
                     'type': 'ir.actions.client',
                     'name': '编码生成',

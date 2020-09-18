@@ -61,7 +61,7 @@
                     </group>
                     <group string="机械部技术性评估">
                         <group>
-                            <field name="project_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'technology')]}" string="*项目难度"/>
+                            <field name="project_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'technology')]}" string="*项目类型"/>
                             <field name="project_difficulty_id" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                             <field name="cost_budget"  widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '!=', 'technology')]}"/>
                             <field name="priority_id" attrs="{'readonly': [('state', '!=', 'technology')]}" string="*优先级"/>
