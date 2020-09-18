@@ -128,7 +128,10 @@ class purchase_order(models.Model):
 
     def approval_to_payment(self):
         if self.payment_amount > self.amount_total:
-            raise UserError('支付金额不能大于采购总额！')
+            if self.amount_total < 100:
+                self.payment_amount = self.amount_total
+            else:
+                raise UserError('支付金额不能大于采购总额！')
         if self.purchase_contact:
             self.payment_state = 'leader'
         else:
@@ -192,6 +195,9 @@ class purchase_order(models.Model):
             result['context']['default_reference'] = self.partner_ref
             result['state'] = 'draft'
             return result
+
+    def cancel_action(self):
+        self.payment_state = 'general'
 
     @api.one
     def _compute_payment_type(self):
