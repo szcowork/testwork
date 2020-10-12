@@ -5,13 +5,13 @@
     </record>
 
     <record model="res.groups" id="access_group_merchant_director_in_cowork_project_management_flow">
-        <field name="name">商务总监</field>
+        <field name="name">市场部总监</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
 
     <record model="res.groups" id="access_group_merchant_assistant_in_cowork_project_management_flow">
-        <field name="name">商务部职员</field>
+        <field name="name">市场部职员</field>
         <field name="category_id" ref="module_category_cowork_project_management_flow"/>
         <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>

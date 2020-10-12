@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record model="ir.ui.view" id="view_form_contract_approval">
-        <field name="name">商务合同审批</field>
+        <field name="name">市场合同审批</field>
         <field name="model">contract.approval</field>
         <field name="arch" type="xml">
-            <form string="商务合同审批">
+            <form string="市场合同审批">
                 <header>
                     <button name="action_to_director" string="提交" type="object" class="oe_highlight" states='draft' groups="cowork_project_management_flow.access_group_merchant_assistant_in_cowork_project_management_flow,cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow,cowork_project_management_flow.general_managerment_director,cowork_project_management_flow.access_group_general_manager_in_cowork_project_management_flow"/>
 
@@ -64,10 +64,10 @@
     </record>
 
     <record model="ir.ui.view" id="view_tree_contract_approval">
-        <field name="name">商务合同审批</field>
+        <field name="name">市场合同审批</field>
         <field name="model">contract.approval</field>
         <field name="arch" type="xml">
-            <tree string="商务合同审批" default_order="write_date desc">
+            <tree string="市场合同审批" default_order="write_date desc">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="approval_date"/>
@@ -77,10 +77,10 @@
     </record>
 
     <record model="ir.ui.view" id="view_search_contract_approval">
-        <field name="name">商务合同审批</field>
+        <field name="name">市场合同审批</field>
         <field name="model">contract.approval</field>
         <field name="arch" type="xml">
-            <search string="商务合同审批">
+            <search string="市场合同审批">
                 <field name="name" filter_domain="[('name','ilike',self)]"/>
                 <field name="purchase_id"/>
                 <field name="sale_id"/>
@@ -96,7 +96,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="action_contract_approval">
-        <field name="name">商务合同审批</field>
+        <field name="name">市场合同审批</field>
         <field name="res_model">contract.approval</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

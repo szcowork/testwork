@@ -58,7 +58,7 @@ class cowork_project_apply(models.Model):
     # requirement_attament = fields.Char("需求附件地址")
     currency_id = fields.Many2one(comodel_name="res.currency", default=lambda self: self.env.user.company_id.currency_id, string="货币")
     state = fields.Selection([
-        ('business','商务部'),
+        ('business','市场部'),
         ('project','进入评估'),  #项目管理部
     ],string="状态",default='business')
 

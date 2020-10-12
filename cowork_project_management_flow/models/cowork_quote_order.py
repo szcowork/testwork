@@ -17,7 +17,7 @@ class cowork_quote_order(models.Model):
     material_cost_details_lines = fields.One2many(comodel_name="cowork.cost.material.detail.line.quote", inverse_name="quote_id", string="组件")
     labor_cost_lines = fields.One2many(comodel_name="cowork.cost.labor.quote", inverse_name="quote_id", string="人力成本")
     state = fields.Selection([
-        ('business','商务部'),
+        ('business','市场部'),
         ('technology','技术部'),
         ('project','项目管理部'),
         ('deputy','副总经理'),

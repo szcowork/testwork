@@ -25,7 +25,7 @@ class cowork_scheme_preliminary(models.Model):
     state = fields.Selection([
         ('technology','技术部'),
         ('product','项目管理部'),
-        ('business','商务部'),
+        ('business','市场部'),
     ],string="状态",default='technology', track_visibility='onchange')
     date_deliver = fields.Date(string="客户预计交期",related='apply_id.date_deliver')
     product_apply_id = fields.Many2one(comodel_name="cowork.project.apply", related='apply_id.apply_id',string="立项申请")

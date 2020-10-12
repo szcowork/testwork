@@ -17,7 +17,7 @@ class contract_approval(models.Model):
     approval_date = fields.Date(string="审批日期",track_visibility="onchange")
     contract_ids = fields.One2many("cowork.contact","approval_id",string="文件")
     comments = fields.Text(string="备注")
-    state = fields.Selection([('draft','草稿'),('director','商务总监审批'),('general','综合管理部审批'),('managerment','总经理审批'),('pass','通过')],default='draft',string="状态",track_visibility="onchange")
+    state = fields.Selection([('draft','草稿'),('director','市场部总监审批'),('general','综合管理部审批'),('managerment','总经理审批'),('pass','通过')],default='draft',string="状态",track_visibility="onchange")
     need_mark = fields.Boolean(string="是否用印")
     user_id = fields.Many2one("res.users",string="申请人",default=lambda self: self.env.user)
 
