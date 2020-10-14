@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="项目报价单">
                 <header>
-                    <button name="button_estimate_b" string="商务部确认" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                    <button name="button_estimate_b" string="市场部确认" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
                     <button name="button_return_estimate_b" string="驳回" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
 
                     <!-- <button name="button_estimate_t" string="技术部确认" type="object" class="oe_highlight" states='technology' groups="cowork_project_management_flow.access_group_technique_director_in_cowork_project_management_flow"/>

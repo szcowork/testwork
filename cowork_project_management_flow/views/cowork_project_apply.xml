@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="立项申请">
                 <header>
-                    <button name="action_to_project" string="商务部提交" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
+                    <button name="action_to_project" string="市场部提交" type="object" class="oe_highlight" states='business' groups="cowork_project_management_flow.access_group_merchant_director_in_cowork_project_management_flow"/>
                     <!-- <button name="create_estimate" string="转项目评估" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=','project'),('estimate_id','!=',False)]}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>
                     <button name="button_return_apply" string="驳回" type="object" class="oe_highlight" attrs="{'invisible':['|',('estimate_id','!=',False),('state','!=','project')]}" groups="cowork_project_management_flow.access_group_project_manager_in_cowork_project_management_flow"/>  ,project -->
                     <field name="state" widget="statusbar" statusbar_visible="business" readonly="1" />
